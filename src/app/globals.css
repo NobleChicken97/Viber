@@ -1,8 +1,27 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Mood-driven primitives (updated at runtime by MoodThemeProvider). */
+  --mood-bg-h: 200;
+  --mood-bg-s: 18%;
+  --mood-bg-l: 11%;
+  --mood-fg-h: 0;
+  --mood-fg-s: 0%;
+  --mood-fg-l: 93%;
+  --mood-accent-h: 190;
+  --mood-accent-s: 55%;
+  --mood-accent-l: 60%;
+  --mood-contrast: 0.4;
+  --mood-pulse: 0.2;
+  --mood-pulse-ms: 18000ms;
+  --mood-blob: 0.5;
+  --mood-motion: 0.4;
+  --mood-ease: cubic-bezier(0.2, 0.9, 0.2, 1);
+
+  /* App-level tokens used by Tailwind's theme mapping below. */
+  --background: hsl(var(--mood-bg-h) var(--mood-bg-s) var(--mood-bg-l));
+  --foreground: hsl(var(--mood-fg-h) var(--mood-fg-s) var(--mood-fg-l));
+  --accent: hsl(var(--mood-accent-h) var(--mood-accent-s) var(--mood-accent-l));
 }
 
 @theme inline {
@@ -14,8 +33,9 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    /* Keep dark mode; mood drift still applies but starts darker. */
+    --mood-bg-l: 9%;
+    --mood-fg-l: 94%;
   }
 }
 
@@ -23,4 +43,44 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: -1;
+
+  opacity: calc(0.12 + (var(--mood-blob) * 0.18));
+  filter: blur(calc(36px + (var(--mood-blob) * 44px)));
+
+  background:
+    radial-gradient(
+      900px 600px at 12% 15%,
+      color-mix(in hsl, var(--accent) 40%, transparent),
+      transparent 70%
+    ),
+    radial-gradient(
+      700px 500px at 88% 30%,
+      color-mix(in hsl, var(--accent) 28%, transparent),
+      transparent 70%
+    ),
+    radial-gradient(
+      900px 700px at 55% 92%,
+      color-mix(in hsl, var(--foreground) 10%, transparent),
+      transparent 72%
+    );
+
+  transform: translate3d(0, 0, 0) scale(calc(1 + (var(--mood-contrast) * 0.08)));
+  animation: moodPulse var(--mood-pulse-ms) var(--mood-ease) infinite alternate;
+}
+
+@keyframes moodPulse {
+  from {
+    transform: translate3d(0, 0, 0) scale(calc(1 + (var(--mood-contrast) * 0.06)));
+  }
+  to {
+    transform: translate3d(0, -10px, 0) scale(calc(1.04 + (var(--mood-contrast) * 0.10)));
+  }
 }

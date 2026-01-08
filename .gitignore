@@ -39,3 +39,89 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# ===================
+# ML Training (ml/)
+# ===================
+
+# Training data (large files)
+ml/data/
+ml/*.csv
+
+# Model checkpoints and weights
+ml/models/
+ml/*.pth
+ml/*.pt
+ml/*.onnx
+ml/*.pb
+ml/*.h5
+ml/*.keras
+ml/*.weights
+ml/*.safetensors
+*.pth
+*.pt
+*.onnx
+*.pb
+*.h5
+*.keras
+*.weights
+*.safetensors
+
+# Keep exports placeholder
+!ml/exports/.gitkeep
+
+# AI/ML Training artifacts
+ml/checkpoints/
+ml/experiments/
+ml/results/
+ml/outputs/
+wandb/
+.wandb/
+mlruns/
+.neptune/
+lightning_logs/
+
+# Model export and optimization
+ml/*.tflite
+ml/*.torchscript
+ml/*.blade
+*.tflite
+*.torchscript
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.Python
+ml/venv/
+ml/env/
+venv/
+env/
+*.egg-info/
+dist/
+build/
+.pytest_cache/
+
+# Jupyter and AI notebooks
+.ipynb_checkpoints/
+*.ipynb
+.ipynb_*
+nbs/
+
+# Kaggle cache
+.kaggle/
+kagglehub/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Logs and monitoring
+*.log
+ml/tensorboard/
+ml/runs/
+tb_logs/
+train_logs/
+*.tfevents.*
