@@ -1,13 +1,15 @@
 "use client";
 
-import { Suspense, useEffect } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
-import { Camera, Play, Pause, SkipForward, Volume2, Settings, MoreHorizontal } from "lucide-react";
+import { Camera, Play, Pause, SkipForward, Volume2, Settings, MoreHorizontal, BarChart3, History } from "lucide-react";
 import { MoodThemeProvider } from "@/components/MoodThemeProvider";
 import { MoodSlider } from "@/components/ui/MoodSlider";
 import { MoodButton } from "@/components/ui/MoodButton";
 import { SessionProvider, useSession } from "@/contexts/SessionContext";
 import { SessionPlayer, useSessionPlayerControls } from "@/components/SessionPlayer";
+import { SessionStats } from "@/components/SessionStats";
+import { ErrorBoundary } from "@/components/ErrorBoundary";
 import type { Mood } from "@/lib/moodTheme";
 
 function PlayerContent() {
@@ -19,6 +21,8 @@ function PlayerContent() {
   const { state, dispatch } = useSession();
   const controls = useSessionPlayerControls();
   const currentSong = state.queue[state.currentIndex];
+  
+  const [showStats, setShowStats] = useState(false);
 
   // Initialize session on mount
   useEffect(() => {
@@ -51,7 +55,7 @@ function PlayerContent() {
         
         {/* Header */}
         <div className="flex justify-between items-center text-foreground/50 mb-6 sm:mb-8">
-           <button onClick={() => router.push('/')} className="hover:text-foreground transition-colors">
+           <button onClick={() => router.push('/')} className="hover:text-foreground transition-colors" aria-label="Exit session and return to home">
              <span className="text-xs uppercase tracking-widest">Exit Session</span>
            </button>
            <div className="flex items-center gap-4">
@@ -62,18 +66,24 @@ function PlayerContent() {
                title="Re-detect vibe"
              >
                <Camera size={20} />
-             </button>
-             <button onClick={() => router.push('/settings')} className="hover:text-foreground transition-colors" aria-label="Settings">
+             </button>             <button 
+               onClick={() => router.push('/history')} 
+               className="hover:text-foreground transition-colors" 
+               aria-label="Session History"
+               title="Session History"
+             >
+               <History size={20} />
+             </button>             <button onClick={() => router.push('/settings')} className="hover:text-foreground transition-colors" aria-label="Open settings" title="Settings">
                <Settings size={20} />
              </button>
            </div>
         </div>
 
         {/* Album Art Area - Mood Visualizer with Hidden YouTube Player */}
-        <div className="flex-1 flex items-center justify-center mb-10 w-full min-h-[300px]">
+        <div className="flex-1 flex items-center justify-center mb-10 w-full min-h-75">
            <div className="relative w-full aspect-square max-w-[320px] sm:max-w-sm rounded-[3rem] overflow-hidden shadow-2xl bg-black/20 ring-1 ring-white/10 group">
               {/* Animated Gradients */}
-              <div className="absolute inset-0 bg-gradient-to-tr from-black/60 to-transparent z-10" />
+              <div className="absolute inset-0 bg-linear-to-tr from-black/60 to-transparent z-10" />
               
               <div 
                 className="absolute inset-0 opacity-70 mix-blend-overlay animate-[spin_12s_linear_infinite]"
@@ -91,7 +101,7 @@ function PlayerContent() {
 
               <div className="absolute bottom-8 left-8 z-20">
                  <div className="w-12 h-12 rounded-full bg-white/10 backdrop-blur-md flex items-center justify-center mb-4 ring-1 ring-white/20">
-                    <span className="text-xl animate-bounce duration-[3000ms]">🎵</span>
+                    <span className="text-xl animate-bounce duration-3000">🎵</span>
                  </div>
               </div>
            </div>
@@ -102,7 +112,7 @@ function PlayerContent() {
            
            <div className="flex justify-between items-end">
               <div className="flex-1 mr-4">
-                <h2 className="text-2xl sm:text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-foreground to-foreground/70 truncate">
+                <h2 className="text-2xl sm:text-3xl font-bold bg-clip-text text-transparent bg-linear-to-r from-foreground to-foreground/70 truncate">
                    {currentSong.title}
                 </h2>
                 <p className="text-lg text-foreground/60 mt-1 truncate">
@@ -135,6 +145,7 @@ function PlayerContent() {
                    variant="primary" 
                    onClick={() => state.isPlaying ? controls.pause() : controls.play()}
                    className="h-16 w-16"
+                   aria-label={state.isPlaying ? "Pause music" : "Play music"}
                  >
                    {state.isPlaying ? <Pause className="fill-current" /> : <Play className="fill-current ml-1" />}
                  </MoodButton>
@@ -143,6 +154,7 @@ function PlayerContent() {
                     onClick={controls.skip}
                     disabled={state.countedSongs >= 12}
                     className="p-4 rounded-full bg-white/5 hover:bg-white/10 transition-colors active:scale-95 disabled:opacity-30 disabled:cursor-not-allowed"
+                    aria-label="Skip to next song"
                  >
                     <SkipForward size={24} className="fill-foreground/20" />
                  </button>
@@ -151,15 +163,35 @@ function PlayerContent() {
            
            {/* Up Next Preview */}
            <div className="mt-2 p-4 rounded-2xl bg-white/5 border border-white/5 backdrop-blur-sm">
-              <div className="text-[10px] uppercase tracking-widest text-foreground/30 mb-3">Up Next</div>
-              <div className="space-y-3">
-                 {nextSongs.map((song, i) => (
-                    <div key={i} className="flex items-center justify-between text-sm opacity-60">
-                       <span className="truncate flex-1 font-medium">{song.title}</span>
-                       <span className="text-foreground/40 truncate max-w-[100px] text-right">{song.artist}</span>
-                    </div>
-                 ))}
+              <div className="flex items-center justify-between mb-3">
+                <div className="text-[10px] uppercase tracking-widest text-foreground/30">Up Next</div>
+                <button 
+                  onClick={() => setShowStats(!showStats)}
+                  className="text-foreground/40 hover:text-foreground/70 transition-colors"
+                  aria-label={showStats ? "Show up next" : "Show session statistics"}
+                  title={showStats ? "Show up next" : "Show statistics"}
+                >
+                  <BarChart3 size={16} />
+                </button>
               </div>
+              
+              {showStats ? (
+                <SessionStats 
+                  countedSongs={state.countedSongs}
+                  totalSongs={12}
+                  currentMood={state.moodPath[state.countedSongs] || startMood}
+                  moodPath={state.moodPath}
+                />
+              ) : (
+                <div className="space-y-3">
+                  {nextSongs.map((song, i) => (
+                    <div key={i} className="flex items-center justify-between text-sm opacity-60">
+                      <span className="truncate flex-1 font-medium">{song.title}</span>
+                      <span className="text-foreground/40 truncate max-w-25 text-right">{song.artist}</span>
+                    </div>
+                  ))}
+                </div>
+              )}
            </div>
 
            {/* Session Progress Dots */}
@@ -183,10 +215,12 @@ function PlayerContent() {
 
 export default function PlayerPage() {
   return (
-    <SessionProvider>
-      <Suspense fallback={<div className="min-h-screen flex items-center justify-center">Loading Vibes...</div>}>
-        <PlayerContent />
-      </Suspense>
-    </SessionProvider>
+    <ErrorBoundary fallbackTitle="Music Player Error">
+      <SessionProvider>
+        <Suspense fallback={<div className="min-h-screen flex items-center justify-center">Loading Vibes...</div>}>
+          <PlayerContent />
+        </Suspense>
+      </SessionProvider>
+    </ErrorBoundary>
   );
 }

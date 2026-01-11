@@ -1,0 +1,41 @@
+{
+  "model_name": "viber-mood-detector",
+  "version": "1.0.0",
+  "moods": [
+    "sad",
+    "calm",
+    "romantic",
+    "happy",
+    "energetic"
+  ],
+  "input": {
+    "shape": [
+      1,
+      1,
+      48,
+      48
+    ],
+    "dtype": "float32",
+    "normalization": {
+      "mean": [
+        0.5
+      ],
+      "std": [
+        0.5
+      ]
+    }
+  },
+  "output": {
+    "shape": [
+      1,
+      5
+    ],
+    "dtype": "float32",
+    "description": "Raw logits (apply softmax for probabilities)"
+  },
+  "preprocessing": {
+    "face_detection": "Required before inference",
+    "resize": "48x48",
+    "colorspace": "grayscale"
+  }
+}

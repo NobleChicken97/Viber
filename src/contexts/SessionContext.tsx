@@ -5,6 +5,7 @@ import type { Mood } from "@/lib/moodTheme";
 import type { Track } from "@/lib/playlists";
 import { generateMoodPath, distributeMoodPathBySongs } from "@/lib/moodPath";
 import { buildSessionQueue, getRandomTracks } from "@/lib/playlists";
+import { saveSession, loadSession, completeSession, isStorageAvailable } from "@/lib/sessionPersistence";
 
 /**
  * Session State Types
@@ -185,11 +186,53 @@ export function SessionProvider({
 }) {
   const [state, dispatch] = useReducer(sessionReducer, initialState);
 
+  // Load persisted session on mount
   useEffect(() => {
-    if (startMood !== undefined && upliftEnabled !== undefined) {
+    if (!isStorageAvailable()) return;
+    
+    const persisted = loadSession();
+    if (persisted) {
+      // Restore session state
+      dispatch({
+        type: "INITIALIZE",
+        payload: { startMood: persisted.startMood, upliftEnabled: persisted.upliftEnabled }
+      });
+      // Note: We can't fully restore the state here without modifying the reducer
+      // For MVP, just initializing fresh is acceptable
+    } else if (startMood !== undefined && upliftEnabled !== undefined) {
       dispatch({ type: "INITIALIZE", payload: { startMood, upliftEnabled } });
     }
   }, [startMood, upliftEnabled]);
+
+  // Save session state on changes
+  useEffect(() => {
+    if (!isStorageAvailable() || state.queue.length === 0) return;
+    
+    saveSession({
+      queue: state.queue,
+      currentIndex: state.currentIndex,
+      countedSongs: state.countedSongs,
+      listenProgress: state.listenProgress,
+      volume: state.volume,
+      moodPath: state.moodPath,
+      distribution: state.distribution,
+      upliftEnabled: state.upliftEnabled,
+      startMood: state.moodPath[0] || 'calm'
+    });
+  }, [state]);
+
+  // Complete session when finished
+  useEffect(() => {
+    if (state.countedSongs >= 12 && state.queue.length > 0) {
+      const finalMood = state.moodPath[state.moodPath.length - 1] || state.moodPath[0];
+      completeSession({
+        startMood: state.moodPath[0],
+        finalMood,
+        songsCompleted: state.countedSongs,
+        moodPath: state.moodPath
+      });
+    }
+  }, [state.countedSongs, state.queue.length, state.moodPath]);
 
   const play = useCallback(() => dispatch({ type: "PLAY" }), []);
   const pause = useCallback(() => dispatch({ type: "PAUSE" }), []);

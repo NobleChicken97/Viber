@@ -17,11 +17,11 @@ const MoodButton = React.forwardRef<HTMLButtonElement, ButtonProps>(
           // Base interaction: scale click
           "active:scale-95",
           // Focus ring based on accent
-          "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:hsl(var(--mood-accent-h),var(--mood-accent-s),var(--mood-accent-l))] focus-visible:ring-offset-2",
+          "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--mood-accent-h),var(--mood-accent-s),var(--mood-accent-l))] focus-visible:ring-offset-2",
           
           variant === "primary" && [
              // Glassy background with mood tint
-            "bg-[color:hsl(var(--mood-accent-h),var(--mood-accent-s),var(--mood-accent-l))] text-white",
+            "bg-[hsl(var(--mood-accent-h),var(--mood-accent-s),var(--mood-accent-l))] text-white",
             // Glow effect using shadow
             "shadow-[0_0_20px_-5px_hsl(var(--mood-accent-h),var(--mood-accent-s),var(--mood-accent-l))]",
             "hover:shadow-[0_0_30px_-5px_hsl(var(--mood-accent-h),var(--mood-accent-s),var(--mood-accent-l))]",

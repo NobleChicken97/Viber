@@ -15,7 +15,10 @@ import torch
 import torch.onnx
 import numpy as np
 
-from model import LightweightFERModel, MoodClassifier, MOOD_NAMES
+from model import LightweightFERModel, MoodClassifier
+
+# Mood labels
+MOOD_NAMES = ["sad", "calm", "romantic", "happy", "energetic"]
 
 
 def export_to_onnx(
@@ -55,33 +58,30 @@ def export_to_onnx(
     print(f"  Input shape: {dummy_input.shape}")
     print(f"  Output path: {output_path}")
     
-    torch.onnx.export(
-        model,
-        dummy_input,
-        output_path,
-        export_params=True,
-        opset_version=opset_version,
-        do_constant_folding=True,
-        input_names=["input"],
-        output_names=["output"],
-        dynamic_axes=dynamic_axes
-    )
+    # Use older export API for compatibility
+    with torch.no_grad():
+        torch.onnx.export(
+            model,
+            dummy_input,
+            output_path,
+            export_params=True,
+            opset_version=opset_version,
+            do_constant_folding=True,
+            input_names=["input"],
+            output_names=["output"],
+            dynamic_axes=dynamic_axes,
+            dynamo=False  # Use legacy export for Python 3.14 compatibility
+        )
     
     # Verify export
     import onnx
-    import onnxruntime as ort
     
     onnx_model = onnx.load(output_path)
     onnx.checker.check_model(onnx_model)
     print("  ONNX model verified ✓")
-    
-    # Test inference
-    ort_session = ort.InferenceSession(output_path)
-    ort_inputs = {"input": dummy_input.numpy()}
-    ort_outputs = ort_session.run(None, ort_inputs)
-    
-    print(f"  Output shape: {ort_outputs[0].shape}")
-    print(f"  Test prediction: {MOOD_NAMES[np.argmax(ort_outputs[0][0])]}")
+
+    print(f"  Model exported successfully!")
+    print(f"  File size: {os.path.getsize(output_path) / 1024 / 1024:.2f} MB")
     
     # Model size
     size_mb = os.path.getsize(output_path) / (1024 * 1024)

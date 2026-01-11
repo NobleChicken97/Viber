@@ -125,3 +125,23 @@ ml/runs/
 tb_logs/
 train_logs/
 *.tfevents.*
+
+# ===================
+# Documentation (AI development traces)
+# ===================
+
+# All markdown files except README.md
+*.md
+!README.md
+
+# AI/Development documentation
+TO_TEST.md
+CONTRIBUTING.md
+docs/*.md
+
+# AI tool configurations
+.cursor/
+.github/copilot/
+.ai/
+*.prompt
+*.aiconfig

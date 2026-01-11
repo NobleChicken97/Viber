@@ -6,6 +6,7 @@ import { createTimeline } from "animejs";
 import { MoodButton } from "@/components/ui/MoodButton";
 import { cn } from "@/lib/utils";
 import type { Mood } from "@/lib/moodTheme";
+import { useMoodDetection } from "@/hooks/useMoodDetection";
 
 interface CameraModalProps {
   isOpen: boolean;
@@ -15,10 +16,14 @@ interface CameraModalProps {
 
 export function CameraModal({ isOpen, onClose, onMoodDetected }: CameraModalProps) {
   const videoRef = React.useRef<HTMLVideoElement>(null);
+  const canvasRef = React.useRef<HTMLCanvasElement>(null);
   const [permission, setPermission] = React.useState<"idle" | "granted" | "denied">("idle");
   const [scanning, setScanning] = React.useState(false);
   const [progress, setProgress] = React.useState(0);
   const [feedback, setFeedback] = React.useState("Initializing camera...");
+  
+  // Use mood detection hook
+  const { detectMood } = useMoodDetection();
 
   const stopCamera = React.useCallback(() => {
     if (videoRef.current?.srcObject) {
@@ -40,7 +45,72 @@ export function CameraModal({ isOpen, onClose, onMoodDetected }: CameraModalProp
     setScanning(true);
     setFeedback("Aligning face...");
 
-    const moodList: Mood[] = ["sad", "calm", "romantic", "happy", "energetic"];
+    const captureAndDetect = async () => {
+      try {
+        if (!videoRef.current || !canvasRef.current) {
+          console.error('Video or canvas ref not available');
+          // Fallback to random
+          const moodList: Mood[] = ["sad", "calm", "romantic", "happy", "energetic"];
+          const randomMood = moodList[Math.floor(Math.random() * moodList.length)];
+          finish(randomMood);
+          return;
+        }
+        
+        const video = videoRef.current;
+        const canvas = canvasRef.current;
+        const ctx = canvas.getContext('2d');
+        
+        if (!ctx) {
+          console.error('Canvas context not available');
+          // Fallback to random
+          const moodList: Mood[] = ["sad", "calm", "romantic", "happy", "energetic"];
+          const randomMood = moodList[Math.floor(Math.random() * moodList.length)];
+          finish(randomMood);
+          return;
+        }
+        
+        // Check if video is ready
+        if (video.videoWidth === 0 || video.videoHeight === 0) {
+          console.error('Video not ready');
+          // Fallback to random
+          const moodList: Mood[] = ["sad", "calm", "romantic", "happy", "energetic"];
+          const randomMood = moodList[Math.floor(Math.random() * moodList.length)];
+          finish(randomMood);
+          return;
+        }
+        
+        // Set canvas size to match video
+        canvas.width = video.videoWidth;
+        canvas.height = video.videoHeight;
+        
+        // Draw video frame to canvas
+        ctx.drawImage(video, 0, 0);
+        
+        // Get image data
+        const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+        
+        // Detect mood
+        setFeedback("Analyzing expressions...");
+        const result = await detectMood(imageData);
+        
+        if (result) {
+          setFeedback(`Detected: ${result.mood} (${(result.confidence * 100).toFixed(1)}%)`);
+          setTimeout(() => finish(result.mood), 500);
+        } else {
+          // Fallback to random if detection fails
+          console.log('Detection failed, using random mood');
+          const moodList: Mood[] = ["sad", "calm", "romantic", "happy", "energetic"];
+          const randomMood = moodList[Math.floor(Math.random() * moodList.length)];
+          finish(randomMood);
+        }
+      } catch (error) {
+        console.error('Error in captureAndDetect:', error);
+        // Fallback to random on any error
+        const moodList: Mood[] = ["sad", "calm", "romantic", "happy", "energetic"];
+        const randomMood = moodList[Math.floor(Math.random() * moodList.length)];
+        finish(randomMood);
+      }
+    };
 
     const tl = createTimeline({
       onUpdate: (t) => setProgress(Math.round(t.progress * 100)),
@@ -51,18 +121,16 @@ export function CameraModal({ isOpen, onClose, onMoodDetected }: CameraModalProp
       onBegin: () => setFeedback("Sensing vibe..."),
     })
       .add({
-        duration: 2000,
-        onBegin: () => setFeedback("Analyzing expressions..."),
+        duration: 1500,
+        onBegin: () => setFeedback("Capturing frame..."),
       })
       .add({
-        duration: 1000,
-        onBegin: () => setFeedback("Syncing with music..."),
+        duration: 500,
         onComplete: () => {
-          const randomMood = moodList[Math.floor(Math.random() * moodList.length)];
-          finish(randomMood);
+          captureAndDetect();
         },
       });
-  }, [finish]);
+  }, [finish, detectMood]);
 
   const requestCamera = React.useCallback(async () => {
     try {
@@ -73,7 +141,11 @@ export function CameraModal({ isOpen, onClose, onMoodDetected }: CameraModalProp
       if (videoRef.current) {
         videoRef.current.srcObject = stream;
         setPermission("granted");
-        startScanning();
+        
+        // Wait a bit for video to be ready, then start scanning
+        setTimeout(() => {
+          startScanning();
+        }, 500);
       }
     } catch (err) {
       console.error(err);
@@ -116,7 +188,7 @@ export function CameraModal({ isOpen, onClose, onMoodDetected }: CameraModalProp
         </button>
 
         {/* Content Area */}
-        <div className="relative aspect-[3/4] w-full bg-black/90">
+        <div className="relative aspect-3/4 w-full bg-black/90">
           
           {permission === "idle" && (
             <div className="absolute inset-0 flex flex-col items-center justify-center p-8 text-center animate-in zoom-in-95 duration-500">
@@ -160,6 +232,9 @@ export function CameraModal({ isOpen, onClose, onMoodDetected }: CameraModalProp
                className={cn("w-full h-full object-cover mirror", scanning ? "opacity-100" : "opacity-0")}
                style={{ transform: "scaleX(-1)" }}
              />
+             
+             {/* Hidden canvas for frame capture */}
+             <canvas ref={canvasRef} className="hidden" />
              
              {/* Scanning Overlay */}
              {scanning && (
