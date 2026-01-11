@@ -134,10 +134,12 @@ train_logs/
 *.md
 !README.md
 
+# Entire docs folder
+docs/
+
 # AI/Development documentation
 TO_TEST.md
 CONTRIBUTING.md
-docs/*.md
 
 # AI tool configurations
 .cursor/
