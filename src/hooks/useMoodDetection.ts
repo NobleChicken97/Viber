@@ -52,7 +52,9 @@ export function useMoodDetection(): UseMoodDetectionResult {
         if (mounted) {
           sessionRef.current = session;
           setIsLoading(false);
-          console.log('Mood detection model loaded successfully');
+          if (process.env.NODE_ENV === 'development') {
+            console.log('Mood detection model loaded successfully');
+          }
         }
       } catch (err) {
         console.error('Failed to load mood detection model:', err);

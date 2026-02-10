@@ -1,5 +1,8 @@
 # Viber 🎵
 
+> **Status:** MVP Implemented / Polishing (Feb 2026)  
+> **Documentation:** [Read full PRD](docs/PRD.md) | [Project Progress](docs/progress.md)
+
 **AI-powered music recommendation app that detects your mood through facial expressions and curates the perfect playlist for you.**
 
 ## ✨ Features
@@ -232,28 +235,9 @@ viber/
 
 Contributions are welcome! Please check out the [issues](https://github.com/NobleChicken97/Viber/issues) page.
 
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
-
-## 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## 🙏 Acknowledgments
-
-- **FER2013 Dataset** - Facial expression recognition dataset
-- **YouTube Music** - Music streaming and metadata
-- **ONNX Runtime** - Cross-platform ML inference
-- **Vercel** - Hosting and deployment
-
 ---
 
-## 👨‍💻 Author
+**Made with ❤️ by Arpan Goyal**
 
-**Made with ❤️ by [NobleChicken97](https://github.com/NobleChicken97)**
-
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/arpangoyal97/)
-[![GitHub](https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white)](https://github.com/NobleChicken97)
+- GitHub: https://github.com/NobleChicken97
+- LinkedIn: https://www.linkedin.com/in/arpangoyal97/

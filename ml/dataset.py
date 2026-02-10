@@ -24,14 +24,21 @@ from albumentations.pytorch import ToTensorV2
 
 # Mapping from FER2013/AffectNet emotions to Viber moods
 # FER2013 labels: 0=Angry, 1=Disgust, 2=Fear, 3=Happy, 4=Sad, 5=Surprise, 6=Neutral
+# 
+# Psychological mapping based on Russell's Circumplex Model:
+# - Sad (melancholic): Low arousal, negative valence → Fear, Sad
+# - Calm (peaceful): Low arousal, neutral/positive → Neutral
+# - Energetic (intense): High arousal, negative valence → Angry, Disgust
+# - Happy (joyful): High arousal, positive valence → Happy, Surprise
+# - Romantic: Not detectable from FER2013 (manual selection or mood progression only)
 FER2013_TO_MOOD = {
-    0: 4,  # Angry -> Energetic
-    1: 0,  # Disgust -> Sad
-    2: 0,  # Fear -> Sad
-    3: 3,  # Happy -> Happy
-    4: 0,  # Sad -> Sad
-    5: 4,  # Surprise -> Energetic
-    6: 1,  # Neutral -> Calm
+    0: 4,  # Angry → Energetic (intense/aggressive music)
+    1: 4,  # Disgust → Energetic (intense/dark music)
+    2: 0,  # Fear → Sad (calming/melancholic for anxiety)
+    3: 3,  # Happy → Happy (joyful music)
+    4: 0,  # Sad → Sad (melancholic music)
+    5: 3,  # Surprise → Happy (positive excitement)
+    6: 1,  # Neutral → Calm (peaceful/serene music)
 }
 
 # Mood names for reference

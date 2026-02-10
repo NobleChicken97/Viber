@@ -1,0 +1,12 @@
+# https://www.robotstxt.org/robotstxt.html
+User-agent: *
+Allow: /
+
+# Block access to API routes
+Disallow: /api/
+
+# Block access to admin/settings
+Disallow: /settings
+
+# Sitemap
+Sitemap: https://viber-music.vercel.app/sitemap.xml

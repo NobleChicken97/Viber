@@ -32,6 +32,7 @@ yarn-error.log*
 
 # env files (can opt-in for committing if needed)
 .env*
+!.env.example
 
 # vercel
 .vercel
@@ -58,17 +59,13 @@ ml/*.h5
 ml/*.keras
 ml/*.weights
 ml/*.safetensors
-*.pth
-*.pt
-*.onnx
-*.pb
-*.h5
-*.keras
-*.weights
-*.safetensors
 
 # Keep exports placeholder
 !ml/exports/.gitkeep
+
+# Allow production model in public/
+!public/mood_detector.onnx
+!public/mood_detector.json
 
 # AI/ML Training artifacts
 ml/checkpoints/
@@ -114,9 +111,18 @@ kagglehub/
 
 # IDE
 .idea/
-.vscode/
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
 *.swp
 *.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
 
 # Logs and monitoring
 *.log
@@ -127,23 +133,16 @@ train_logs/
 *.tfevents.*
 
 # ===================
-# Documentation (AI development traces)
+# Documentation
 # ===================
 
-# All markdown files except README.md
-*.md
-!README.md
-
-# Entire docs folder
-docs/
-
-# AI/Development documentation
-TO_TEST.md
-CONTRIBUTING.md
-
-# AI tool configurations
-.cursor/
-.github/copilot/
+# Temporary development notes only
+*.draft.md
+*.temp.md
 .ai/
-*.prompt
-*.aiconfig
+.cursor/
+
+# Keep important docs
+# docs/ folder is tracked
+# README.md is tracked
+# LICENSE is tracked

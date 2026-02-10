@@ -122,7 +122,9 @@ export function useYouTubePlayer({
 
     // Wait for API to be ready
     window.onYouTubeIframeAPIReady = () => {
-      console.log("YouTube IFrame API ready");
+      if (process.env.NODE_ENV === 'development') {
+        console.log("YouTube IFrame API ready");
+      }
     };
   }, []);
 
@@ -196,7 +198,18 @@ export function useYouTubePlayer({
           }
         },
         onError: (event) => {
-          console.error("YouTube Player Error:", event.data);
+          if (process.env.NODE_ENV === 'development') {
+            const errorMessages: Record<number, string> = {
+              2: 'Invalid video ID',
+              5: 'HTML5 player error',
+              100: 'Video not found or private',
+              101: 'Video owner does not allow embedding',
+              150: 'Video owner does not allow embedding',
+            };
+            console.warn(
+              `YouTube Player Error ${event.data}: ${errorMessages[event.data] || 'Unknown error'}`
+            );
+          }
           onError?.(event.data);
         },
       },
@@ -209,15 +222,21 @@ export function useYouTubePlayer({
   }, [videoId, autoplay, volume, onReady, onPlay, onPause, onEnd, onError, startProgressTracking, stopProgressTracking]);
 
   const play = useCallback(() => {
-    playerRef.current?.playVideo();
+    if (playerRef.current && typeof playerRef.current.playVideo === 'function') {
+      playerRef.current.playVideo();
+    }
   }, []);
 
   const pause = useCallback(() => {
-    playerRef.current?.pauseVideo();
+    if (playerRef.current && typeof playerRef.current.pauseVideo === 'function') {
+      playerRef.current.pauseVideo();
+    }
   }, []);
 
   const setVolumeLevel = useCallback((level: number) => {
-    playerRef.current?.setVolume(level);
+    if (playerRef.current && typeof playerRef.current.setVolume === 'function') {
+      playerRef.current.setVolume(level);
+    }
   }, []);
 
   const getCurrentTime = useCallback(() => {
@@ -229,7 +248,9 @@ export function useYouTubePlayer({
   }, []);
 
   const loadVideo = useCallback((newVideoId: string) => {
-    playerRef.current?.loadVideoById(newVideoId);
+    if (playerRef.current && typeof playerRef.current.loadVideoById === 'function') {
+      playerRef.current.loadVideoById(newVideoId);
+    }
   }, []);
 
   return {

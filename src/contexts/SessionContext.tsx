@@ -115,7 +115,6 @@ function sessionReducer(state: SessionState, action: SessionAction): SessionStat
 
       const nextIndex = state.currentIndex + 1;
       if (nextIndex >= state.queue.length) {
-        console.log("Session complete!");
         return { ...state, isPlaying: false };
       }
 

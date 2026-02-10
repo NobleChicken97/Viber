@@ -3,7 +3,6 @@
 import * as React from "react";
 import { Camera, X } from "lucide-react";
 import { createTimeline } from "animejs";
-import { MoodButton } from "@/components/ui/MoodButton";
 import { cn } from "@/lib/utils";
 import type { Mood } from "@/lib/moodTheme";
 import { useMoodDetection } from "@/hooks/useMoodDetection";
@@ -20,9 +19,8 @@ export function CameraModal({ isOpen, onClose, onMoodDetected }: CameraModalProp
   const [permission, setPermission] = React.useState<"idle" | "granted" | "denied">("idle");
   const [scanning, setScanning] = React.useState(false);
   const [progress, setProgress] = React.useState(0);
-  const [feedback, setFeedback] = React.useState("Initializing camera...");
+  const [feedback, setFeedback] = React.useState("Initializing...");
   
-  // Use mood detection hook
   const { detectMood } = useMoodDetection();
 
   const stopCamera = React.useCallback(() => {
@@ -43,16 +41,13 @@ export function CameraModal({ isOpen, onClose, onMoodDetected }: CameraModalProp
 
   const startScanning = React.useCallback(() => {
     setScanning(true);
-    setFeedback("Aligning face...");
+    setFeedback("ALIGNING FACE");
 
     const captureAndDetect = async () => {
       try {
         if (!videoRef.current || !canvasRef.current) {
-          console.error('Video or canvas ref not available');
-          // Fallback to random
           const moodList: Mood[] = ["sad", "calm", "romantic", "happy", "energetic"];
-          const randomMood = moodList[Math.floor(Math.random() * moodList.length)];
-          finish(randomMood);
+          finish(moodList[Math.floor(Math.random() * moodList.length)]);
           return;
         }
         
@@ -60,55 +55,31 @@ export function CameraModal({ isOpen, onClose, onMoodDetected }: CameraModalProp
         const canvas = canvasRef.current;
         const ctx = canvas.getContext('2d');
         
-        if (!ctx) {
-          console.error('Canvas context not available');
-          // Fallback to random
+        if (!ctx || video.videoWidth === 0) {
           const moodList: Mood[] = ["sad", "calm", "romantic", "happy", "energetic"];
-          const randomMood = moodList[Math.floor(Math.random() * moodList.length)];
-          finish(randomMood);
+          finish(moodList[Math.floor(Math.random() * moodList.length)]);
           return;
         }
         
-        // Check if video is ready
-        if (video.videoWidth === 0 || video.videoHeight === 0) {
-          console.error('Video not ready');
-          // Fallback to random
-          const moodList: Mood[] = ["sad", "calm", "romantic", "happy", "energetic"];
-          const randomMood = moodList[Math.floor(Math.random() * moodList.length)];
-          finish(randomMood);
-          return;
-        }
-        
-        // Set canvas size to match video
         canvas.width = video.videoWidth;
         canvas.height = video.videoHeight;
-        
-        // Draw video frame to canvas
         ctx.drawImage(video, 0, 0);
-        
-        // Get image data
         const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
         
-        // Detect mood
-        setFeedback("Analyzing expressions...");
+        setFeedback("ANALYZING...");
         const result = await detectMood(imageData);
         
         if (result) {
-          setFeedback(`Detected: ${result.mood} (${(result.confidence * 100).toFixed(1)}%)`);
+          setFeedback(`DETECTED: ${result.mood.toUpperCase()}`);
           setTimeout(() => finish(result.mood), 500);
         } else {
-          // Fallback to random if detection fails
-          console.log('Detection failed, using random mood');
           const moodList: Mood[] = ["sad", "calm", "romantic", "happy", "energetic"];
-          const randomMood = moodList[Math.floor(Math.random() * moodList.length)];
-          finish(randomMood);
+          finish(moodList[Math.floor(Math.random() * moodList.length)]);
         }
       } catch (error) {
-        console.error('Error in captureAndDetect:', error);
-        // Fallback to random on any error
+        console.error(error);
         const moodList: Mood[] = ["sad", "calm", "romantic", "happy", "energetic"];
-        const randomMood = moodList[Math.floor(Math.random() * moodList.length)];
-        finish(randomMood);
+        finish(moodList[Math.floor(Math.random() * moodList.length)]);
       }
     };
 
@@ -118,11 +89,11 @@ export function CameraModal({ isOpen, onClose, onMoodDetected }: CameraModalProp
 
     tl.add({
       duration: 1000,
-      onBegin: () => setFeedback("Sensing vibe..."),
+      onBegin: () => setFeedback("SENSING VIBE"),
     })
       .add({
         duration: 1500,
-        onBegin: () => setFeedback("Capturing frame..."),
+        onBegin: () => setFeedback("CAPTURING..."),
       })
       .add({
         duration: 500,
@@ -141,8 +112,6 @@ export function CameraModal({ isOpen, onClose, onMoodDetected }: CameraModalProp
       if (videoRef.current) {
         videoRef.current.srcObject = stream;
         setPermission("granted");
-        
-        // Wait a bit for video to be ready, then start scanning
         setTimeout(() => {
           startScanning();
         }, 500);
@@ -154,7 +123,6 @@ export function CameraModal({ isOpen, onClose, onMoodDetected }: CameraModalProp
   }, [startScanning]);
 
   React.useEffect(() => {
-    // Reset permission state when modal opens
     if (isOpen) {
       setPermission("idle");
       setScanning(false);
@@ -172,42 +140,42 @@ export function CameraModal({ isOpen, onClose, onMoodDetected }: CameraModalProp
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4 animate-in fade-in duration-300">
+    <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/90 backdrop-blur-md p-4 animate-in fade-in duration-300">
       <div 
         className={cn(
-          "relative flex w-full max-w-md flex-col items-center overflow-hidden rounded-3xl border border-white/10 bg-background shadow-2xl",
+          "relative flex w-full max-w-md flex-col items-center overflow-hidden border-2 border-white bg-black shadow-2xl",
           "transition-all duration-500"
         )}
       >
-        {/* Close Button */}
         <button 
           onClick={handleClose}
-          className="absolute top-4 right-4 z-20 p-2 rounded-full bg-black/40 text-white/50 hover:bg-black/60 hover:text-white"
+          className="absolute top-4 right-4 z-20 p-2 bg-black text-white hover:bg-white hover:text-black border border-white transition-colors"
         >
           <X size={20} />
         </button>
 
-        {/* Content Area */}
-        <div className="relative aspect-3/4 w-full bg-black/90">
-          
+        <div className="relative aspect-3/4 w-full bg-black">
           {permission === "idle" && (
-            <div className="absolute inset-0 flex flex-col items-center justify-center p-8 text-center animate-in zoom-in-95 duration-500">
-              <div className="mb-6 rounded-full bg-white/5 p-4 text-foreground/80">
+            <div className="absolute inset-0 flex flex-col items-center justify-center p-8 text-center animate-in zoom-in-95 duration-500 text-white">
+              <div className="mb-6 p-4 border border-white rounded-full">
                 <Camera size={32} />
               </div>
-              <h3 className="mb-3 text-xl font-semibold">Enable Camera</h3>
-              <p className="mb-6 text-sm text-foreground/60 leading-relaxed">
-                Viber needs 3–5 seconds of camera access to sense your mood. <br/>
-                <span className="text-foreground/40 mt-2 block text-xs">No photos are saved. Everything happens on your device.</span>
+              <h3 className="mb-3 text-xl font-black uppercase tracking-widest">Enable Camera</h3>
+              <p className="mb-8 text-sm font-mono opacity-70 leading-relaxed">
+                We need 3 seconds of video to sense your vibe. <br/>
+                <span className="opacity-50 mt-2 block text-xs">Privacy first. No data saved.</span>
               </p>
               
-              <div className="flex flex-col gap-3 w-full">
-                <MoodButton onClick={requestCamera} className="w-full">
+              <div className="flex flex-col gap-4 w-full">
+                <button 
+                  onClick={requestCamera} 
+                  className="w-full bg-white text-black font-black uppercase py-4 hover:bg-gray-200 transition-transform hover:scale-[1.02]"
+                >
                   Allow Camera
-                </MoodButton>
+                </button>
                 <button 
                   onClick={handleClose}
-                  className="text-xs uppercase tracking-widest text-foreground/40 hover:text-foreground transition-colors"
+                  className="text-xs uppercase tracking-widest text-white/50 hover:text-white transition-colors"
                 >
                   Skip, pick manually
                 </button>
@@ -216,10 +184,15 @@ export function CameraModal({ isOpen, onClose, onMoodDetected }: CameraModalProp
           )}
 
           {permission === "denied" && (
-            <div className="absolute inset-0 flex flex-col items-center justify-center p-8 text-center text-foreground/60 animate-in zoom-in-95">
+            <div className="absolute inset-0 flex flex-col items-center justify-center p-8 text-center text-white animate-in zoom-in-95">
                <Camera size={48} className="mb-4 opacity-20" />
-               <p className="mb-6">Permission denied or unavailable.</p>
-               <MoodButton onClick={handleClose}>Pick Mood Manually</MoodButton>
+               <p className="mb-6 font-mono">Permission denied.</p>
+               <button 
+                 onClick={handleClose}
+                 className="px-6 py-3 bg-white text-black font-bold uppercase"
+               >
+                 Pick Mood Manually
+               </button>
             </div>
           )}
 
@@ -229,37 +202,29 @@ export function CameraModal({ isOpen, onClose, onMoodDetected }: CameraModalProp
                autoPlay 
                playsInline 
                muted 
-               className={cn("w-full h-full object-cover mirror", scanning ? "opacity-100" : "opacity-0")}
+               className={cn("w-full h-full object-cover mirror grayscale contrast-125", scanning ? "opacity-100" : "opacity-50")}
                style={{ transform: "scaleX(-1)" }}
              />
              
-             {/* Hidden canvas for frame capture */}
              <canvas ref={canvasRef} className="hidden" />
              
-             {/* Scanning Overlay */}
              {scanning && (
                <div className="absolute inset-0 flex flex-col items-center justify-between py-12 pointer-events-none z-10">
-                  {/* Face Guide Frame */}
                   <div 
-                    className={cn(
-                      "w-64 h-64 border-2 border-white/20 rounded-full transition-all duration-700 backdrop-blur-[2px]",
-                      "border-[hsl(var(--mood-accent-h),var(--mood-accent-s),var(--mood-accent-l))]"
-                    )} 
+                    className="w-64 h-64 border-2 border-white rounded-full transition-all duration-700"
                     style={{
-                       boxShadow: `0 0 ${20 + progress/3}px hsl(var(--mood-accent-h),var(--mood-accent-s),var(--mood-accent-l))`
+                       boxShadow: `0 0 ${20 + progress/3}px rgba(255,255,255,0.5)`
                     }}
                   />
                   
-                  {/* Status Text & Progress */}
-                  <div className="flex flex-col items-center gap-3">
-                    <div className="text-sm font-medium tracking-wide text-white/90 uppercase drop-shadow-md">
+                  <div className="flex flex-col items-center gap-3 w-full px-12">
+                    <div className="text-sm font-black tracking-widest text-white uppercase bg-black/50 px-2 py-1">
                       {feedback}
                     </div>
                     
-                    {/* Progress Bar */}
-                    <div className="w-48 h-1 bg-white/20 rounded-full overflow-hidden backdrop-blur-sm">
+                    <div className="w-full h-2 bg-white/20 overflow-hidden">
                        <div 
-                         className="h-full bg-[hsl(var(--mood-accent-h),var(--mood-accent-s),var(--mood-accent-l))] transition-all duration-100 ease-linear shadow-[0_0_10px_currentColor]"
+                         className="h-full bg-white transition-all duration-100 ease-linear"
                          style={{ width: `${progress}%` }}
                        />
                     </div>
@@ -269,10 +234,9 @@ export function CameraModal({ isOpen, onClose, onMoodDetected }: CameraModalProp
           </div>
         </div>
         
-        {/* Privacy Note */}
-        <div className="w-full bg-white/5 p-4 text-center border-t border-white/5">
-          <p className="text-[10px] uppercase tracking-widest text-foreground/40">
-            Privacy First • On-Device Only • No Storage
+        <div className="w-full bg-black text-white p-4 text-center border-t border-white/20">
+          <p className="text-[10px] uppercase tracking-widest opacity-50">
+            On-Device Analysis • Secure
           </p>
         </div>
       </div>

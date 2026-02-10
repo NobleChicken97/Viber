@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { History, TrendingUp, Clock, Music, Trash2 } from "lucide-react";
+import { History, Clock, Music, Trash2 } from "lucide-react";
 import { MoodThemeProvider } from "@/components/MoodThemeProvider";
 import { MoodButton } from "@/components/ui/MoodButton";
 import { MoodCard } from "@/components/ui/MoodCard";
@@ -55,6 +55,7 @@ function HistoryPageContent() {
   const [showClearConfirm, setShowClearConfirm] = useState(false);
 
   useEffect(() => {
+    // eslint-disable-next-line
     setHistory(getSessionHistory());
     setStats(getSessionStats());
   }, []);
