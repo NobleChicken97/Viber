@@ -5,14 +5,13 @@ import { MoodPack, Song } from './MoodPacks';
 
 interface SidebarProps {
   mood: MoodPack;
+  songs?: Song[];
   currentSongId: string;
   isPlaying: boolean;
   onSongSelect: (song: Song) => void;
 }
 
-export function Sidebar({ mood, currentSongId, isPlaying, onSongSelect }: SidebarProps) {
-  // Determine text color based on brightness of accent
-  // For this brutalist design, we generally want black text on the bright accent
+export function Sidebar({ mood, songs, currentSongId, isPlaying, onSongSelect }: SidebarProps) {
   const textColor = '#000000';
 
   return (
@@ -29,25 +28,13 @@ export function Sidebar({ mood, currentSongId, isPlaying, onSongSelect }: Sideba
           size={32}
           strokeWidth={2.5}
           className="cursor-pointer hover:scale-110 transition-transform" />
-
       </div>
 
       {/* Playlist Title */}
-      <div className="px-8 mb-8">
+      <div className="px-8 mb-6">
         <h2
           className="text-2xl font-black uppercase leading-none tracking-tight"
-          style={{
-            fontFamily: mood.headingFont
-          }}>
-
-          {mood.playlistName}
-        </h2>
-        <h2
-          className="text-2xl font-black uppercase leading-none tracking-tight opacity-30 mt-[-10px] ml-[2px]"
-          style={{
-            fontFamily: mood.headingFont
-          }}>
-
+          style={{ fontFamily: mood.headingFont }}>
           {mood.playlistName}
         </h2>
       </div>
@@ -55,43 +42,35 @@ export function Sidebar({ mood, currentSongId, isPlaying, onSongSelect }: Sideba
       {/* Track List */}
       <div className="flex-1 overflow-y-auto px-8 pb-8 custom-scrollbar">
         <div className="space-y-0">
-          {mood.songs.map((song, index) => {
+          {(songs || mood.songs).map((song, index) => {
             const isActive = song.id === currentSongId;
             return (
               <motion.div
                 key={song.id}
                 onClick={() => onSongSelect(song)}
-                initial={{
-                  opacity: 0,
-                  x: 20
-                }}
-                animate={{
-                  opacity: 1,
-                  x: 0
-                }}
-                transition={{
-                  delay: index * 0.05
-                }}
-                className={`group py-4 border-b border-black/10 flex items-center justify-between cursor-pointer hover:bg-black/5 -mx-4 px-4 transition-colors ${isActive ? 'bg-white/20' : ''}`}>
-
-                <div className="flex flex-col">
-                  <span className="font-bold uppercase text-sm tracking-wide">
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: index * 0.03 }}
+                className={`group py-3 border-b border-black/10 flex items-center justify-between cursor-pointer hover:bg-black/5 -mx-4 px-4 transition-colors ${isActive ? 'bg-white/30' : ''}`}>
+                <div className="flex flex-col flex-1 min-w-0">
+                  <span className="font-bold uppercase text-sm tracking-wide truncate">
                     {song.title}
                   </span>
-                  <span className="text-xs opacity-60 font-mono">
+                  <span className="text-xs opacity-60 font-mono truncate">
                     {song.artist}
                   </span>
                 </div>
-
-                <div className="font-mono text-xs font-bold">
-                  {isActive && isPlaying ?
-                  <Play size={16} fill="currentColor" className="animate-pulse" /> :
-                  isActive ? <Pause size={16} fill="currentColor" /> :
-                  song.duration
-                  }
+                <div className="font-mono text-xs font-bold ml-2 shrink-0">
+                  {isActive && isPlaying ? (
+                    <Play size={16} fill="currentColor" className="animate-pulse" />
+                  ) : isActive ? (
+                    <Pause size={16} fill="currentColor" />
+                  ) : (
+                    song.duration
+                  )}
                 </div>
-              </motion.div>);
-
+              </motion.div>
+            );
           })}
         </div>
       </div>

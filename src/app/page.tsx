@@ -1,43 +1,124 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { MoodSelector } from '@/components/player_ui/MoodSelector';
 import { MainArea } from '@/components/player_ui/MainArea';
 import { Sidebar } from '@/components/player_ui/Sidebar';
 import { BottomBar } from '@/components/player_ui/BottomBar';
-import { moodPacks, MoodType, Song } from '@/components/player_ui/MoodPacks';
+import { moodPacks, MoodType, Song, sampleSongs } from '@/components/player_ui/MoodPacks';
 import { useYouTubePlayer } from '@/components/YouTubePlayer';
 
-export default function Home() {
-  const [currentMood, setCurrentMood] = useState<MoodType>('energetic');
-  const activePack = moodPacks[currentMood];
+// Mood transition paths - each starting mood leads to a progression
+const MOOD_PATHS: Record<MoodType, MoodType[]> = {
+  sad: ['sad', 'calm', 'happy', 'energetic'],
+  calm: ['calm', 'happy', 'energetic'],
+  romantic: ['romantic', 'happy'],
+  happy: ['happy', 'energetic'],
+  energetic: ['energetic'],
+};
+
+// Distribute 12 songs across the mood path
+function distributeSongs(path: MoodType[]): number[] {
+  const total = 12;
+  const stages = path.length;
   
-  // Music Player State
+  if (stages === 1) return [total];
+  if (stages === 2) return [7, 5];
+  if (stages === 3) return [5, 4, 3];
+  if (stages === 4) return [4, 3, 3, 2];
+  
+  // Fallback for any other case
+  const base = Math.floor(total / stages);
+  const remainder = total % stages;
+  return Array.from({ length: stages }, (_, i) => base + (i < remainder ? 1 : 0));
+}
+
+export interface TransitionSong extends Song {
+  mood: MoodType;
+}
+
+// Build playlist for a given mood (deterministic function, randomness inside)
+function buildPlaylist(startMood: MoodType): { songs: TransitionSong[]; moodPath: MoodType[] } {
+  const path = MOOD_PATHS[startMood];
+  const distribution = distributeSongs(path);
+  
+  const allSongs: TransitionSong[] = [];
+  const usedIds = new Set<string>();
+  
+  for (let i = 0; i < path.length; i++) {
+    const mood = path[i];
+    const count = distribution[i];
+    const pack = moodPacks[mood];
+    
+    const available = pack.songPool.filter(s => !usedIds.has(s.id));
+    const sampled = sampleSongs(available, count);
+    
+    sampled.forEach(song => {
+      usedIds.add(song.id);
+      allSongs.push({ ...song, mood });
+    });
+  }
+  
+  return { songs: allSongs, moodPath: path };
+}
+
+export default function Home() {
+  const [startMood, setStartMood] = useState<MoodType>('energetic');
+  const [songs, setSongs] = useState<TransitionSong[]>([]);
+  const [moodPath, setMoodPath] = useState<MoodType[]>(['energetic']);
+  const [isClient, setIsClient] = useState(false);
+  
+  // Generate playlist only on client to avoid hydration mismatch
+  useEffect(() => {
+    setIsClient(true);
+    const playlist = buildPlaylist(startMood);
+    setSongs(playlist.songs);
+    setMoodPath(playlist.moodPath);
+  }, [startMood]);
+  
+  const regeneratePlaylist = useCallback(() => {
+    const playlist = buildPlaylist(startMood);
+    setSongs(playlist.songs);
+    setMoodPath(playlist.moodPath);
+  }, [startMood]);
+  
+  // Player State
   const [currentSongIndex, setCurrentSongIndex] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
   const [progress, setProgress] = useState(0);
   const [duration, setDuration] = useState(0);
+  const [volume, setVolume] = useState(80);
   
-  const currentSong = activePack.songs[currentSongIndex];
+  const currentSong = songs[currentSongIndex];
+  
+  // Get the mood pack for theming based on current song's mood
+  const activeMoodForTheme = currentSong?.mood || startMood;
+  const basePack = moodPacks[activeMoodForTheme];
+  const themePack = {
+    ...basePack,
+    songs: songs,
+    playlistName: basePack.playlistName,
+  };
   
   const { 
     containerRef, 
     play, 
     pause, 
     loadVideo,
+    seekTo,
+    setVolume: setPlayerVolume,
     isReady: playerReady
   } = useYouTubePlayer({
-    videoId: currentSong.id,
+    videoId: '',
     autoplay: false,
+    volume: volume,
     onPlay: () => setIsPlaying(true),
     onPause: () => setIsPlaying(false),
     onEnd: () => handleNext(),
     onError: (errorCode) => {
-      // Auto-skip videos that can't be played (embedding disabled, not found, etc.)
       if (process.env.NODE_ENV === 'development') {
-        console.warn(`Video ${currentSong.id} failed (Error ${errorCode}). Skipping...`);
+        console.warn(`Video ${currentSong?.id} failed (Error ${errorCode}). Skipping...`);
       }
-      // Wait a moment then skip to next song
       setTimeout(() => handleNext(), 500);
     },
     onProgress: (p, d) => {
@@ -46,19 +127,15 @@ export default function Home() {
     }
   });
 
-  // Sync isReady logic if needed in future
-  
-  // When song index changes, load the new video
+  // Load video when song changes and player is ready
   useEffect(() => {
-    if (playerReady && currentSong.id) {
-        // Small delay to ensure player is fully ready
-        const timer = setTimeout(() => {
-          loadVideo(currentSong.id);
-        }, 100);
-        
-        return () => clearTimeout(timer);
+    if (playerReady && currentSong?.id) {
+      loadVideo(currentSong.id);
+      if (process.env.NODE_ENV === 'development') {
+        console.log('Loading video:', currentSong.id, currentSong.title);
+      }
     }
-  }, [currentSong.id, playerReady, loadVideo]);
+  }, [currentSong?.id, playerReady, loadVideo]);
 
   const handlePlayPause = () => {
     if (isPlaying) {
@@ -68,68 +145,92 @@ export default function Home() {
     }
   };
 
+  const handleSeek = (time: number) => {
+    seekTo(time);
+    setProgress(time);
+  };
+
+  const handleVolumeChange = (newVolume: number) => {
+    setVolume(newVolume);
+    setPlayerVolume(newVolume);
+  };
+
   const handleNext = () => {
-    const nextIndex = (currentSongIndex + 1) % activePack.songs.length;
+    const nextIndex = (currentSongIndex + 1) % songs.length;
     setCurrentSongIndex(nextIndex);
   };
 
   const handlePrev = () => {
-    const prevIndex = currentSongIndex === 0 
-      ? activePack.songs.length - 1 
-      : currentSongIndex - 1;
+    const prevIndex = currentSongIndex === 0 ? songs.length - 1 : currentSongIndex - 1;
     setCurrentSongIndex(prevIndex);
   };
   
   const handleSongSelect = (song: Song) => {
-    const index = activePack.songs.findIndex(s => s.id === song.id);
+    const index = songs.findIndex(s => s.id === song.id);
     if (index !== -1) {
       setCurrentSongIndex(index);
     }
   };
 
+  // Show loading state during SSR and initial client render
+  if (!isClient || songs.length === 0) {
+    return (
+      <div className="h-screen w-screen flex flex-col items-center justify-center bg-black text-white">
+        <div className="text-center">
+          <h1 className="text-4xl font-black tracking-[0.3em] uppercase mb-4">VIBER</h1>
+          <p className="text-sm tracking-widest uppercase opacity-60">Loading your vibe...</p>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="h-screen w-screen flex flex-col bg-black overflow-hidden font-sans text-white select-none">
       
-      {/* Hidden Player for Logic - Positioned absolute to not break layout but kept in DOM */}
-      <div className="absolute top-0 left-0 w-1 h-1 opacity-0 pointer-events-none -z-50 overflow-hidden">
-        <div ref={containerRef} />
+      {/* Hidden YouTube Player - positioned off-screen but still rendered */}
+      <div className="fixed -left-[9999px] -top-[9999px] w-[200px] h-[200px]">
+        <div ref={containerRef} className="w-full h-full" />
       </div>
 
       <div className="flex-1 flex overflow-hidden">
         {/* Mood Selector Sidebar (Left) */}
         <MoodSelector 
-          currentMood={currentMood} 
+          currentMood={startMood} 
           onMoodChange={(mood) => {
-            setCurrentMood(mood);
+            setStartMood(mood);
             setCurrentSongIndex(0);
           }} 
         />
 
         {/* Main Content Area (Middle) */}
         <MainArea 
-          mood={activePack} 
+          mood={themePack} 
           currentSong={currentSong}
         />
 
         {/* Playlist Sidebar (Right) */}
         <Sidebar 
-          mood={activePack} 
-          currentSongId={currentSong.id}
+          mood={themePack}
+          songs={songs}
+          currentSongId={currentSong?.id || ''}
           isPlaying={isPlaying}
           onSongSelect={handleSongSelect}
         />
       </div>
 
-      {/* Persistent Bottom Bar */}
+      {/* Bottom Bar */}
       <BottomBar 
-        mood={activePack} 
+        mood={themePack} 
         currentSong={currentSong}
         isPlaying={isPlaying}
         onPlayPause={handlePlayPause}
         onNext={handleNext}
         onPrev={handlePrev}
+        onSeek={handleSeek}
+        onVolumeChange={handleVolumeChange}
         progress={progress}
         duration={duration}
+        volume={volume}
       />
     </div>
   );

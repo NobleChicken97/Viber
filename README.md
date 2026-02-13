@@ -1,35 +1,40 @@
 # Viber 🎵
 
-**Mood-based music player that curates playlists to match your emotional state.**
+**Mood-based music player that curates playlists and gradually lifts your mood.**
+
+## How It Works
+
+1. **Pick your mood** → Select from 5 moods (Sad, Calm, Romantic, Happy, Energetic)
+2. **Curated transition** → Algorithm builds a 12-song playlist that transitions toward happier vibes
+3. **Play** → YouTube-powered audio with full playback controls
+
+**Example:** Starting mood **Sad** → Playlist: 4 sad → 3 calm → 3 happy → 2 energetic songs
 
 ## Features
 
-- **🎵 Curated Playlists**: 60 songs across 5 moods (12 tracks per mood)
-- **🎨 Dynamic Theming**: Mood-specific colors and brutalist UI design
-- **🎧 Custom Player**: Headless YouTube player with custom controls
+- **🎵 Mood Uplift**: Sessions gradually transition from your starting mood to happier vibes
+- **🎧 Full Player Controls**: Play/pause, next/prev, seekable progress bar, volume control
 - **⚡ Fast & Responsive**: Built with Next.js 16 and React 19
 - **🔄 Auto-Skip**: Handles unplayable videos automatically
 - **📱 Mobile-Friendly**: Works on all devices
+- **🎨 Dynamic Theming**: Colors shift based on current song's mood
 
 ## Moods
 
-- **Sad** 💙: Melancholic, introspective
-- **Calm** 🌿: Peaceful, relaxing
-- **Romantic** 💕: Love songs, soft melodies
-- **Happy** ☀️: Upbeat, cheerful
-- **Energetic** ⚡: High-energy, motivational
+| Mood | Transition Path |
+|------|-----------------|
+| Sad | Sad → Calm → Happy → Energetic |
+| Calm | Calm → Happy → Energetic |
+| Romantic | Romantic → Happy |
+| Happy | Happy → Energetic |
+| Energetic | Energetic (stays) |
 
 ## Quick Start
 
 ```bash
-# Clone
 git clone https://github.com/NobleChicken97/Viber.git
 cd viber
-
-# Install
 npm install
-
-# Run
 npm run dev
 ```
 
@@ -37,24 +42,13 @@ Open [http://localhost:3000](http://localhost:3000)
 
 ## Tech Stack
 
-- Next.js 16.1.1 (App Router + Turbopack)
-- React 19.2.3
-- TypeScript 5
+- Next.js 16 + React 19 + TypeScript
 - Tailwind CSS 4
 - YouTube IFrame API
 
 ## Deploy
 
 [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/NobleChicken97/Viber)
-
-Push to GitHub and import in Vercel. No environment variables needed.
-
-## Future Plans
-
-- Spotify integration
-- ML-powered mood detection via camera
-- User accounts & playlists
-- Mobile app
 
 ---
 

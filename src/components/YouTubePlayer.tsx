@@ -84,6 +84,7 @@ export interface YouTubePlayerControls {
   getCurrentTime: () => number;
   getDuration: () => number;
   loadVideo: (videoId: string) => void;
+  seekTo: (seconds: number) => void;
   isReady: boolean;
   isPlaying: boolean;
 }
@@ -103,7 +104,48 @@ export function useYouTubePlayer({
   const containerRef = useRef<HTMLDivElement>(null);
   const [isReady, setIsReady] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
+  const [apiLoaded, setApiLoaded] = useState(false);
+  const [containerMounted, setContainerMounted] = useState(false);
   const progressIntervalRef = useRef<NodeJS.Timeout | null>(null);
+  
+  // Use refs for callbacks so player doesn't need to be recreated
+  const onReadyRef = useRef(onReady);
+  const onPlayRef = useRef(onPlay);
+  const onPauseRef = useRef(onPause);
+  const onEndRef = useRef(onEnd);
+  const onErrorRef = useRef(onError);
+  const onProgressRef = useRef(onProgress);
+  
+  // Track container mount - poll for a short time
+  useEffect(() => {
+    const checkContainer = () => {
+      if (containerRef.current && !containerMounted) {
+        setContainerMounted(true);
+      }
+    };
+    
+    // Check immediately
+    checkContainer();
+    
+    // Poll briefly
+    const interval = setInterval(checkContainer, 50);
+    const timeout = setTimeout(() => clearInterval(interval), 1000);
+    
+    return () => {
+      clearInterval(interval);
+      clearTimeout(timeout);
+    };
+  }, [containerMounted]);
+  
+  // Keep refs updated
+  useEffect(() => {
+    onReadyRef.current = onReady;
+    onPlayRef.current = onPlay;
+    onPauseRef.current = onPause;
+    onEndRef.current = onEnd;
+    onErrorRef.current = onError;
+    onProgressRef.current = onProgress;
+  }, [onReady, onPlay, onPause, onEnd, onError, onProgress]);
 
   // Load YouTube IFrame API script
   useEffect(() => {
@@ -111,21 +153,38 @@ export function useYouTubePlayer({
 
     // Check if API is already loaded
     if (window.YT && window.YT.Player) {
+      setApiLoaded(true);
       return;
     }
 
-    // Load script
-    const tag = document.createElement("script");
-    tag.src = "https://www.youtube.com/iframe_api";
-    const firstScriptTag = document.getElementsByTagName("script")[0];
-    firstScriptTag.parentNode?.insertBefore(tag, firstScriptTag);
+    // Load script if not present
+    const existingScript = document.querySelector('script[src="https://www.youtube.com/iframe_api"]');
+    if (!existingScript) {
+      const tag = document.createElement("script");
+      tag.src = "https://www.youtube.com/iframe_api";
+      const firstScriptTag = document.getElementsByTagName("script")[0];
+      firstScriptTag.parentNode?.insertBefore(tag, firstScriptTag);
+    }
 
     // Wait for API to be ready
+    const prevCallback = window.onYouTubeIframeAPIReady;
     window.onYouTubeIframeAPIReady = () => {
+      prevCallback?.();
       if (process.env.NODE_ENV === 'development') {
         console.log("YouTube IFrame API ready");
       }
+      setApiLoaded(true);
     };
+    
+    // Poll for API ready (fallback if callback already fired)
+    const checkInterval = setInterval(() => {
+      if (window.YT && window.YT.Player) {
+        setApiLoaded(true);
+        clearInterval(checkInterval);
+      }
+    }, 100);
+    
+    return () => clearInterval(checkInterval);
   }, []);
 
   // Initialize player
@@ -136,10 +195,10 @@ export function useYouTubePlayer({
       if (playerRef.current) {
         const elapsed = playerRef.current.getCurrentTime();
         const duration = playerRef.current.getDuration();
-        onProgress?.(elapsed, duration);
+        onProgressRef.current?.(elapsed, duration);
       }
     }, 500);
-  }, [onProgress]);
+  }, []);
 
   const stopProgressTracking = useCallback(() => {
     if (progressIntervalRef.current) {
@@ -149,19 +208,40 @@ export function useYouTubePlayer({
   }, []);
 
   useEffect(() => {
-    if (typeof window === "undefined" || !window.YT || !window.YT.Player || !containerRef.current) {
+    if (typeof window === "undefined") return;
+    
+    if (!apiLoaded || !window.YT || !window.YT.Player) {
+      if (process.env.NODE_ENV === 'development') {
+        console.log('Waiting for YT API...', { apiLoaded, hasYT: !!window.YT });
+      }
+      return;
+    }
+    
+    if (!containerRef.current) {
+      if (process.env.NODE_ENV === 'development') {
+        console.log('Container ref not available yet');
+      }
+      return;
+    }
+    
+    // Don't recreate if player already exists
+    if (playerRef.current) {
       return;
     }
 
     const containerId = `youtube-player-${Math.random().toString(36).substr(2, 9)}`;
     containerRef.current.id = containerId;
+    
+    if (process.env.NODE_ENV === 'development') {
+      console.log('Creating YouTube player with container:', containerId);
+    }
 
-    playerRef.current = new window.YT.Player(containerId, {
+    // Create player config without videoId - we'll load videos via loadVideoById
+    const playerConfig: YTPlayerOptions = {
       height: "100%",
       width: "100%",
-      videoId,
       playerVars: {
-        autoplay: autoplay ? 1 : 0,
+        autoplay: 0,
         controls: 0,
         disablekb: 1,
         enablejsapi: 1,
@@ -176,7 +256,10 @@ export function useYouTubePlayer({
         onReady: (event) => {
           setIsReady(true);
           event.target.setVolume(volume);
-          onReady?.();
+          onReadyRef.current?.();
+          if (process.env.NODE_ENV === 'development') {
+            console.log('YouTube player ready');
+          }
         },
         onStateChange: (event) => {
           const state = event.data;
@@ -185,15 +268,15 @@ export function useYouTubePlayer({
 
           if (state === YT.PlayerState.PLAYING) {
             setIsPlaying(true);
-            onPlay?.();
+            onPlayRef.current?.();
             startProgressTracking();
           } else if (state === YT.PlayerState.PAUSED) {
             setIsPlaying(false);
-            onPause?.();
+            onPauseRef.current?.();
             stopProgressTracking();
           } else if (state === YT.PlayerState.ENDED) {
             setIsPlaying(false);
-            onEnd?.();
+            onEndRef.current?.();
             stopProgressTracking();
           }
         },
@@ -210,16 +293,22 @@ export function useYouTubePlayer({
               `YouTube Player Error ${event.data}: ${errorMessages[event.data] || 'Unknown error'}`
             );
           }
-          onError?.(event.data);
+          onErrorRef.current?.(event.data);
         },
       },
-    });
+    };
+
+    playerRef.current = new window.YT.Player(containerId, playerConfig);
 
     return () => {
       stopProgressTracking();
-      playerRef.current?.destroy();
+      if (playerRef.current) {
+        playerRef.current.destroy();
+        playerRef.current = null;
+      }
     };
-  }, [videoId, autoplay, volume, onReady, onPlay, onPause, onEnd, onError, startProgressTracking, stopProgressTracking]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [apiLoaded, containerMounted]);
 
   const play = useCallback(() => {
     if (playerRef.current && typeof playerRef.current.playVideo === 'function') {
@@ -249,7 +338,20 @@ export function useYouTubePlayer({
 
   const loadVideo = useCallback((newVideoId: string) => {
     if (playerRef.current && typeof playerRef.current.loadVideoById === 'function') {
+      if (process.env.NODE_ENV === 'development') {
+        console.log('loadVideoById called with:', newVideoId);
+      }
       playerRef.current.loadVideoById(newVideoId);
+    } else {
+      if (process.env.NODE_ENV === 'development') {
+        console.warn('loadVideoById not available, player:', !!playerRef.current);
+      }
+    }
+  }, []);
+
+  const seekTo = useCallback((seconds: number) => {
+    if (playerRef.current && typeof playerRef.current.seekTo === 'function') {
+      playerRef.current.seekTo(seconds, true);
     }
   }, []);
 
@@ -263,6 +365,7 @@ export function useYouTubePlayer({
     getCurrentTime,
     getDuration,
     loadVideo,
+    seekTo,
   };
 }
 

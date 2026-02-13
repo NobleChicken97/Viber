@@ -1,5 +1,5 @@
-import React from 'react';
-import { Play, Pause } from 'lucide-react';
+import React, { useState, useRef } from 'react';
+import { Play, Pause, Volume2, VolumeX } from 'lucide-react';
 import { MoodPack, Song } from './MoodPacks';
 
 interface BottomBarProps {
@@ -9,8 +9,11 @@ interface BottomBarProps {
   onPlayPause: () => void;
   onNext: () => void;
   onPrev: () => void;
+  onSeek: (time: number) => void;
+  onVolumeChange: (volume: number) => void;
   progress: number;
   duration: number;
+  volume: number;
 }
 
 // Helper to format 90 -> 1:30
@@ -28,12 +31,27 @@ export function BottomBar({
   onPlayPause, 
   onNext, 
   onPrev,
+  onSeek,
+  onVolumeChange,
   progress,
-  duration
+  duration,
+  volume
 }: BottomBarProps) {
+  const [showVolume, setShowVolume] = useState(false);
+  const progressBarRef = useRef<HTMLDivElement>(null);
   
   // Calculate percentage
   const percent = duration > 0 ? (progress / duration) * 100 : 0;
+  
+  // Handle progress bar click to seek
+  const handleProgressClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!progressBarRef.current || duration <= 0) return;
+    const rect = progressBarRef.current.getBoundingClientRect();
+    const clickX = e.clientX - rect.left;
+    const percentage = clickX / rect.width;
+    const seekTime = percentage * duration;
+    onSeek(seekTime);
+  };
   
   // Find current index to know next/prev names? 
   // Ideally passed from parent, but we can compute or show generic NEXT
@@ -48,17 +66,20 @@ export function BottomBar({
         fontFamily: mood.headingFont
       }}>
 
-      {/* Progress Bar */}
-      <div className="w-full h-[4px] bg-white/10 relative cursor-pointer group">
+      {/* Progress Bar - Clickable */}
+      <div 
+        ref={progressBarRef}
+        onClick={handleProgressClick}
+        className="w-full h-[6px] bg-white/10 relative cursor-pointer group hover:h-[8px] transition-all">
         <div
-          className="h-full relative transition-all duration-300 ease-linear"
+          className="h-full relative"
           style={{
             width: `${percent}%`,
             backgroundColor: mood.accent
           }}>
 
           <div
-            className="absolute right-0 top-1/2 -translate-y-1/2 w-3 h-3 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
+            className="absolute right-0 top-1/2 -translate-y-1/2 w-4 h-4 rounded-full opacity-0 group-hover:opacity-100 transition-opacity shadow-lg"
             style={{
               backgroundColor: mood.accent
             }} />
@@ -115,16 +136,54 @@ export function BottomBar({
           </span>
         </div>
 
-        {/* NEXT */}
-        <div 
-          onClick={onNext}
-          className="flex flex-col items-end pr-12 cursor-pointer group select-none">
-          <span className="text-4xl font-black uppercase tracking-tight group-hover:text-gray-300 transition-colors flex items-center gap-2">
-            NEXT 
-          </span>
-          <span className="text-xs font-mono text-gray-500 uppercase mt-1 group-hover:text-gray-400 w-32 truncate text-right">
-            {nextSong?.title || "Next"}
-          </span>
+        {/* NEXT + Volume */}
+        <div className="flex items-center justify-end pr-12 gap-6">
+          {/* Volume Control */}
+          <div 
+            className="relative"
+            onMouseEnter={() => setShowVolume(true)}
+            onMouseLeave={() => setShowVolume(false)}
+          >
+            <button 
+              onClick={() => onVolumeChange(volume > 0 ? 0 : 80)}
+              className="p-2 hover:bg-white/10 rounded-full transition-colors"
+            >
+              {volume > 0 ? (
+                <Volume2 size={24} className="text-gray-400 hover:text-white" />
+              ) : (
+                <VolumeX size={24} className="text-gray-400 hover:text-white" />
+              )}
+            </button>
+            
+            {/* Volume Slider - with padding to maintain hover area */}
+            {showVolume && (
+              <div className="absolute bottom-full left-1/2 -translate-x-1/2 pb-2">
+                <div className="bg-[#1a1a1a] p-3 rounded-lg shadow-xl">
+                  <input
+                    type="range"
+                    min="0"
+                    max="100"
+                    value={volume}
+                    onChange={(e) => onVolumeChange(Number(e.target.value))}
+                    className="w-24 h-2 accent-current cursor-pointer"
+                    style={{ accentColor: mood.accent }}
+                  />
+                </div>
+              </div>
+            )}
+          </div>
+          
+          {/* NEXT */}
+          <div 
+            onClick={onNext}
+            className="flex flex-col items-end cursor-pointer group select-none">
+            <span className="text-4xl font-black uppercase tracking-tight group-hover:text-gray-300 transition-colors flex items-center gap-2">
+              NEXT 
+            </span>
+            <span className="text-xs font-mono text-gray-500 uppercase mt-1 group-hover:text-gray-400 w-32 truncate text-right">
+              {nextSong?.title || "Next"}
+            </span>
+          </div>
         </div>
       </div>
     </div>);

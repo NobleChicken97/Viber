@@ -140,7 +140,7 @@ export function CameraModal({ isOpen, onClose, onMoodDetected }: CameraModalProp
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/90 backdrop-blur-md p-4 animate-in fade-in duration-300">
+    <div className="fixed inset-0 z-100 flex items-center justify-center bg-black/90 backdrop-blur-md p-4 animate-in fade-in duration-300">
       <div 
         className={cn(
           "relative flex w-full max-w-md flex-col items-center overflow-hidden border-2 border-white bg-black shadow-2xl",

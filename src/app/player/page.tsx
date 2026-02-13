@@ -1,226 +1,420 @@
 "use client";
 
-import { Suspense, useEffect, useState } from "react";
+import { Suspense, useEffect, useState, useMemo, useCallback } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
-import { Camera, Play, Pause, SkipForward, Volume2, Settings, MoreHorizontal, BarChart3, History } from "lucide-react";
-import { MoodThemeProvider } from "@/components/MoodThemeProvider";
-import { MoodSlider } from "@/components/ui/MoodSlider";
-import { MoodButton } from "@/components/ui/MoodButton";
-import { SessionProvider, useSession } from "@/contexts/SessionContext";
-import { SessionPlayer, useSessionPlayerControls } from "@/components/SessionPlayer";
-import { SessionStats } from "@/components/SessionStats";
-import { ErrorBoundary } from "@/components/ErrorBoundary";
+import { 
+  Camera, Play, Pause, SkipForward, SkipBack, Volume2, Home, 
+  Music, ListMusic, ChevronRight
+} from "lucide-react";
+import { useYouTubePlayer } from "@/components/YouTubePlayer";
+import { generateMoodPath, distributeMoodPathBySongs } from "@/lib/moodPath";
+import { buildSessionQueue, Track, MOOD_PLAYLISTS } from "@/lib/playlists";
 import type { Mood } from "@/lib/moodTheme";
+
+const MOOD_COLORS: Record<Mood, { bg: string; accent: string; emoji: string }> = {
+  sad: { bg: "from-blue-950 via-slate-900 to-gray-950", accent: "text-blue-400", emoji: "💙" },
+  calm: { bg: "from-emerald-950 via-slate-900 to-gray-950", accent: "text-emerald-400", emoji: "🌿" },
+  romantic: { bg: "from-pink-950 via-slate-900 to-gray-950", accent: "text-pink-400", emoji: "💕" },
+  happy: { bg: "from-amber-950 via-slate-900 to-gray-950", accent: "text-amber-400", emoji: "☀️" },
+  energetic: { bg: "from-orange-950 via-slate-900 to-gray-950", accent: "text-orange-400", emoji: "⚡" },
+};
+
+const MOOD_LABELS: Record<Mood, string> = {
+  sad: "Melancholic",
+  calm: "Peaceful",
+  romantic: "Romantic",
+  happy: "Happy",
+  energetic: "Energetic",
+};
+
+function formatTime(seconds: number): string {
+  const mins = Math.floor(seconds / 60);
+  const secs = Math.floor(seconds % 60);
+  return `${mins}:${secs.toString().padStart(2, "0")}`;
+}
 
 function PlayerContent() {
   const params = useSearchParams();
   const router = useRouter();
   const startMood = (params.get("mood") as Mood) || "calm";
-  const upliftEnabled = params.get("uplift") === "true";
   
-  const { state, dispatch } = useSession();
-  const controls = useSessionPlayerControls();
-  const currentSong = state.queue[state.currentIndex];
-  
-  const [showStats, setShowStats] = useState(false);
+  // Build the session queue with mood transitions
+  const { queue, moodPath, distribution } = useMemo(() => {
+    const path = generateMoodPath({ startMood, upliftEnabled: true, seed: Date.now() });
+    const buckets = distributeMoodPathBySongs(path, 12);
+    const dist = buckets.map(b => b.targetSongs);
+    const q = buildSessionQueue(path, dist);
+    return { queue: q, moodPath: path, distribution: dist };
+  }, [startMood]);
 
-  // Initialize session on mount
-  useEffect(() => {
-    if (state.queue.length === 0) {
-      dispatch({ type: "INITIALIZE", payload: { startMood, upliftEnabled } });
+  // Player state
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [progress, setProgress] = useState(0);
+  const [duration, setDuration] = useState(0);
+  const [volume, setVolume] = useState(80);
+
+  const currentSong = queue[currentIndex];
+
+  // Find which mood the current song belongs to
+  const getCurrentMood = useCallback((): Mood => {
+    let songCount = 0;
+    for (let i = 0; i < moodPath.length; i++) {
+      songCount += distribution[i];
+      if (currentIndex < songCount) return moodPath[i];
     }
-  }, [dispatch, startMood, upliftEnabled, state.queue.length]);
+    return moodPath[moodPath.length - 1];
+  }, [currentIndex, moodPath, distribution]);
+
+  const currentMood = getCurrentMood();
+  const colors = MOOD_COLORS[currentMood];
+
+  const handleNext = useCallback(() => {
+    if (currentIndex < queue.length - 1) {
+      setCurrentIndex(prev => prev + 1);
+    } else {
+      // Session complete - could loop or end
+      setCurrentIndex(0);
+    }
+  }, [currentIndex, queue.length]);
+
+  const handlePrev = useCallback(() => {
+    if (currentIndex > 0) {
+      setCurrentIndex(prev => prev - 1);
+    }
+  }, [currentIndex]);
+
+  const { 
+    containerRef, 
+    play, 
+    pause, 
+    loadVideo,
+    setVolume: setPlayerVolume,
+    isReady: playerReady
+  } = useYouTubePlayer({
+    videoId: currentSong?.id || "",
+    autoplay: false,
+    volume,
+    onPlay: () => setIsPlaying(true),
+    onPause: () => setIsPlaying(false),
+    onEnd: handleNext,
+    onError: (errorCode) => {
+      console.warn(`Video failed (Error ${errorCode}). Skipping...`);
+      setTimeout(handleNext, 500);
+    },
+    onProgress: (p, d) => {
+      setProgress(p);
+      setDuration(d);
+    }
+  });
+
+  // Load video when song changes
+  useEffect(() => {
+    if (playerReady && currentSong?.id) {
+      const timer = setTimeout(() => {
+        loadVideo(currentSong.id);
+      }, 100);
+      return () => clearTimeout(timer);
+    }
+  }, [currentSong?.id, playerReady, loadVideo]);
+
+  // Volume sync
+  useEffect(() => {
+    setPlayerVolume(volume);
+  }, [volume, setPlayerVolume]);
+
+  const handlePlayPause = () => {
+    if (isPlaying) {
+      pause();
+    } else {
+      play();
+    }
+  };
+
+  const handleSongSelect = (index: number) => {
+    setCurrentIndex(index);
+  };
+
+  const progressPercent = duration > 0 ? (progress / duration) * 100 : 0;
+
+  // Group songs by mood for sidebar display
+  const songsByMood = useMemo(() => {
+    const groups: Array<{ mood: Mood; songs: Array<Track & { globalIndex: number }> }> = [];
+    let globalIdx = 0;
+    
+    for (let i = 0; i < moodPath.length; i++) {
+      const count = distribution[i];
+      const songs = queue.slice(globalIdx, globalIdx + count).map((s, j) => ({
+        ...s,
+        globalIndex: globalIdx + j
+      }));
+      groups.push({ mood: moodPath[i], songs });
+      globalIdx += count;
+    }
+    
+    return groups;
+  }, [queue, moodPath, distribution]);
 
   if (!currentSong) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <p className="text-foreground/50">Loading your vibe session...</p>
+      <div className="min-h-screen flex items-center justify-center bg-gray-950 text-white">
+        <p className="text-gray-400">Loading your vibe session...</p>
       </div>
     );
   }
 
-  const nextSongs = state.queue.slice(state.currentIndex + 1, state.currentIndex + 4);
-
   return (
-    <>
-      <SessionPlayer />
-      <MoodThemeProvider 
-        startMood={startMood} 
-        upliftEnabled={upliftEnabled} 
-        countedSongIndex={state.countedSongs}
-        songLimit={12}
-      />
-
-      <div className="min-h-screen flex flex-col p-6 sm:px-8 sm:py-10 max-w-lg mx-auto h-full animate-in fade-in duration-1000">
-        
-        {/* Header */}
-        <div className="flex justify-between items-center text-foreground/50 mb-6 sm:mb-8">
-           <button onClick={() => router.push('/')} className="hover:text-foreground transition-colors" aria-label="Exit session and return to home">
-             <span className="text-xs uppercase tracking-widest">Exit Session</span>
-           </button>
-           <div className="flex items-center gap-4">
-             <button
-               onClick={() => router.push(`/camera?mood=${startMood}`)}
-               className="hover:text-foreground transition-colors"
-               aria-label="Re-detect vibe"
-               title="Re-detect vibe"
-             >
-               <Camera size={20} />
-             </button>             <button 
-               onClick={() => router.push('/history')} 
-               className="hover:text-foreground transition-colors" 
-               aria-label="Session History"
-               title="Session History"
-             >
-               <History size={20} />
-             </button>             <button onClick={() => router.push('/settings')} className="hover:text-foreground transition-colors" aria-label="Open settings" title="Settings">
-               <Settings size={20} />
-             </button>
-           </div>
-        </div>
-
-        {/* Album Art Area - Mood Visualizer with Hidden YouTube Player */}
-        <div className="flex-1 flex items-center justify-center mb-10 w-full min-h-75">
-           <div className="relative w-full aspect-square max-w-[320px] sm:max-w-sm rounded-[3rem] overflow-hidden shadow-2xl bg-black/20 ring-1 ring-white/10 group">
-              {/* Animated Gradients */}
-              <div className="absolute inset-0 bg-linear-to-tr from-black/60 to-transparent z-10" />
-              
-              <div 
-                className="absolute inset-0 opacity-70 mix-blend-overlay animate-[spin_12s_linear_infinite]"
-                style={{
-                  background: `conic-gradient(from 0deg, transparent, hsl(var(--mood-accent-h) var(--mood-accent-s) var(--mood-accent-l)), transparent)`,
-                  filter: 'blur(60px)'
-                }}
-              />
-              <div 
-                 className="absolute inset-0 opacity-50 mix-blend-color-dodge animate-[pulse_6s_ease-in-out_infinite]"
-                 style={{
-                    backgroundColor: `hsl(var(--mood-accent-h) var(--mood-accent-s) var(--mood-accent-l))`,
-                 }}
-              />
-
-              <div className="absolute bottom-8 left-8 z-20">
-                 <div className="w-12 h-12 rounded-full bg-white/10 backdrop-blur-md flex items-center justify-center mb-4 ring-1 ring-white/20">
-                    <span className="text-xl animate-bounce duration-3000">🎵</span>
-                 </div>
-              </div>
-           </div>
-        </div>
-
-        {/* Info & Controls */}
-        <div className="flex flex-col gap-6">
-           
-           <div className="flex justify-between items-end">
-              <div className="flex-1 mr-4">
-                <h2 className="text-2xl sm:text-3xl font-bold bg-clip-text text-transparent bg-linear-to-r from-foreground to-foreground/70 truncate">
-                   {currentSong.title}
-                </h2>
-                <p className="text-lg text-foreground/60 mt-1 truncate">
-                   {currentSong.artist}
-                </p>
-              </div>
-              <button className="p-2 text-foreground/40 hover:text-foreground transition-colors">
-                 <MoreHorizontal size={24} />
-              </button>
-           </div>
-
-           {/* Progress Bar */}
-           <div className="w-full h-1 bg-foreground/10 rounded-full overflow-hidden">
-             <div 
-               className="h-full bg-[hsl(var(--mood-accent-h),var(--mood-accent-s),var(--mood-accent-l))] shadow-[0_0_10px_hsl(var(--mood-accent-h),var(--mood-accent-s),var(--mood-accent-l))] transition-all duration-200"
-               style={{ width: `${(state.listenProgress[state.currentIndex] || 0) * 100}%` }}
-             />
-           </div>
-
-           {/* Main Controls */}
-           <div className="flex items-center justify-between px-2 sm:px-4 py-2">
-              <div className="flex items-center gap-3 w-28 text-foreground/50">
-                 <Volume2 size={16} />
-                 <MoodSlider value={state.volume} onChange={controls.setVolume} className="w-full" />
-              </div>
-
-              <div className="flex items-center gap-6">
-                 <MoodButton 
-                   size="lg" 
-                   variant="primary" 
-                   onClick={() => state.isPlaying ? controls.pause() : controls.play()}
-                   className="h-16 w-16"
-                   aria-label={state.isPlaying ? "Pause music" : "Play music"}
-                 >
-                   {state.isPlaying ? <Pause className="fill-current" /> : <Play className="fill-current ml-1" />}
-                 </MoodButton>
-                 
-                 <button 
-                    onClick={controls.skip}
-                    disabled={state.countedSongs >= 12}
-                    className="p-4 rounded-full bg-white/5 hover:bg-white/10 transition-colors active:scale-95 disabled:opacity-30 disabled:cursor-not-allowed"
-                    aria-label="Skip to next song"
-                 >
-                    <SkipForward size={24} className="fill-foreground/20" />
-                 </button>
-              </div>
-           </div>
-           
-           {/* Up Next Preview */}
-           <div className="mt-2 p-4 rounded-2xl bg-white/5 border border-white/5 backdrop-blur-sm">
-              <div className="flex items-center justify-between mb-3">
-                <div className="text-[10px] uppercase tracking-widest text-foreground/30">Up Next</div>
-                <button 
-                  onClick={() => setShowStats(!showStats)}
-                  className="text-foreground/40 hover:text-foreground/70 transition-colors"
-                  aria-label={showStats ? "Show up next" : "Show session statistics"}
-                  title={showStats ? "Show up next" : "Show statistics"}
-                >
-                  <BarChart3 size={16} />
-                </button>
-              </div>
-              
-              {showStats ? (
-                <SessionStats 
-                  countedSongs={state.countedSongs}
-                  totalSongs={12}
-                  currentMood={state.moodPath[state.countedSongs] || startMood}
-                  moodPath={state.moodPath}
-                />
-              ) : (
-                <div className="space-y-3">
-                  {nextSongs.map((song, i) => (
-                    <div key={i} className="flex items-center justify-between text-sm opacity-60">
-                      <span className="truncate flex-1 font-medium">{song.title}</span>
-                      <span className="text-foreground/40 truncate max-w-25 text-right">{song.artist}</span>
-                    </div>
-                  ))}
-                </div>
-              )}
-           </div>
-
-           {/* Session Progress Dots */}
-           <div className="flex justify-center gap-1.5 mt-2">
-              {Array.from({ length: 12 }).map((_, i) => (
-                 <div 
-                   key={i}
-                   className={`
-                      w-1.5 h-1.5 rounded-full transition-all duration-700
-                      ${i < state.countedSongs ? 'bg-foreground/40' : i === state.countedSongs ? 'bg-[hsl(var(--mood-accent-h),var(--mood-accent-s),var(--mood-accent-l))] scale-150 shadow-[0_0_8px_currentColor]' : 'bg-foreground/10'}
-                   `}
-                 />
-              ))}
-           </div>
-        </div>
-
+    <div className={`min-h-screen bg-linear-to-br ${colors.bg} text-white`}>
+      
+      {/* Hidden YouTube Player */}
+      <div className="fixed top-0 left-0 w-0 h-0 overflow-hidden pointer-events-none">
+        <div ref={containerRef} />
       </div>
-    </>
+
+      <div className="flex h-screen">
+        
+        {/* Main Player Area */}
+        <div className="flex-1 flex flex-col p-6 lg:p-10">
+          
+          {/* Header */}
+          <div className="flex justify-between items-center mb-8">
+            <button 
+              onClick={() => router.push('/')} 
+              className="flex items-center gap-2 text-gray-400 hover:text-white transition-colors"
+            >
+              <Home size={20} />
+              <span className="text-sm">Exit</span>
+            </button>
+            
+            <div className={`flex items-center gap-2 ${colors.accent}`}>
+              <span className="text-xl">{colors.emoji}</span>
+              <span className="text-sm font-medium">{MOOD_LABELS[currentMood]}</span>
+            </div>
+            
+            <button 
+              onClick={() => router.push('/camera')} 
+              className="text-gray-400 hover:text-white transition-colors"
+              title="Re-detect vibe"
+            >
+              <Camera size={20} />
+            </button>
+          </div>
+
+          {/* Album Art / Visualizer */}
+          <div className="flex-1 flex items-center justify-center">
+            <div className="relative w-full max-w-sm aspect-square">
+              {/* Glow effect */}
+              <div 
+                className={`absolute inset-0 rounded-3xl blur-3xl opacity-30 ${
+                  currentMood === 'sad' ? 'bg-blue-500' :
+                  currentMood === 'calm' ? 'bg-emerald-500' :
+                  currentMood === 'romantic' ? 'bg-pink-500' :
+                  currentMood === 'happy' ? 'bg-amber-500' : 'bg-orange-500'
+                }`}
+              />
+              
+              {/* Album container */}
+              <div className="relative w-full h-full rounded-3xl bg-linear-to-br from-white/10 to-white/5 border border-white/10 flex items-center justify-center overflow-hidden">
+                <div className={`absolute inset-0 bg-linear-to-br ${colors.bg} opacity-50`} />
+                <Music size={120} className="text-white/20 relative z-10" />
+                
+                {/* Now playing indicator */}
+                {isPlaying && (
+                  <div className="absolute bottom-6 left-6 flex items-center gap-1.5">
+                    {[...Array(4)].map((_, i) => (
+                      <div
+                        key={i}
+                        className={`w-1 bg-white/60 rounded-full animate-pulse`}
+                        style={{
+                          height: `${12 + Math.random() * 12}px`,
+                          animationDelay: `${i * 150}ms`,
+                          animationDuration: '0.5s'
+                        }}
+                      />
+                    ))}
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+
+          {/* Song Info */}
+          <div className="mt-8 text-center">
+            <h2 className="text-2xl lg:text-3xl font-bold truncate px-4">
+              {currentSong.title}
+            </h2>
+            <p className="text-gray-400 text-lg mt-2 truncate">
+              {currentSong.artist}
+            </p>
+          </div>
+
+          {/* Progress Bar */}
+          <div className="mt-6">
+            <div className="h-1.5 bg-white/10 rounded-full overflow-hidden">
+              <div 
+                className={`h-full rounded-full transition-all duration-200 ${
+                  currentMood === 'sad' ? 'bg-blue-500' :
+                  currentMood === 'calm' ? 'bg-emerald-500' :
+                  currentMood === 'romantic' ? 'bg-pink-500' :
+                  currentMood === 'happy' ? 'bg-amber-500' : 'bg-orange-500'
+                }`}
+                style={{ width: `${progressPercent}%` }}
+              />
+            </div>
+            <div className="flex justify-between mt-2 text-sm text-gray-400">
+              <span>{formatTime(progress)}</span>
+              <span>{formatTime(duration)}</span>
+            </div>
+          </div>
+
+          {/* Controls */}
+          <div className="mt-6 flex items-center justify-center gap-8">
+            <button 
+              onClick={handlePrev}
+              disabled={currentIndex === 0}
+              className="p-3 text-gray-400 hover:text-white disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
+            >
+              <SkipBack size={28} />
+            </button>
+            
+            <button 
+              onClick={handlePlayPause}
+              className={`p-5 rounded-full ${
+                currentMood === 'sad' ? 'bg-blue-500 hover:bg-blue-400' :
+                currentMood === 'calm' ? 'bg-emerald-500 hover:bg-emerald-400' :
+                currentMood === 'romantic' ? 'bg-pink-500 hover:bg-pink-400' :
+                currentMood === 'happy' ? 'bg-amber-500 hover:bg-amber-400' : 'bg-orange-500 hover:bg-orange-400'
+              } transition-colors shadow-lg`}
+            >
+              {isPlaying ? <Pause size={32} fill="white" /> : <Play size={32} fill="white" className="ml-1" />}
+            </button>
+            
+            <button 
+              onClick={handleNext}
+              disabled={currentIndex === queue.length - 1}
+              className="p-3 text-gray-400 hover:text-white disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
+            >
+              <SkipForward size={28} />
+            </button>
+          </div>
+
+          {/* Volume */}
+          <div className="mt-6 flex items-center justify-center gap-3 text-gray-400">
+            <Volume2 size={18} />
+            <input
+              type="range"
+              min={0}
+              max={100}
+              value={volume}
+              onChange={(e) => setVolume(Number(e.target.value))}
+              className="w-32 h-1 bg-white/20 rounded-full appearance-none cursor-pointer [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-3 [&::-webkit-slider-thumb]:h-3 [&::-webkit-slider-thumb]:bg-white [&::-webkit-slider-thumb]:rounded-full"
+            />
+          </div>
+
+          {/* Session Progress */}
+          <div className="mt-6 flex justify-center gap-1.5">
+            {queue.map((_, i) => (
+              <div 
+                key={i}
+                className={`w-2 h-2 rounded-full transition-all duration-300 cursor-pointer hover:scale-125 ${
+                  i === currentIndex 
+                    ? `scale-125 ${
+                        currentMood === 'sad' ? 'bg-blue-400' :
+                        currentMood === 'calm' ? 'bg-emerald-400' :
+                        currentMood === 'romantic' ? 'bg-pink-400' :
+                        currentMood === 'happy' ? 'bg-amber-400' : 'bg-orange-400'
+                      } shadow-[0_0_8px_currentColor]`
+                    : i < currentIndex 
+                      ? 'bg-white/40' 
+                      : 'bg-white/15'
+                }`}
+                onClick={() => handleSongSelect(i)}
+              />
+            ))}
+          </div>
+        </div>
+
+        {/* Playlist Sidebar */}
+        <div className="hidden lg:flex w-80 xl:w-96 flex-col bg-black/30 border-l border-white/5">
+          <div className="p-6 border-b border-white/5">
+            <div className="flex items-center gap-2 text-white/70">
+              <ListMusic size={20} />
+              <span className="font-medium">Your Session</span>
+            </div>
+            <p className="text-sm text-gray-500 mt-1">
+              {moodPath.map(m => MOOD_LABELS[m]).join(' → ')}
+            </p>
+          </div>
+          
+          <div className="flex-1 overflow-y-auto">
+            {songsByMood.map((group, groupIdx) => (
+              <div key={groupIdx} className="border-b border-white/5">
+                <div className="px-6 py-3 flex items-center gap-2 bg-white/5">
+                  <span>{MOOD_COLORS[group.mood].emoji}</span>
+                  <span className={`text-sm font-medium ${MOOD_COLORS[group.mood].accent}`}>
+                    {MOOD_LABELS[group.mood]}
+                  </span>
+                  <span className="text-xs text-gray-500 ml-auto">
+                    {group.songs.length} songs
+                  </span>
+                </div>
+                
+                {group.songs.map((song) => (
+                  <button
+                    key={song.globalIndex}
+                    onClick={() => handleSongSelect(song.globalIndex)}
+                    className={`w-full px-6 py-3 flex items-center gap-3 hover:bg-white/5 transition-colors text-left ${
+                      song.globalIndex === currentIndex ? 'bg-white/10' : ''
+                    }`}
+                  >
+                    <div className="w-8 h-8 rounded bg-white/10 flex items-center justify-center shrink-0">
+                      {song.globalIndex === currentIndex && isPlaying ? (
+                        <div className="flex items-center gap-0.5">
+                          {[...Array(3)].map((_, i) => (
+                            <div
+                              key={i}
+                              className={`w-0.5 ${MOOD_COLORS[currentMood].accent.replace('text-', 'bg-')} rounded-full animate-pulse`}
+                              style={{ height: `${8 + i * 4}px`, animationDelay: `${i * 100}ms` }}
+                            />
+                          ))}
+                        </div>
+                      ) : (
+                        <span className="text-xs text-gray-500">{song.globalIndex + 1}</span>
+                      )}
+                    </div>
+                    
+                    <div className="flex-1 min-w-0">
+                      <p className={`text-sm truncate ${song.globalIndex === currentIndex ? 'text-white font-medium' : 'text-gray-300'}`}>
+                        {song.title}
+                      </p>
+                      <p className="text-xs text-gray-500 truncate">{song.artist}</p>
+                    </div>
+                    
+                    {song.globalIndex === currentIndex && (
+                      <ChevronRight size={16} className={MOOD_COLORS[currentMood].accent} />
+                    )}
+                  </button>
+                ))}
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
   );
 }
 
 export default function PlayerPage() {
   return (
-    <ErrorBoundary fallbackTitle="Music Player Error">
-      <SessionProvider>
-        <Suspense fallback={<div className="min-h-screen flex items-center justify-center">Loading Vibes...</div>}>
-          <PlayerContent />
-        </Suspense>
-      </SessionProvider>
-    </ErrorBoundary>
+    <Suspense fallback={
+      <div className="min-h-screen flex items-center justify-center bg-gray-950 text-white">
+        <div className="flex flex-col items-center gap-4">
+          <div className="w-10 h-10 border-2 border-white/20 border-t-white rounded-full animate-spin" />
+          <p className="text-gray-400">Building your vibe session...</p>
+        </div>
+      </div>
+    }>
+      <PlayerContent />
+    </Suspense>
   );
 }
