@@ -9,6 +9,9 @@ import {
 import { useYouTubePlayer } from "@/components/YouTubePlayer";
 import { generateMoodPath, distributeMoodPathBySongs } from "@/lib/moodPath";
 import { buildSessionQueue, Track, MOOD_PLAYLISTS } from "@/lib/playlists";
+import { useLyrics } from "@/hooks/useLyrics";
+import { useKeyboardControls } from "@/hooks/useKeyboardControls";
+import { LyricsPanel, LyricsToggle } from "@/components/LyricsPanel";
 import type { Mood } from "@/lib/moodTheme";
 
 const MOOD_COLORS: Record<Mood, { bg: string; accent: string; emoji: string }> = {
@@ -17,6 +20,14 @@ const MOOD_COLORS: Record<Mood, { bg: string; accent: string; emoji: string }> =
   romantic: { bg: "from-pink-950 via-slate-900 to-gray-950", accent: "text-pink-400", emoji: "💕" },
   happy: { bg: "from-amber-950 via-slate-900 to-gray-950", accent: "text-amber-400", emoji: "☀️" },
   energetic: { bg: "from-orange-950 via-slate-900 to-gray-950", accent: "text-orange-400", emoji: "⚡" },
+};
+
+const MOOD_THEME: Record<Mood, { accentHex: string; headingFont: string; textColor: string; textMuted: string }> = {
+  sad: { accentHex: "#58a6ff", headingFont: '"Playfair Display", serif', textColor: "#c9d1d9", textMuted: "#6e7681" },
+  calm: { accentHex: "#7c9a6e", headingFont: '"DM Sans", sans-serif', textColor: "#d4e6d4", textMuted: "#8aaa8a" },
+  romantic: { accentHex: "#c4547a", headingFont: '"Cormorant Garamond", serif', textColor: "#e8c8d4", textMuted: "#9a7a8a" },
+  happy: { accentHex: "#ffb300", headingFont: '"Bebas Neue", sans-serif', textColor: "#fff3d0", textMuted: "#b8a060" },
+  energetic: { accentHex: "#ccff00", headingFont: '"Syne", sans-serif', textColor: "#e0e0e0", textMuted: "#666666" },
 };
 
 const MOOD_LABELS: Record<Mood, string> = {
@@ -89,6 +100,7 @@ function PlayerContent() {
     play, 
     pause, 
     loadVideo,
+    seekTo,
     setVolume: setPlayerVolume,
     isReady: playerReady
   } = useYouTubePlayer({
@@ -135,7 +147,26 @@ function PlayerContent() {
     setCurrentIndex(index);
   };
 
+  const handleSeek = useCallback((time: number) => {
+    seekTo(time);
+    setProgress(time);
+  }, [seekTo]);
+
+  // Keyboard controls: Space = play/pause, Arrow keys = seek ±5s
+  useKeyboardControls({
+    onPlayPause: handlePlayPause,
+    onSeekForward: useCallback(() => handleSeek(Math.min(progress + 5, duration)), [progress, duration, handleSeek]),
+    onSeekBackward: useCallback(() => handleSeek(Math.max(progress - 5, 0)), [progress, handleSeek]),
+  });
+
   const progressPercent = duration > 0 ? (progress / duration) * 100 : 0;
+
+  // Lyrics
+  const [showLyrics, setShowLyrics] = useState(false);
+  const { lyrics, loading: lyricsLoading, error: lyricsError } = useLyrics(
+    currentSong?.title,
+    currentSong?.artist
+  );
 
   // Group songs by mood for sidebar display
   const songsByMood = useMemo(() => {
@@ -200,42 +231,72 @@ function PlayerContent() {
             </button>
           </div>
 
-          {/* Album Art / Visualizer */}
+          {/* Album Art / Lyrics */}
           <div className="flex-1 flex items-center justify-center">
-            <div className="relative w-full max-w-sm aspect-square">
-              {/* Glow effect */}
-              <div 
-                className={`absolute inset-0 rounded-3xl blur-3xl opacity-30 ${
-                  currentMood === 'sad' ? 'bg-blue-500' :
-                  currentMood === 'calm' ? 'bg-emerald-500' :
-                  currentMood === 'romantic' ? 'bg-pink-500' :
-                  currentMood === 'happy' ? 'bg-amber-500' : 'bg-orange-500'
-                }`}
-              />
-              
-              {/* Album container */}
-              <div className="relative w-full h-full rounded-3xl bg-linear-to-br from-white/10 to-white/5 border border-white/10 flex items-center justify-center overflow-hidden">
-                <div className={`absolute inset-0 bg-linear-to-br ${colors.bg} opacity-50`} />
-                <Music size={120} className="text-white/20 relative z-10" />
-                
-                {/* Now playing indicator */}
-                {isPlaying && (
-                  <div className="absolute bottom-6 left-6 flex items-center gap-1.5">
-                    {[...Array(4)].map((_, i) => (
-                      <div
-                        key={i}
-                        className={`w-1 bg-white/60 rounded-full animate-pulse`}
-                        style={{
-                          height: `${12 + Math.random() * 12}px`,
-                          animationDelay: `${i * 150}ms`,
-                          animationDuration: '0.5s'
-                        }}
-                      />
-                    ))}
-                  </div>
-                )}
+            {showLyrics ? (
+              <div className="relative w-full max-w-lg h-full max-h-100 rounded-2xl border border-white/5 backdrop-blur-sm"
+                style={{ background: `linear-gradient(135deg, rgba(0,0,0,0.7) 0%, rgba(20,20,20,0.8) 100%)` }}>
+                <LyricsPanel
+                  plainLyrics={lyrics?.plainLyrics || null}
+                  syncedLyrics={lyrics?.syncedLyrics || null}
+                  currentTime={progress}
+                  loading={lyricsLoading}
+                  error={lyricsError}
+                  accentColor={MOOD_THEME[currentMood].accentHex}
+                  headingFont={MOOD_THEME[currentMood].headingFont}
+                  textColor={MOOD_THEME[currentMood].textColor}
+                  textMuted={MOOD_THEME[currentMood].textMuted}
+                />
               </div>
-            </div>
+            ) : (
+              <div className="relative w-full max-w-sm aspect-square">
+                {/* Glow effect */}
+                <div 
+                  className={`absolute inset-0 rounded-3xl blur-3xl opacity-30 ${
+                    currentMood === 'sad' ? 'bg-blue-500' :
+                    currentMood === 'calm' ? 'bg-emerald-500' :
+                    currentMood === 'romantic' ? 'bg-pink-500' :
+                    currentMood === 'happy' ? 'bg-amber-500' : 'bg-orange-500'
+                  }`}
+                />
+                
+                {/* Album container */}
+                <div className="relative w-full h-full rounded-3xl bg-linear-to-br from-white/10 to-white/5 border border-white/10 flex items-center justify-center overflow-hidden">
+                  <div className={`absolute inset-0 bg-linear-to-br ${colors.bg} opacity-50`} />
+                  
+                  {/* YouTube Thumbnail */}
+                  {currentSong?.id ? (
+                    <img
+                      src={`https://img.youtube.com/vi/${currentSong.id}/hqdefault.jpg`}
+                      alt={currentSong.title}
+                      className="absolute inset-0 w-full h-full object-cover opacity-80"
+                      onError={(e) => {
+                        (e.target as HTMLImageElement).style.display = 'none';
+                      }}
+                    />
+                  ) : (
+                    <Music size={120} className="text-white/20 relative z-10" />
+                  )}
+                  
+                  {/* Now playing indicator */}
+                  {isPlaying && (
+                    <div className="absolute bottom-6 left-6 flex items-center gap-1.5 z-20">
+                      {[...Array(4)].map((_, i) => (
+                        <div
+                          key={i}
+                          className={`w-1 bg-white/60 rounded-full animate-pulse`}
+                          style={{
+                            height: `${12 + Math.random() * 12}px`,
+                            animationDelay: `${i * 150}ms`,
+                            animationDuration: '0.5s'
+                          }}
+                        />
+                      ))}
+                    </div>
+                  )}
+                </div>
+              </div>
+            )}
           </div>
 
           {/* Song Info */}
@@ -298,7 +359,7 @@ function PlayerContent() {
             </button>
           </div>
 
-          {/* Volume */}
+          {/* Volume + Lyrics Toggle */}
           <div className="mt-6 flex items-center justify-center gap-3 text-gray-400">
             <Volume2 size={18} />
             <input
@@ -309,6 +370,14 @@ function PlayerContent() {
               onChange={(e) => setVolume(Number(e.target.value))}
               className="w-32 h-1 bg-white/20 rounded-full appearance-none cursor-pointer [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-3 [&::-webkit-slider-thumb]:h-3 [&::-webkit-slider-thumb]:bg-white [&::-webkit-slider-thumb]:rounded-full"
             />
+            <div className="ml-4">
+              <LyricsToggle
+                showLyrics={showLyrics}
+                onToggle={() => setShowLyrics(!showLyrics)}
+                loading={lyricsLoading}
+                accentColor={MOOD_THEME[currentMood].accentHex}
+              />
+            </div>
           </div>
 
           {/* Session Progress */}

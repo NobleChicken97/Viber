@@ -7,6 +7,8 @@ import { Sidebar } from '@/components/player_ui/Sidebar';
 import { BottomBar } from '@/components/player_ui/BottomBar';
 import { moodPacks, MoodType, Song, sampleSongs } from '@/components/player_ui/MoodPacks';
 import { useYouTubePlayer } from '@/components/YouTubePlayer';
+import { useLyrics } from '@/hooks/useLyrics';
+import { useKeyboardControls } from '@/hooks/useKeyboardControls';
 
 // Mood transition paths - each starting mood leads to a progression
 const MOOD_PATHS: Record<MoodType, MoodType[]> = {
@@ -88,8 +90,15 @@ export default function Home() {
   const [progress, setProgress] = useState(0);
   const [duration, setDuration] = useState(0);
   const [volume, setVolume] = useState(80);
+  const [showLyrics, setShowLyrics] = useState(false);
   
   const currentSong = songs[currentSongIndex];
+  
+  // Lyrics
+  const { lyrics, loading: lyricsLoading, error: lyricsError } = useLyrics(
+    currentSong?.title,
+    currentSong?.artist
+  );
   
   // Get the mood pack for theming based on current song's mood
   const activeMoodForTheme = currentSong?.mood || startMood;
@@ -164,6 +173,13 @@ export default function Home() {
     const prevIndex = currentSongIndex === 0 ? songs.length - 1 : currentSongIndex - 1;
     setCurrentSongIndex(prevIndex);
   };
+
+  // Keyboard controls: Space = play/pause, Arrow keys = seek ±5s
+  useKeyboardControls({
+    onPlayPause: handlePlayPause,
+    onSeekForward: useCallback(() => handleSeek(Math.min(progress + 5, duration)), [progress, duration]),
+    onSeekBackward: useCallback(() => handleSeek(Math.max(progress - 5, 0)), [progress]),
+  });
   
   const handleSongSelect = (song: Song) => {
     const index = songs.findIndex(s => s.id === song.id);
@@ -206,6 +222,12 @@ export default function Home() {
         <MainArea 
           mood={themePack} 
           currentSong={currentSong}
+          showLyrics={showLyrics}
+          lyricsPlain={lyrics?.plainLyrics}
+          lyricsSynced={lyrics?.syncedLyrics}
+          lyricsLoading={lyricsLoading}
+          lyricsError={lyricsError}
+          currentTime={progress}
         />
 
         {/* Playlist Sidebar (Right) */}
@@ -215,6 +237,8 @@ export default function Home() {
           currentSongId={currentSong?.id || ''}
           isPlaying={isPlaying}
           onSongSelect={handleSongSelect}
+          onNext={handleNext}
+          onPrev={handlePrev}
         />
       </div>
 
@@ -231,6 +255,9 @@ export default function Home() {
         progress={progress}
         duration={duration}
         volume={volume}
+        showLyrics={showLyrics}
+        onLyricsToggle={() => setShowLyrics(!showLyrics)}
+        lyricsLoading={lyricsLoading}
       />
     </div>
   );

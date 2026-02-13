@@ -2,13 +2,21 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { ArrowLeft } from 'lucide-react';
 import { MoodPack, Song } from './MoodPacks';
+import { LyricsPanel } from '@/components/LyricsPanel';
+import type { SyncedLine } from '@/hooks/useLyrics';
 
 interface MainAreaProps {
   mood: MoodPack;
   currentSong: Song | undefined;
+  showLyrics?: boolean;
+  lyricsPlain?: string | null;
+  lyricsSynced?: SyncedLine[] | null;
+  lyricsLoading?: boolean;
+  lyricsError?: string | null;
+  currentTime?: number;
 }
 
-export function MainArea({ mood, currentSong }: MainAreaProps) {
+export function MainArea({ mood, currentSong, showLyrics, lyricsPlain, lyricsSynced, lyricsLoading, lyricsError, currentTime }: MainAreaProps) {
   // If no song is selected yet, fall back to something
   const displayTitle = currentSong?.title || mood.playlistName;
   
@@ -55,7 +63,32 @@ export function MainArea({ mood, currentSong }: MainAreaProps) {
 
         {/* Main Visual Split */}
         <div className="flex w-full max-w-6xl items-center gap-8">
-          {/* Album Art */}
+          {/* Album Art or Lyrics */}
+          {showLyrics ? (
+            <motion.div
+              key="lyrics"
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.5 }}
+              className="w-1/2 aspect-square relative overflow-hidden border"
+              style={{
+                background: mood.albumGradient,
+                borderRadius: mood.borderRadius,
+                borderColor: `${mood.accent}15`,
+              }}>
+              <LyricsPanel
+                plainLyrics={lyricsPlain || null}
+                syncedLyrics={lyricsSynced || null}
+                currentTime={currentTime || 0}
+                loading={lyricsLoading || false}
+                error={lyricsError || null}
+                accentColor={mood.accent}
+                headingFont={mood.headingFont}
+                textColor={mood.text}
+                textMuted={mood.textMuted}
+              />
+            </motion.div>
+          ) : (
           <motion.div
             key={mood.name + (currentSong?.id || '')} // Re-animate on change
             initial={{
@@ -74,31 +107,29 @@ export function MainArea({ mood, currentSong }: MainAreaProps) {
               background: mood.albumGradient
             }}>
 
+            {/* Song Thumbnail */}
+            {currentSong?.id ? (
+              <img
+                src={`https://img.youtube.com/vi/${currentSong.id}/hqdefault.jpg`}
+                alt={currentSong.title || 'Album art'}
+                className="absolute inset-0 w-full h-full object-cover"
+                onError={(e) => {
+                  // Fallback to emoji if thumbnail fails
+                  (e.target as HTMLImageElement).style.display = 'none';
+                }}
+              />
+            ) : (
+              <div className="absolute inset-0 flex items-center justify-center">
+                <span className="text-9xl filter drop-shadow-2xl">
+                  {mood.emoji}
+                </span>
+              </div>
+            )}
+
             {/* Texture Overlay */}
-            <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-40 mix-blend-overlay"></div>
-
-            {/* Center Emoji */}
-            <div className="absolute inset-0 flex items-center justify-center">
-              <span className="text-9xl filter drop-shadow-2xl">
-                {mood.emoji}
-              </span>
-            </div>
-
-            {/* Abstract Shapes based on mood */}
-            <div className="absolute inset-0 opacity-30 mix-blend-difference">
-              <svg
-                viewBox="0 0 200 200"
-                xmlns="http://www.w3.org/2000/svg"
-                className="w-full h-full animate-pulse">
-
-                <path
-                  fill="#FFF"
-                  d="M44.7,-76.4C58.9,-69.2,71.8,-59.1,79.6,-46.9C87.4,-34.7,90.1,-20.4,89.1,-6.6C88.1,7.2,83.4,20.5,75.4,32C67.4,43.5,56.1,53.2,43.9,61.9C31.7,70.6,18.6,78.3,4.4,70.7C-9.8,63.1,-25.1,40.2,-38.6,22.8C-52.1,5.4,-63.8,-6.5,-66.1,-21.3C-68.4,-36.1,-61.3,-53.8,-48.6,-61.6C-35.9,-69.4,-17.9,-67.3,-0.7,-66.1C16.5,-64.9,33,-64.6,44.7,-76.4Z"
-                  transform="translate(100 100)" />
-
-              </svg>
-            </div>
+            <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-30 mix-blend-overlay"></div>
           </motion.div>
+          )}
 
           {/* Deconstructed Typography */}
           <div className="w-1/2 h-full flex flex-col justify-center relative overflow-hidden">

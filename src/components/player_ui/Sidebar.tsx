@@ -9,9 +9,11 @@ interface SidebarProps {
   currentSongId: string;
   isPlaying: boolean;
   onSongSelect: (song: Song) => void;
+  onNext?: () => void;
+  onPrev?: () => void;
 }
 
-export function Sidebar({ mood, songs, currentSongId, isPlaying, onSongSelect }: SidebarProps) {
+export function Sidebar({ mood, songs, currentSongId, isPlaying, onSongSelect, onNext, onPrev }: SidebarProps) {
   const textColor = '#000000';
 
   return (
@@ -81,12 +83,16 @@ export function Sidebar({ mood, songs, currentSongId, isPlaying, onSongSelect }:
           <ChevronLeft
             size={40}
             strokeWidth={1.5}
-            className="cursor-pointer hover:scale-110 transition-transform" />
+            onClick={onPrev}
+            className="cursor-pointer hover:scale-110 transition-transform"
+            aria-label="Previous song" />
 
           <ChevronRight
             size={40}
             strokeWidth={1.5}
-            className="cursor-pointer hover:scale-110 transition-transform" />
+            onClick={onNext}
+            className="cursor-pointer hover:scale-110 transition-transform"
+            aria-label="Next song" />
 
         </div>
 
@@ -97,12 +103,22 @@ export function Sidebar({ mood, songs, currentSongId, isPlaying, onSongSelect }:
             {mood.songs.find(s => s.id === currentSongId)?.artist || mood.songs[0].artist}
           </div>
           <div className="w-16 h-20 bg-black grayscale overflow-hidden">
-            <div
-              className="w-full h-full opacity-80"
-              style={{
-                background: mood.albumGradient
-              }} />
-
+            {currentSongId ? (
+              <img
+                src={`https://img.youtube.com/vi/${currentSongId}/hqdefault.jpg`}
+                alt="Now playing"
+                className="w-full h-full object-cover opacity-80"
+                onError={(e) => {
+                  (e.target as HTMLImageElement).style.display = 'none';
+                }}
+              />
+            ) : (
+              <div
+                className="w-full h-full opacity-80"
+                style={{
+                  background: mood.albumGradient
+                }} />
+            )}
           </div>
         </div>
       </div>

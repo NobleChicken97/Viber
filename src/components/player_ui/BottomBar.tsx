@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import { Play, Pause, Volume2, VolumeX } from 'lucide-react';
+import { Play, Pause, Volume2, VolumeX, Mic } from 'lucide-react';
 import { MoodPack, Song } from './MoodPacks';
 
 interface BottomBarProps {
@@ -14,6 +14,9 @@ interface BottomBarProps {
   progress: number;
   duration: number;
   volume: number;
+  showLyrics?: boolean;
+  onLyricsToggle?: () => void;
+  lyricsLoading?: boolean;
 }
 
 // Helper to format 90 -> 1:30
@@ -35,7 +38,10 @@ export function BottomBar({
   onVolumeChange,
   progress,
   duration,
-  volume
+  volume,
+  showLyrics,
+  onLyricsToggle,
+  lyricsLoading
 }: BottomBarProps) {
   const [showVolume, setShowVolume] = useState(false);
   const progressBarRef = useRef<HTMLDivElement>(null);
@@ -172,6 +178,21 @@ export function BottomBar({
               </div>
             )}
           </div>
+
+          {/* Lyrics Toggle */}
+          {onLyricsToggle && (
+            <button
+              onClick={onLyricsToggle}
+              className={`p-2 rounded-full transition-all ${lyricsLoading ? 'animate-pulse' : ''}`}
+              style={{
+                backgroundColor: showLyrics ? `${mood.accent}30` : 'transparent',
+                color: showLyrics ? mood.accent : '#9ca3af',
+              }}
+              title={showLyrics ? 'Hide lyrics' : 'Show lyrics'}
+            >
+              <Mic size={22} />
+            </button>
+          )}
           
           {/* NEXT */}
           <div 
