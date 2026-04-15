@@ -29,6 +29,9 @@ docs/
 *.md
 !README.md
 
+# Songs data
+songs
+
 # GitHub folder
 .github/
 

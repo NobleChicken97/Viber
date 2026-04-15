@@ -67,21 +67,17 @@ function buildPlaylist(startMood: MoodType): { songs: TransitionSong[]; moodPath
 export default function Home() {
   const [startMood, setStartMood] = useState<MoodType>('energetic');
   const [songs, setSongs] = useState<TransitionSong[]>([]);
-  const [moodPath, setMoodPath] = useState<MoodType[]>(['energetic']);
   const [isClient, setIsClient] = useState(false);
   
   // Generate playlist only on client to avoid hydration mismatch
   useEffect(() => {
-    setIsClient(true);
     const playlist = buildPlaylist(startMood);
-    setSongs(playlist.songs);
-    setMoodPath(playlist.moodPath);
-  }, [startMood]);
-  
-  const regeneratePlaylist = useCallback(() => {
-    const playlist = buildPlaylist(startMood);
-    setSongs(playlist.songs);
-    setMoodPath(playlist.moodPath);
+    
+    // Defer state updates to avoid synchronous cascading renders
+    setTimeout(() => {
+      setIsClient(true);
+      setSongs(playlist.songs);
+    }, 0);
   }, [startMood]);
   
   // Player State
@@ -90,6 +86,7 @@ export default function Home() {
   const [progress, setProgress] = useState(0);
   const [duration, setDuration] = useState(0);
   const [volume, setVolume] = useState(80);
+  const [prevVolume, setPrevVolume] = useState(80);
   const [showLyrics, setShowLyrics] = useState(false);
   
   const currentSong = songs[currentSongIndex];
@@ -144,7 +141,7 @@ export default function Home() {
         console.log('Loading video:', currentSong.id, currentSong.title);
       }
     }
-  }, [currentSong?.id, playerReady, loadVideo]);
+  }, [currentSong?.id, currentSong?.title, playerReady, loadVideo]);
 
   const handlePlayPause = () => {
     if (isPlaying) {
@@ -159,10 +156,10 @@ export default function Home() {
     setProgress(time);
   };
 
-  const handleVolumeChange = (newVolume: number) => {
+  const handleVolumeChange = useCallback((newVolume: number) => {
     setVolume(newVolume);
     setPlayerVolume(newVolume);
-  };
+  }, [setPlayerVolume]);
 
   const handleNext = () => {
     const nextIndex = (currentSongIndex + 1) % songs.length;
@@ -174,11 +171,21 @@ export default function Home() {
     setCurrentSongIndex(prevIndex);
   };
 
-  // Keyboard controls: Space = play/pause, Arrow keys = seek ±5s
+  // Keyboard controls: Space = play/pause, Arrow keys = next/prev, Up/Down = volume, M = mute
   useKeyboardControls({
     onPlayPause: handlePlayPause,
-    onSeekForward: useCallback(() => handleSeek(Math.min(progress + 5, duration)), [progress, duration]),
-    onSeekBackward: useCallback(() => handleSeek(Math.max(progress - 5, 0)), [progress]),
+    onNextTrack: handleNext,
+    onPrevTrack: handlePrev,
+    onVolumeUp: useCallback(() => handleVolumeChange(Math.min(volume + 10, 100)), [volume, handleVolumeChange]),
+    onVolumeDown: useCallback(() => handleVolumeChange(Math.max(volume - 10, 0)), [volume, handleVolumeChange]),
+    onToggleMute: useCallback(() => {
+      if (volume > 0) {
+        setPrevVolume(volume);
+        handleVolumeChange(0);
+      } else {
+        handleVolumeChange(prevVolume || 80);
+      }
+    }, [volume, prevVolume, handleVolumeChange]),
   });
   
   const handleSongSelect = (song: Song) => {

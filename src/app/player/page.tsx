@@ -8,7 +8,7 @@ import {
 } from "lucide-react";
 import { useYouTubePlayer } from "@/components/YouTubePlayer";
 import { generateMoodPath, distributeMoodPathBySongs } from "@/lib/moodPath";
-import { buildSessionQueue, Track, MOOD_PLAYLISTS } from "@/lib/playlists";
+import { buildSessionQueue, Track } from "@/lib/playlists";
 import { useLyrics } from "@/hooks/useLyrics";
 import { useKeyboardControls } from "@/hooks/useKeyboardControls";
 import { LyricsPanel, LyricsToggle } from "@/components/LyricsPanel";
@@ -51,7 +51,7 @@ function PlayerContent() {
   
   // Build the session queue with mood transitions
   const { queue, moodPath, distribution } = useMemo(() => {
-    const path = generateMoodPath({ startMood, upliftEnabled: true, seed: Date.now() });
+    const path = generateMoodPath({ startMood, upliftEnabled: true, seed: 12345 });
     const buckets = distributeMoodPathBySongs(path, 12);
     const dist = buckets.map(b => b.targetSongs);
     const q = buildSessionQueue(path, dist);
@@ -64,6 +64,7 @@ function PlayerContent() {
   const [progress, setProgress] = useState(0);
   const [duration, setDuration] = useState(0);
   const [volume, setVolume] = useState(80);
+  const [prevVolume, setPrevVolume] = useState(80);
 
   const currentSong = queue[currentIndex];
 
@@ -147,16 +148,23 @@ function PlayerContent() {
     setCurrentIndex(index);
   };
 
-  const handleSeek = useCallback((time: number) => {
-    seekTo(time);
-    setProgress(time);
-  }, [seekTo]);
-
-  // Keyboard controls: Space = play/pause, Arrow keys = seek ±5s
+  // Keyboard controls: Space = play/pause, Arrow keys = next/prev, Up/Down = volume, M = mute
   useKeyboardControls({
     onPlayPause: handlePlayPause,
-    onSeekForward: useCallback(() => handleSeek(Math.min(progress + 5, duration)), [progress, duration, handleSeek]),
-    onSeekBackward: useCallback(() => handleSeek(Math.max(progress - 5, 0)), [progress, handleSeek]),
+    onNextTrack: handleNext,
+    onPrevTrack: handlePrev,
+    onVolumeUp: useCallback(() => setVolume(v => Math.min(v + 10, 100)), []),
+    onVolumeDown: useCallback(() => setVolume(v => Math.max(v - 10, 0)), []),
+    onToggleMute: useCallback(() => {
+      setVolume(v => {
+        if (v > 0) {
+          setPrevVolume(v);
+          return 0;
+        } else {
+          return prevVolume || 80;
+        }
+      });
+    }, [prevVolume]),
   });
 
   const progressPercent = duration > 0 ? (progress / duration) * 100 : 0;
@@ -278,22 +286,19 @@ function PlayerContent() {
                     <Music size={120} className="text-white/20 relative z-10" />
                   )}
                   
-                  {/* Now playing indicator */}
-                  {isPlaying && (
                     <div className="absolute bottom-6 left-6 flex items-center gap-1.5 z-20">
-                      {[...Array(4)].map((_, i) => (
+                      {[16, 24, 18, 22].map((h, i) => (
                         <div
                           key={i}
                           className={`w-1 bg-white/60 rounded-full animate-pulse`}
                           style={{
-                            height: `${12 + Math.random() * 12}px`,
+                            height: `${h}px`,
                             animationDelay: `${i * 150}ms`,
                             animationDuration: '0.5s'
                           }}
                         />
                       ))}
                     </div>
-                  )}
                 </div>
               </div>
             )}
