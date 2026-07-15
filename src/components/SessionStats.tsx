@@ -1,8 +1,3 @@
-/**
- * SessionStats Component
- * 
- * Displays session progress and mood journey statistics.
- */
 
 "use client";
 
@@ -42,9 +37,7 @@ export function SessionStats({
   moodPath,
   className 
 }: SessionStatsProps) {
-  const progress = (countedSongs / totalSongs) * 100;
-
-  // Calculate mood distribution
+  const progress = (countedSongs / totalSongs) * 100;
   const moodCounts = moodPath.reduce((acc, mood) => {
     acc[mood] = (acc[mood] || 0) + 1;
     return acc;

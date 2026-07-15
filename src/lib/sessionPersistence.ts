@@ -1,9 +1,3 @@
-/**
- * Session Persistence Service
- * 
- * Saves and restores session state using localStorage.
- * Enables session recovery after page refresh.
- */
 
 import type { Mood } from '@/lib/moodTheme';
 import type { Track } from '@/lib/playlists';
@@ -37,10 +31,6 @@ export interface SessionHistory {
 const CURRENT_SESSION_KEY = 'viber_current_session';
 const SESSION_HISTORY_KEY = 'viber_session_history';
 const MAX_HISTORY = 10;
-
-/**
- * Save current session state
- */
 export function saveSession(session: Omit<PersistedSession, 'id' | 'startTime' | 'lastUpdated'>): void {
   try {
     const existing = loadSession();
@@ -56,18 +46,12 @@ export function saveSession(session: Omit<PersistedSession, 'id' | 'startTime' |
     console.error('Failed to save session:', error);
   }
 }
-
-/**
- * Load current session state
- */
 export function loadSession(): PersistedSession | null {
   try {
     const data = localStorage.getItem(CURRENT_SESSION_KEY);
     if (!data) return null;
     
-    const session = JSON.parse(data) as PersistedSession;
-    
-    // Validate session isn't too old (expire after 24 hours)
+    const session = JSON.parse(data) as PersistedSession;
     const age = Date.now() - session.lastUpdated;
     if (age > 24 * 60 * 60 * 1000) {
       clearSession();
@@ -80,10 +64,6 @@ export function loadSession(): PersistedSession | null {
     return null;
   }
 }
-
-/**
- * Clear current session
- */
 export function clearSession(): void {
   try {
     localStorage.removeItem(CURRENT_SESSION_KEY);
@@ -91,10 +71,6 @@ export function clearSession(): void {
     console.error('Failed to clear session:', error);
   }
 }
-
-/**
- * Complete current session and add to history
- */
 export function completeSession(finalState: {
   startMood: Mood;
   finalMood: Mood;
@@ -122,10 +98,6 @@ export function completeSession(finalState: {
     console.error('Failed to complete session:', error);
   }
 }
-
-/**
- * Get session history
- */
 export function getSessionHistory(): SessionHistory[] {
   try {
     const data = localStorage.getItem(SESSION_HISTORY_KEY);
@@ -137,16 +109,10 @@ export function getSessionHistory(): SessionHistory[] {
     return [];
   }
 }
-
-/**
- * Add session to history
- */
 function addToHistory(session: SessionHistory): void {
   try {
     const history = getSessionHistory();
-    history.unshift(session); // Add to beginning
-    
-    // Keep only last N sessions
+    history.unshift(session); // Add to beginning
     const trimmed = history.slice(0, MAX_HISTORY);
     
     localStorage.setItem(SESSION_HISTORY_KEY, JSON.stringify(trimmed));
@@ -154,10 +120,6 @@ function addToHistory(session: SessionHistory): void {
     console.error('Failed to add to history:', error);
   }
 }
-
-/**
- * Clear all history
- */
 export function clearHistory(): void {
   try {
     localStorage.removeItem(SESSION_HISTORY_KEY);
@@ -165,10 +127,6 @@ export function clearHistory(): void {
     console.error('Failed to clear history:', error);
   }
 }
-
-/**
- * Get session statistics
- */
 export function getSessionStats(): {
   totalSessions: number;
   totalSongs: number;
@@ -190,9 +148,7 @@ export function getSessionStats(): {
   
   const totalSessions = history.length;
   const totalSongs = history.reduce((sum, s) => sum + s.songsCompleted, 0);
-  const totalTime = history.reduce((sum, s) => sum + s.totalDuration, 0);
-  
-  // Find favorite mood
+  const totalTime = history.reduce((sum, s) => sum + s.totalDuration, 0);
   const moodCounts: Record<Mood, number> = {
     sad: 0,
     calm: 0,
@@ -220,17 +176,9 @@ export function getSessionStats(): {
     avgSessionLength
   };
 }
-
-/**
- * Generate unique session ID
- */
 function generateSessionId(): string {
   return `session_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
 }
-
-/**
- * Check if localStorage is available
- */
 export function isStorageAvailable(): boolean {
   try {
     const test = '__storage_test__';

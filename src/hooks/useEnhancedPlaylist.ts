@@ -1,9 +1,3 @@
-/**
- * useEnhancedPlaylist Hook
- * 
- * Fetches YouTube video details for playlist tracks.
- * Falls back to local data if API is not configured.
- */
 
 import { useState, useEffect } from 'react';
 import { fetchVideoDetails, isYouTubeAPIConfigured } from '@/lib/youtubeApi';
@@ -32,8 +26,7 @@ export function useEnhancedPlaylist(tracks: Track[]): UseEnhancedPlaylistResult 
     let mounted = true;
 
     async function enhancePlaylists() {
-      if (!isAPIConfigured) {
-        // No API key, use local data
+      if (!isAPIConfigured) {
         if (mounted) {
           setEnhancedTracks(tracks.map(track => ({
             ...track,
@@ -48,9 +41,7 @@ export function useEnhancedPlaylist(tracks: Track[]): UseEnhancedPlaylistResult 
 
       try {
         setIsLoading(true);
-        setError(null);
-
-        // Fetch details in batches (YouTube API allows max 50 IDs per request)
+        setError(null);
         const batchSize = 50;
         const batches: Track[][] = [];
         
@@ -62,9 +53,7 @@ export function useEnhancedPlaylist(tracks: Track[]): UseEnhancedPlaylistResult 
 
         for (const batch of batches) {
           const videoIds = batch.map(t => t.id);
-          const details = await fetchVideoDetails(videoIds);
-
-          // Merge API data with local data
+          const details = await fetchVideoDetails(videoIds);
           const enhanced = batch.map((track) => {
             const apiData = details.find(d => d.id === track.id);
             return {
@@ -87,8 +76,7 @@ export function useEnhancedPlaylist(tracks: Track[]): UseEnhancedPlaylistResult 
       } catch (err) {
         console.error('Failed to enhance playlist:', err);
         if (mounted) {
-          setError(err instanceof Error ? err.message : 'Failed to load playlist details');
-          // Fallback to local data
+          setError(err instanceof Error ? err.message : 'Failed to load playlist details');
           setEnhancedTracks(tracks.map(track => ({
             ...track,
             thumbnail: `https://img.youtube.com/vi/${track.id}/mqdefault.jpg`,

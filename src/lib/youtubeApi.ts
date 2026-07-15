@@ -1,9 +1,3 @@
-/**
- * YouTube Data API v3 Service
- * 
- * Fetches video details, searches for music, and validates video IDs.
- * Requires NEXT_PUBLIC_YOUTUBE_API_KEY in environment variables.
- */
 
 export interface YouTubeVideo {
   id: string;
@@ -22,11 +16,6 @@ interface YouTubeAPIError {
 
 const API_KEY = process.env.NEXT_PUBLIC_YOUTUBE_API_KEY;
 const BASE_URL = 'https://www.googleapis.com/youtube/v3';
-
-/**
- * Parse ISO 8601 duration to seconds
- * Example: "PT4M33S" -> 273
- */
 function parseDuration(duration: string): number {
   const match = duration.match(/PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?/);
   if (!match) return 0;
@@ -37,25 +26,15 @@ function parseDuration(duration: string): number {
   
   return hours * 3600 + minutes * 60 + seconds;
 }
-
-/**
- * Extract artist name from video title
- * Tries to parse "Artist - Song" format
- */
-function extractArtist(title: string): string {
-  // Try to find " - " separator
+function extractArtist(title: string): string {
   const dashIndex = title.indexOf(' - ');
   if (dashIndex > 0 && dashIndex < title.length / 2) {
     return title.substring(0, dashIndex).trim();
-  }
-  
-  // Try to find " | " separator
+  }
   const pipeIndex = title.indexOf(' | ');
   if (pipeIndex > 0 && pipeIndex < title.length / 2) {
     return title.substring(0, pipeIndex).trim();
-  }
-  
-  // Fallback: return first word(s) before parentheses
+  }
   const parenIndex = title.indexOf('(');
   if (parenIndex > 0) {
     const beforeParen = title.substring(0, parenIndex).trim();
@@ -67,10 +46,6 @@ function extractArtist(title: string): string {
   
   return 'Unknown Artist';
 }
-
-/**
- * Fetch video details from YouTube Data API
- */
 export async function fetchVideoDetails(videoIds: string[]): Promise<YouTubeVideo[]> {
   if (!API_KEY) {
     console.warn('YouTube API key not configured');
@@ -96,8 +71,7 @@ export async function fetchVideoDetails(videoIds: string[]): Promise<YouTubeVide
       throw new Error(error.error.message);
     }
 
-    return data.items.map((item: Record<string, unknown>) => {
-      // Type assertion for YouTube API response structure
+    return data.items.map((item: Record<string, unknown>) => {
       const videoItem = item as {
         id: string;
         snippet: {
@@ -123,8 +97,7 @@ export async function fetchVideoDetails(videoIds: string[]): Promise<YouTubeVide
       };
     });
   } catch (error) {
-    console.error('Failed to fetch video details:', error);
-    // Return fallback data
+    console.error('Failed to fetch video details:', error);
     return videoIds.map(id => ({
       id,
       title: 'Unknown Title',
@@ -134,10 +107,6 @@ export async function fetchVideoDetails(videoIds: string[]): Promise<YouTubeVide
     }));
   }
 }
-
-/**
- * Search for music videos by query
- */
 export async function searchMusic(query: string, maxResults: number = 10): Promise<YouTubeVideo[]> {
   if (!API_KEY) {
     console.warn('YouTube API key not configured');
@@ -166,10 +135,6 @@ export async function searchMusic(query: string, maxResults: number = 10): Promi
     return [];
   }
 }
-
-/**
- * Validate that a video ID exists and is playable
- */
 export async function validateVideoId(videoId: string): Promise<boolean> {
   if (!API_KEY) {
     return true; // Assume valid if no API key
@@ -195,10 +160,6 @@ export async function validateVideoId(videoId: string): Promise<boolean> {
     return false;
   }
 }
-
-/**
- * Check if YouTube API key is configured
- */
 export function isYouTubeAPIConfigured(): boolean {
   return !!API_KEY;
 }

@@ -11,16 +11,6 @@ interface KeyboardControlsOptions {
   onToggleMute: () => void;
   enabled?: boolean;
 }
-
-/**
- * Keyboard shortcuts for the music player:
- * - Space: play/pause
- * - ArrowRight: next track
- * - ArrowLeft: previous track
- * - ArrowUp: volume up
- * - ArrowDown: volume down
- * - M: toggle mute
- */
 export function useKeyboardControls({
   onPlayPause,
   onNextTrack,
@@ -31,8 +21,7 @@ export function useKeyboardControls({
   enabled = true,
 }: KeyboardControlsOptions) {
   const handleKeyDown = useCallback(
-    (e: KeyboardEvent) => {
-      // Don't capture if user is typing in an input/textarea
+    (e: KeyboardEvent) => {
       const tag = (e.target as HTMLElement)?.tagName?.toLowerCase();
       if (tag === "input" || tag === "textarea" || tag === "select" || (e.target as HTMLElement)?.isContentEditable) return;
 

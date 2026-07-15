@@ -17,17 +17,10 @@ import {
 } from "@/lib/moodPath";
 
 type Props = {
-  /** Starting mood (manual pick or camera-mapped). */
   startMood?: Mood;
   upliftEnabled?: boolean;
-  /** Session is always defined as N counted ("listened") songs. */
   songLimit?: number;
-  /**
-   * Optional: number of songs that count as "listened" so far (0-based index).
-   * This should increment only when listenedFraction >= 25%.
-   */
   countedSongIndex?: number;
-  /** Seed for probabilistic path choice (stable per session). */
   seed?: number;
 };
 
@@ -51,9 +44,7 @@ function setCssVars(target: MoodThemeTarget) {
   root.style.setProperty("--mood-contrast", target.contrast.toFixed(3));
   root.style.setProperty("--mood-pulse", target.pulse.toFixed(3));
   root.style.setProperty("--mood-blob", target.blob.toFixed(3));
-  root.style.setProperty("--mood-motion", target.motion.toFixed(3));
-
-  // Helper vars derived from motion/pulse.
+  root.style.setProperty("--mood-motion", target.motion.toFixed(3));
   const pulseMs = lerp(18000, 7000, target.pulse);
   root.style.setProperty("--mood-pulse-ms", `${pulseMs.toFixed(0)}ms`);
 
@@ -84,10 +75,7 @@ export function MoodThemeProvider({
       const elapsed = now - start.current;
 
       const progress01 = sessionProgress01({ countedSongIndex, countedSongLimit: songLimit });
-      const drift01 = (Math.sin(elapsed / 60000) + 1) / 2; // ~1 min cycle
-
-      // Prefer song-bucketed stage boundaries when countedSongIndex is available.
-      // Otherwise fall back to time-based (progress01) stages.
+      const drift01 = (Math.sin(elapsed / 60000) + 1) / 2; // ~1 min cycle
       let mood: typeof startMood;
       if (countedSongIndex != null) {
         const buckets =
@@ -104,10 +92,7 @@ export function MoodThemeProvider({
         progress01,
         uplift01: upliftEnabled ? 1 : 0,
         drift01,
-      });
-
-      // Exponential smoothing: no sudden jumps.
-      // Tau chosen so changes are subtle moment-to-moment but obvious over minutes.
+      });
       const dt = 16; // approx; good enough for smoothing
       const tau = 8000; // ms
       const alpha = 1 - Math.exp(-dt / tau);
@@ -116,8 +101,7 @@ export function MoodThemeProvider({
         current.current = target;
       } else {
         current.current = {
-          ...current.current,
-          // Hue is already pre-lerped in compute; treat it as a number here.
+          ...current.current,
           bgH: lerp(current.current.bgH, target.bgH, alpha),
           bgS: lerp(current.current.bgS, target.bgS, alpha),
           bgL: lerp(current.current.bgL, target.bgL, alpha),

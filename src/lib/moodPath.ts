@@ -32,13 +32,6 @@ function clamp01(n: number) {
 export function isListenedSong(listenedFraction01: number, threshold01 = 0.25): boolean {
   return listenedFraction01 >= threshold01;
 }
-
-/**
- * Implements your MVP unique mood paths.
- * - No skipping stages
- * - If uplift is OFF: single mood only
- * - If uplift is ON: probabilistic alternatives per your spec
- */
 export function generateMoodPath(options: {
   startMood: Mood;
   upliftEnabled: boolean;
@@ -50,38 +43,29 @@ export function generateMoodPath(options: {
   if (!upliftEnabled) return [startMood];
 
   switch (startMood) {
-    case "sad": {
-      // Default: Sad → Calm → Happy → Energetic
-      // Alternatives: Sad → Calm → Romantic OR Sad → Calm → Happy
+    case "sad": {
       const roll = rng();
       if (roll < 0.25) return ["sad", "calm", "romantic"]; // alt
       if (roll < 0.55) return ["sad", "calm", "happy"]; // shorter
       return ["sad", "calm", "happy", "energetic"]; // default
     }
-    case "calm": {
-      // Default: Calm → Happy → Energetic
-      // Alternatives: Calm → Romantic OR Calm → Happy
+    case "calm": {
       const roll = rng();
       if (roll < 0.25) return ["calm", "romantic"]; // alt
       if (roll < 0.55) return ["calm", "happy"]; // shorter
       return ["calm", "happy", "energetic"]; // default
     }
-    case "romantic": {
-      // Default: Romantic → Happy
-      // Alternative: Romantic → Calm
+    case "romantic": {
       const roll = rng();
       if (roll < 0.3) return ["romantic", "calm"]; // alt
       return ["romantic", "happy"]; // default
     }
-    case "happy": {
-      // Default: Happy → Energetic, but can also stay Happy
+    case "happy": {
       const roll = rng();
       if (roll < 0.35) return ["happy"]; // stays
       return ["happy", "energetic"]; // default
     }
-    case "energetic": {
-      // Default: Energetic only
-      // Optional rare cool-down: Energetic → Happy
+    case "energetic": {
       const roll = rng();
       if (roll < 0.1) return ["energetic", "happy"]; // rare
       return ["energetic"];
@@ -90,18 +74,11 @@ export function generateMoodPath(options: {
       return [startMood];
   }
 }
-
-/**
- * Distributes a path across the session progress 0..1.
- * Earlier moods get more time (slow transition), later stages shorter.
- */
 export function distributeMoodPath(path: Mood[]): MoodPathSegment[] {
   if (path.length === 0) return [];
   if (path.length === 1) return [{ mood: path[0], start01: 0, end01: 1 }];
 
-  const n = path.length;
-
-  // Quadratic descending weights: stage 0 longest, last shortest.
+  const n = path.length;
   const weights = Array.from({ length: n }, (_, i) => {
     const k = n - i;
     return k * k;
@@ -120,12 +97,6 @@ export function distributeMoodPath(path: Mood[]): MoodPathSegment[] {
 
   return segments;
 }
-
-/**
- * Distributes the mood path into integer song buckets.
- * Buckets are in "counted songs" (songs listened >= threshold), not raw tracks.
- * Remainders are assigned to earlier stages (slower transition up front).
- */
 export function distributeMoodPathBySongs(path: Mood[], countedSongLimit: number): MoodSongBucket[] {
   if (path.length === 0) return [];
   if (countedSongLimit <= 0) {

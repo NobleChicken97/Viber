@@ -28,9 +28,7 @@ export function LyricsPanel({
   textMuted = "#6e7681",
 }: LyricsPanelProps) {
   const containerRef = useRef<HTMLDivElement>(null);
-  const activeRef = useRef<HTMLParagraphElement>(null);
-
-  // Auto-scroll to active lyric
+  const activeRef = useRef<HTMLParagraphElement>(null);
   useEffect(() => {
     if (activeRef.current && containerRef.current) {
       activeRef.current.scrollIntoView({
@@ -70,9 +68,7 @@ export function LyricsPanel({
         </span>
       </div>
     );
-  }
-
-  // ── Synced lyrics ──
+  }
   if (syncedLyrics && syncedLyrics.length > 0) {
     const activeIndex = getActiveLyricIndex(syncedLyrics, currentTime);
 
@@ -114,9 +110,7 @@ export function LyricsPanel({
         </div>
       </div>
     );
-  }
-
-  // ── Plain lyrics fallback ──
+  }
   return (
     <div
       ref={containerRef}
@@ -145,9 +139,6 @@ export function LyricsPanel({
     </div>
   );
 }
-
-/* ── Toggle Button ── */
-
 interface LyricsToggleProps {
   showLyrics: boolean;
   onToggle: () => void;

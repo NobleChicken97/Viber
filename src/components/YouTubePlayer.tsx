@@ -1,11 +1,6 @@
 "use client";
 
 import { useEffect, useRef, useState, useCallback, RefObject } from "react";
-
-/**
- * YouTube IFrame Player API Types
- */
-
 export interface YTPlayer {
   playVideo(): void;
   pauseVideo(): void;
@@ -104,28 +99,20 @@ export function useYouTubePlayer({
   const [isPlaying, setIsPlaying] = useState(false);
   const [apiLoaded, setApiLoaded] = useState(false);
   const [containerMounted, setContainerMounted] = useState(false);
-  const progressIntervalRef = useRef<NodeJS.Timeout | null>(null);
-  
-  // Use refs for callbacks so player doesn't need to be recreated
+  const progressIntervalRef = useRef<NodeJS.Timeout | null>(null);
   const onReadyRef = useRef(onReady);
   const onPlayRef = useRef(onPlay);
   const onPauseRef = useRef(onPause);
   const onEndRef = useRef(onEnd);
   const onErrorRef = useRef(onError);
-  const onProgressRef = useRef(onProgress);
-  
-  // Track container mount - poll for a short time
+  const onProgressRef = useRef(onProgress);
   useEffect(() => {
     const checkContainer = () => {
       if (containerRef.current && !containerMounted) {
         setContainerMounted(true);
       }
-    };
-    
-    // Check immediately
-    checkContainer();
-    
-    // Poll briefly
+    };
+    checkContainer();
     const interval = setInterval(checkContainer, 50);
     const timeout = setTimeout(() => clearInterval(interval), 1000);
     
@@ -133,9 +120,7 @@ export function useYouTubePlayer({
       clearInterval(interval);
       clearTimeout(timeout);
     };
-  }, [containerMounted]);
-  
-  // Keep refs updated
+  }, [containerMounted]);
   useEffect(() => {
     onReadyRef.current = onReady;
     onPlayRef.current = onPlay;
@@ -143,28 +128,20 @@ export function useYouTubePlayer({
     onEndRef.current = onEnd;
     onErrorRef.current = onError;
     onProgressRef.current = onProgress;
-  }, [onReady, onPlay, onPause, onEnd, onError, onProgress]);
-
-  // Load YouTube IFrame API script
+  }, [onReady, onPlay, onPause, onEnd, onError, onProgress]);
   useEffect(() => {
-    if (typeof window === "undefined") return;
-
-    // Check if API is already loaded
+    if (typeof window === "undefined") return;
     if (window.YT && window.YT.Player) {
       setApiLoaded(true);
       return;
-    }
-
-    // Load script if not present
+    }
     const existingScript = document.querySelector('script[src="https://www.youtube.com/iframe_api"]');
     if (!existingScript) {
       const tag = document.createElement("script");
       tag.src = "https://www.youtube.com/iframe_api";
       const firstScriptTag = document.getElementsByTagName("script")[0];
       firstScriptTag.parentNode?.insertBefore(tag, firstScriptTag);
-    }
-
-    // Wait for API to be ready
+    }
     const prevCallback = window.onYouTubeIframeAPIReady;
     window.onYouTubeIframeAPIReady = () => {
       prevCallback?.();
@@ -172,9 +149,7 @@ export function useYouTubePlayer({
         console.log("YouTube IFrame API ready");
       }
       setApiLoaded(true);
-    };
-    
-    // Poll for API ready (fallback if callback already fired)
+    };
     const checkInterval = setInterval(() => {
       if (window.YT && window.YT.Player) {
         setApiLoaded(true);
@@ -183,9 +158,7 @@ export function useYouTubePlayer({
     }, 100);
     
     return () => clearInterval(checkInterval);
-  }, []);
-
-  // Initialize player
+  }, []);
   const startProgressTracking = useCallback(() => {
     if (progressIntervalRef.current) return;
 
@@ -220,9 +193,7 @@ export function useYouTubePlayer({
         console.log('Container ref not available yet');
       }
       return;
-    }
-    
-    // Don't recreate if player already exists
+    }
     if (playerRef.current) {
       return;
     }
@@ -232,9 +203,7 @@ export function useYouTubePlayer({
     
     if (process.env.NODE_ENV === 'development') {
       console.log('Creating YouTube player with container:', containerId);
-    }
-
-    // Create player config without videoId - we'll load videos via loadVideoById
+    }
     const playerConfig: YTPlayerOptions = {
       height: "100%",
       width: "100%",
@@ -304,8 +273,7 @@ export function useYouTubePlayer({
         playerRef.current.destroy();
         playerRef.current = null;
       }
-    };
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    };
   }, [apiLoaded, containerMounted]);
 
   const play = useCallback(() => {
@@ -349,7 +317,9 @@ export function useYouTubePlayer({
 
   const seekTo = useCallback((seconds: number) => {
     if (playerRef.current && typeof playerRef.current.seekTo === 'function') {
-      playerRef.current.seekTo(seconds, true);
+      playerRef.current.seekTo(seconds, true);
+      const duration = playerRef.current.getDuration();
+      onProgressRef.current?.(seconds, duration);
     }
   }, []);
 
