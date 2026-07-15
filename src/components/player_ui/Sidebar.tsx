@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Menu, Play, Pause, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Play, Pause, ChevronLeft, ChevronRight } from 'lucide-react';
 import { MoodPack, Song } from './MoodPacks';
 
 interface SidebarProps {
@@ -18,19 +18,14 @@ export function Sidebar({ mood, songs, currentSongId, isPlaying, onSongSelect, o
 
   return (
     <div
-      className="w-full lg:w-[320px] h-full flex flex-col relative transition-colors duration-500 z-30"
+      className="w-full h-full flex flex-col relative transition-colors duration-500 z-30"
       style={{
         backgroundColor: mood.accent,
         color: textColor
       }}>
 
-      {/* Header */}
-      <div className="p-8 flex justify-end">
-        <Menu
-          size={32}
-          strokeWidth={2.5}
-          className="cursor-pointer hover:scale-110 transition-transform" />
-      </div>
+      {/* Spacer for Floating Menu Button */}
+      <div className="h-8 mb-8"></div>
 
       {/* Playlist Title */}
       <div className="px-8 mb-6">

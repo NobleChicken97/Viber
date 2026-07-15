@@ -25,9 +25,7 @@ type ComputeThemeInput = {
 
 const clamp01 = (n: number) => Math.max(0, Math.min(1, n));
 
-const lerp = (a: number, b: number, t: number) => a + (b - a) * t;
-
-// Shortest-path hue interpolation in degrees.
+const lerp = (a: number, b: number, t: number) => a + (b - a) * t;
 const lerpHue = (a: number, b: number, t: number) => {
   const delta = ((b - a + 540) % 360) - 180;
   return (a + delta * t + 360) % 360;
@@ -102,30 +100,18 @@ export function computeMoodThemeTarget(input: ComputeThemeInput): MoodThemeTarge
   const uplift01 = clamp01(input.uplift01);
   const drift01 = clamp01(input.drift01);
 
-  const base = moodBase[input.mood];
-
-  // Long-horizon drift: subtle but noticeable after ~10min.
-  // - Increase contrast + saturation slightly
-  // - Lift background lightness slightly (more "alive")
+  const base = moodBase[input.mood];
   const bgL = base.bgL + lerp(0, 7, progress01);
-  const bgS = base.bgS + lerp(0, 6, progress01);
-
-  // Micro drift (cyclic): tiny hue wobble + pulse modulation.
-  const hueWobble = lerp(-2, 2, drift01);
-
-  // Optional uplift influences accent hue/sat only (keeps mood subtle, avoids hard jumps).
+  const bgS = base.bgS + lerp(0, 6, progress01);
+  const hueWobble = lerp(-2, 2, drift01);
   const accentH = lerpHue(
     base.accentH + hueWobble,
     happyishAccent.accentH + hueWobble,
     uplift01 * progress01
   );
   const accentS = lerp(base.accentS, happyishAccent.accentS, uplift01 * progress01);
-  const accentL = lerp(base.accentL, happyishAccent.accentL, uplift01 * progress01);
-
-  // Snappiness curve: as time passes, interactions feel a bit tighter.
-  const motion = lerp(0.35, 0.85, progress01);
-
-  // Background atmosphere controls.
+  const accentL = lerp(base.accentL, happyishAccent.accentL, uplift01 * progress01);
+  const motion = lerp(0.35, 0.85, progress01);
   const contrast = lerp(0.35, 0.65, progress01);
   const pulse = lerp(0.15, 0.55, progress01);
   const blob = lerp(0.35, 0.9, progress01);

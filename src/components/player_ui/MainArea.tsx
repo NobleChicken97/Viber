@@ -1,6 +1,5 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { ArrowLeft } from 'lucide-react';
 import { MoodPack, Song } from './MoodPacks';
 import { LyricsPanel } from '@/components/LyricsPanel';
 import type { SyncedLine } from '@/hooks/useLyrics';
@@ -16,8 +15,7 @@ interface MainAreaProps {
   currentTime?: number;
 }
 
-export function MainArea({ mood, currentSong, showLyrics, lyricsPlain, lyricsSynced, lyricsLoading, lyricsError, currentTime }: MainAreaProps) {
-  // If no song is selected yet, fall back to something
+export function MainArea({ mood, currentSong, showLyrics, lyricsPlain, lyricsSynced, lyricsLoading, lyricsError, currentTime }: MainAreaProps) {
   const displayTitle = currentSong?.title || mood.playlistName;
   
   return (
@@ -30,19 +28,11 @@ export function MainArea({ mood, currentSong, showLyrics, lyricsPlain, lyricsSyn
 
       {/* Top Bar */}
       <div className="flex justify-between items-center p-8 z-20">
-        <ArrowLeft
-          size={32}
-          strokeWidth={1.5}
-          className="cursor-pointer hover:opacity-70 transition-opacity" />
 
         <span className="text-sm font-bold tracking-[0.2em] uppercase opacity-80">
           {currentSong?.artist || mood.name}
         </span>
-        <div className="flex items-center gap-2 cursor-pointer hover:opacity-70 transition-opacity">
-          <span className="text-sm font-bold tracking-widest uppercase">
-            SHARE
-          </span>
-        </div>
+
       </div>
 
       {/* Center Content */}
@@ -102,7 +92,7 @@ export function MainArea({ mood, currentSong, showLyrics, lyricsPlain, lyricsSyn
             transition={{
               duration: 0.8
             }}
-            className="w-1/2 aspect-square relative overflow-hidden grayscale contrast-125 hover:grayscale-0 transition-all duration-700"
+            className="w-1/2 aspect-square relative overflow-hidden transition-all duration-700"
             style={{
               background: mood.albumGradient
             }}>
@@ -113,8 +103,7 @@ export function MainArea({ mood, currentSong, showLyrics, lyricsPlain, lyricsSyn
                 src={`https://img.youtube.com/vi/${currentSong.id}/hqdefault.jpg`}
                 alt={currentSong.title || 'Album art'}
                 className="absolute inset-0 w-full h-full object-cover"
-                onError={(e) => {
-                  // Fallback to emoji if thumbnail fails
+                onError={(e) => {
                   (e.target as HTMLImageElement).style.display = 'none';
                 }}
               />

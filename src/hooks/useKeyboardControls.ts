@@ -4,28 +4,26 @@ import { useEffect, useCallback } from "react";
 
 interface KeyboardControlsOptions {
   onPlayPause: () => void;
-  onSeekForward: () => void;
-  onSeekBackward: () => void;
+  onNextTrack: () => void;
+  onPrevTrack: () => void;
+  onVolumeUp: () => void;
+  onVolumeDown: () => void;
+  onToggleMute: () => void;
   enabled?: boolean;
 }
-
-/**
- * Keyboard shortcuts for the music player:
- * - Space: play/pause
- * - ArrowRight: skip forward 5s
- * - ArrowLeft: skip backward 5s
- */
 export function useKeyboardControls({
   onPlayPause,
-  onSeekForward,
-  onSeekBackward,
+  onNextTrack,
+  onPrevTrack,
+  onVolumeUp,
+  onVolumeDown,
+  onToggleMute,
   enabled = true,
 }: KeyboardControlsOptions) {
   const handleKeyDown = useCallback(
-    (e: KeyboardEvent) => {
-      // Don't capture if user is typing in an input/textarea
+    (e: KeyboardEvent) => {
       const tag = (e.target as HTMLElement)?.tagName?.toLowerCase();
-      if (tag === "input" || tag === "textarea" || tag === "select") return;
+      if (tag === "input" || tag === "textarea" || tag === "select" || (e.target as HTMLElement)?.isContentEditable) return;
 
       switch (e.code) {
         case "Space":
@@ -34,15 +32,27 @@ export function useKeyboardControls({
           break;
         case "ArrowRight":
           e.preventDefault();
-          onSeekForward();
+          onNextTrack();
           break;
         case "ArrowLeft":
           e.preventDefault();
-          onSeekBackward();
+          onPrevTrack();
+          break;
+        case "ArrowUp":
+          e.preventDefault();
+          onVolumeUp();
+          break;
+        case "ArrowDown":
+          e.preventDefault();
+          onVolumeDown();
+          break;
+        case "KeyM":
+          e.preventDefault();
+          onToggleMute();
           break;
       }
     },
-    [onPlayPause, onSeekForward, onSeekBackward]
+    [onPlayPause, onNextTrack, onPrevTrack, onVolumeUp, onVolumeDown, onToggleMute]
   );
 
   useEffect(() => {

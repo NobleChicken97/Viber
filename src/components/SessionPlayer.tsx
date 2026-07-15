@@ -2,11 +2,6 @@
 
 import { useSession } from "@/contexts/SessionContext";
 import { YouTubePlayer } from "./YouTubePlayer";
-
-/**
- * SessionPlayer: Manages the YouTube player and syncs it with session state
- * Hidden from view - only provides audio playback
- */
 export function SessionPlayer() {
   const { state, dispatch } = useSession();
   const currentSong = state.queue[state.currentIndex];
@@ -41,10 +36,6 @@ export function SessionPlayer() {
     </div>
   );
 }
-
-/**
- * Hook to get player controls that sync with session state
- */
 export function useSessionPlayerControls() {
   const { state, dispatch } = useSession();
 

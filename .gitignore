@@ -29,6 +29,9 @@ docs/
 *.md
 !README.md
 
+# Songs data
+songs
+
 # GitHub folder
 .github/
 
@@ -154,3 +157,22 @@ train_logs/
 # docs/ folder is tracked
 # README.md is tracked
 # LICENSE is tracked
+
+# ===================
+# AI Agents & Obfuscation
+# ===================
+.agent/
+.agents/
+.augment/
+.gemini/
+.gsd/
+graphify-out/
+ideas/
+skills/
+model_capabilities.yaml
+skills-lock.json
+lint-errors.txt
+
+# Scratch Scripts
+*.py
+*.ps1

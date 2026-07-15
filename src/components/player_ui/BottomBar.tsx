@@ -17,9 +17,7 @@ interface BottomBarProps {
   showLyrics?: boolean;
   onLyricsToggle?: () => void;
   lyricsLoading?: boolean;
-}
-
-// Helper to format 90 -> 1:30
+}
 function formatTime(seconds: number): string {
   if (!seconds || isNaN(seconds)) return "0:00";
   const m = Math.floor(seconds / 60);
@@ -44,12 +42,8 @@ export function BottomBar({
   lyricsLoading
 }: BottomBarProps) {
   const [showVolume, setShowVolume] = useState(false);
-  const progressBarRef = useRef<HTMLDivElement>(null);
-  
-  // Calculate percentage
-  const percent = duration > 0 ? (progress / duration) * 100 : 0;
-  
-  // Handle progress bar click to seek
+  const progressBarRef = useRef<HTMLDivElement>(null);
+  const percent = duration > 0 ? (progress / duration) * 100 : 0;
   const handleProgressClick = (e: React.MouseEvent<HTMLDivElement>) => {
     if (!progressBarRef.current || duration <= 0) return;
     const rect = progressBarRef.current.getBoundingClientRect();
@@ -57,10 +51,7 @@ export function BottomBar({
     const percentage = clickX / rect.width;
     const seekTime = percentage * duration;
     onSeek(seekTime);
-  };
-  
-  // Find current index to know next/prev names? 
-  // Ideally passed from parent, but we can compute or show generic NEXT
+  };
   const currentIndex = mood.songs.findIndex(s => s.id === currentSong?.id);
   const prevSong = currentIndex > 0 ? mood.songs[currentIndex - 1] : mood.songs[mood.songs.length - 1];
   const nextSong = currentIndex < mood.songs.length - 1 ? mood.songs[currentIndex + 1] : mood.songs[0];

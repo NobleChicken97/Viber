@@ -12,7 +12,7 @@ export function MoodSelector({ currentMood, onMoodChange }: MoodSelectorProps) {
   
   return (
     <div
-      className="hidden md:flex flex-col h-full w-60 py-8 px-6 gap-4 overflow-y-auto no-scrollbar border-r transition-colors duration-500 z-50 relative"
+      className="hidden md:flex flex-col h-full w-60 py-8 px-6 gap-4 overflow-y-auto no-scrollbar border-r transition-colors duration-500 z-50 relative shrink-0"
       style={{
         backgroundColor: activePack.bg,
         borderColor: activePack.border

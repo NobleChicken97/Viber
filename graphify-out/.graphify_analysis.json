@@ -1,0 +1,366 @@
+{
+  "communities": {
+    "0": [
+      "page_formatdate",
+      "page_formatduration",
+      "page_handleclearhistory",
+      "sessionpersistence_addtohistory",
+      "sessionpersistence_clearhistory",
+      "sessionpersistence_clearsession",
+      "sessionpersistence_completesession",
+      "sessionpersistence_generatesessionid",
+      "sessionpersistence_getsessionhistory",
+      "sessionpersistence_getsessionstats",
+      "sessionpersistence_isstorageavailable",
+      "sessionpersistence_loadsession",
+      "sessionpersistence_savesession",
+      "src_app_history_page_tsx",
+      "src_lib_sessionpersistence_ts"
+    ],
+    "1": [
+      "moodpath_clamp01",
+      "moodpath_distributemoodpath",
+      "moodpath_distributemoodpathbysongs",
+      "moodpath_generatemoodpath",
+      "moodpath_islistenedsong",
+      "moodpath_moodatcountedsongindex",
+      "moodpath_moodatprogress",
+      "moodpath_mulberry32",
+      "moodpath_sessionprogress01",
+      "playlists_buildsessionqueue",
+      "playlists_getrandomtracks",
+      "sessioncontext_sessionreducer",
+      "src_lib_moodpath_ts",
+      "src_lib_playlists_ts"
+    ],
+    "2": [
+      "page_home",
+      "src_components_youtubeplayer_tsx",
+      "src_hooks_usekeyboardcontrols_ts",
+      "src_hooks_uselyrics_ts",
+      "usekeyboardcontrols_usekeyboardcontrols",
+      "uselyrics_getactivelyricindex",
+      "uselyrics_parselrc",
+      "uselyrics_uselyrics",
+      "youtubeplayer_useyoutubeplayer",
+      "youtubeplayer_youtubeplayer"
+    ],
+    "3": [
+      "src_hooks_useenhancedplaylist_ts",
+      "src_lib_youtubeapi_ts",
+      "useenhancedplaylist_useenhancedplaylist",
+      "youtubeapi_extractartist",
+      "youtubeapi_fetchvideodetails",
+      "youtubeapi_isyoutubeapiconfigured",
+      "youtubeapi_parseduration",
+      "youtubeapi_searchmusic",
+      "youtubeapi_validatevideoid"
+    ],
+    "4": [
+      "moodpacks_getmoodpackwithrandomsongs",
+      "moodpacks_samplesongs",
+      "page_buildplaylist",
+      "page_distributesongs",
+      "src_app_page_tsx",
+      "src_components_player_ui_moodpacks_ts"
+    ],
+    "5": [
+      "sessioncontext_sessionprovider",
+      "sessioncontext_usesession",
+      "sessionplayer_sessionplayer",
+      "sessionplayer_usesessionplayercontrols",
+      "src_components_sessionplayer_tsx",
+      "src_contexts_sessioncontext_tsx"
+    ],
+    "6": [
+      "moodtheme_clamp01",
+      "moodtheme_computemoodthemetarget",
+      "moodtheme_lerp",
+      "moodtheme_lerphue",
+      "src_lib_moodtheme_ts"
+    ],
+    "7": [
+      "page_formattime",
+      "page_handleplaypause",
+      "page_handlesongselect",
+      "src_app_player_page_tsx"
+    ],
+    "8": [
+      "errorboundary_componentdidcatch",
+      "errorboundary_constructor",
+      "errorboundary_getderivedstatefromerror",
+      "src_components_errorboundary_tsx"
+    ],
+    "9": [
+      "moodthemeprovider_lerp",
+      "moodthemeprovider_moodthemeprovider",
+      "moodthemeprovider_setcssvars",
+      "src_components_moodthemeprovider_tsx"
+    ],
+    "10": [
+      "bottombar_formattime",
+      "bottombar_handleprogressclick",
+      "src_components_player_ui_bottombar_tsx"
+    ],
+    "11": [
+      "layout_rootlayout",
+      "src_app_layout_tsx"
+    ],
+    "12": [
+      "loading_loading",
+      "src_app_loading_tsx"
+    ],
+    "13": [
+      "not_found_notfound",
+      "src_app_not_found_tsx"
+    ],
+    "14": [
+      "loading_cameraloading",
+      "src_app_camera_loading_tsx"
+    ],
+    "15": [
+      "page_camerapage",
+      "src_app_camera_page_tsx"
+    ],
+    "16": [
+      "page_howpage",
+      "src_app_how_page_tsx"
+    ],
+    "17": [
+      "loading_playerloading",
+      "src_app_player_loading_tsx"
+    ],
+    "18": [
+      "page_privacypage",
+      "src_app_privacy_page_tsx"
+    ],
+    "19": [
+      "page_settingspage",
+      "src_app_settings_page_tsx"
+    ],
+    "20": [
+      "cameramodal_handleclose",
+      "src_components_cameramodal_tsx"
+    ],
+    "21": [
+      "src_components_stagewisetoolbar_tsx",
+      "stagewisetoolbar_stagewisetoolbar"
+    ],
+    "22": [
+      "nowplayingcard_nowplayingcard",
+      "src_components_player_ui_nowplayingcard_tsx"
+    ],
+    "23": [
+      "moodslider_moodslider",
+      "src_components_ui_moodslider_tsx"
+    ],
+    "24": [
+      "moodswitch_cn",
+      "src_components_ui_moodswitch_tsx"
+    ],
+    "25": [
+      "src_hooks_usemooddetection_ts",
+      "usemooddetection_usemooddetection"
+    ],
+    "26": [
+      "src_lib_utils_ts",
+      "utils_cn"
+    ],
+    "27": [
+      "src_app_error_tsx"
+    ],
+    "28": [
+      "src_app_history_loading_tsx"
+    ],
+    "29": [
+      "src_components_lyricspanel_tsx"
+    ],
+    "30": [
+      "src_components_sessionstats_tsx"
+    ],
+    "31": [
+      "src_components_player_ui_mainarea_tsx"
+    ],
+    "32": [
+      "src_components_player_ui_moodselector_tsx"
+    ],
+    "33": [
+      "src_components_player_ui_sidebar_tsx"
+    ],
+    "34": [
+      "src_components_ui_moodbutton_tsx"
+    ],
+    "35": [
+      "src_components_ui_moodcard_tsx"
+    ]
+  },
+  "cohesion": {
+    "0": 0.22,
+    "1": 0.22,
+    "2": 0.22,
+    "3": 0.25,
+    "4": 0.47,
+    "5": 0.4,
+    "6": 0.7,
+    "7": 0.5,
+    "8": 0.5,
+    "9": 0.67,
+    "10": 0.67,
+    "11": 1.0,
+    "12": 1.0,
+    "13": 1.0,
+    "14": 1.0,
+    "15": 1.0,
+    "16": 1.0,
+    "17": 1.0,
+    "18": 1.0,
+    "19": 1.0,
+    "20": 1.0,
+    "21": 1.0,
+    "22": 1.0,
+    "23": 1.0,
+    "24": 1.0,
+    "25": 1.0,
+    "26": 1.0,
+    "27": 1.0,
+    "28": 1.0,
+    "29": 1.0,
+    "30": 1.0,
+    "31": 1.0,
+    "32": 1.0,
+    "33": 1.0,
+    "34": 1.0,
+    "35": 1.0
+  },
+  "gods": [
+    {
+      "id": "sessioncontext_sessionreducer",
+      "label": "sessionReducer()",
+      "degree": 5
+    },
+    {
+      "id": "page_home",
+      "label": "Home()",
+      "degree": 4
+    },
+    {
+      "id": "moodpath_clamp01",
+      "label": "clamp01()",
+      "degree": 4
+    },
+    {
+      "id": "moodtheme_computemoodthemetarget",
+      "label": "computeMoodThemeTarget()",
+      "degree": 4
+    },
+    {
+      "id": "sessionpersistence_loadsession",
+      "label": "loadSession()",
+      "degree": 4
+    },
+    {
+      "id": "sessionpersistence_completesession",
+      "label": "completeSession()",
+      "degree": 4
+    },
+    {
+      "id": "page_buildplaylist",
+      "label": "buildPlaylist()",
+      "degree": 3
+    },
+    {
+      "id": "page_handleclearhistory",
+      "label": "handleClearHistory()",
+      "degree": 3
+    },
+    {
+      "id": "youtubeplayer_useyoutubeplayer",
+      "label": "useYouTubePlayer()",
+      "degree": 3
+    },
+    {
+      "id": "moodpacks_samplesongs",
+      "label": "sampleSongs()",
+      "degree": 3
+    }
+  ],
+  "surprises": [
+    {
+      "source": "sessionReducer()",
+      "target": "distributeMoodPathBySongs()",
+      "source_files": [
+        "src\\contexts\\SessionContext.tsx",
+        "src\\lib\\moodPath.ts"
+      ],
+      "confidence": "INFERRED",
+      "relation": "calls",
+      "why": "inferred connection - not explicitly stated in source; connects across different repos/directories; peripheral node `distributeMoodPathBySongs()` unexpectedly reaches hub `sessionReducer()`"
+    },
+    {
+      "source": "buildPlaylist()",
+      "target": "sampleSongs()",
+      "source_files": [
+        "src\\app\\page.tsx",
+        "src\\components\\player_ui\\MoodPacks.ts"
+      ],
+      "confidence": "INFERRED",
+      "relation": "calls",
+      "why": "inferred connection - not explicitly stated in source; connects across different repos/directories"
+    },
+    {
+      "source": "Home()",
+      "target": "useLyrics()",
+      "source_files": [
+        "src\\app\\page.tsx",
+        "src\\hooks\\useLyrics.ts"
+      ],
+      "confidence": "INFERRED",
+      "relation": "calls",
+      "why": "inferred connection - not explicitly stated in source; connects across different repos/directories"
+    },
+    {
+      "source": "Home()",
+      "target": "useYouTubePlayer()",
+      "source_files": [
+        "src\\app\\page.tsx",
+        "src\\components\\YouTubePlayer.tsx"
+      ],
+      "confidence": "INFERRED",
+      "relation": "calls",
+      "why": "inferred connection - not explicitly stated in source; connects across different repos/directories"
+    },
+    {
+      "source": "Home()",
+      "target": "useKeyboardControls()",
+      "source_files": [
+        "src\\app\\page.tsx",
+        "src\\hooks\\useKeyboardControls.ts"
+      ],
+      "confidence": "INFERRED",
+      "relation": "calls",
+      "why": "inferred connection - not explicitly stated in source; connects across different repos/directories"
+    }
+  ],
+  "questions": [
+    {
+      "type": "bridge_node",
+      "question": "Why does `sessionReducer()` connect `Community 1` to `Community 5`?",
+      "why": "High betweenness centrality (0.015) - this node is a cross-community bridge."
+    },
+    {
+      "type": "bridge_node",
+      "question": "Why does `Home()` connect `Community 2` to `Community 4`?",
+      "why": "High betweenness centrality (0.011) - this node is a cross-community bridge."
+    },
+    {
+      "type": "verify_inferred",
+      "question": "Are the 4 inferred relationships involving `sessionReducer()` (e.g. with `generateMoodPath()` and `distributeMoodPathBySongs()`) actually correct?",
+      "why": "`sessionReducer()` has 4 INFERRED edges - model-reasoned connections that need verification."
+    },
+    {
+      "type": "verify_inferred",
+      "question": "Are the 3 inferred relationships involving `Home()` (e.g. with `useLyrics()` and `useYouTubePlayer()`) actually correct?",
+      "why": "`Home()` has 3 INFERRED edges - model-reasoned connections that need verification."
+    }
+  ]
+}

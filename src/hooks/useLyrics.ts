@@ -13,11 +13,6 @@ export interface LyricsData {
   trackName: string;
   artistName: string;
 }
-
-/**
- * Parse LRC format lyrics into timed lines.
- * Format: [mm:ss.xx] Lyrics text
- */
 function parseLRC(lrc: string): SyncedLine[] {
   const lines: SyncedLine[] = [];
   const regex = /\[(\d{2}):(\d{2})\.(\d{2,3})\]\s*(.*)/;
@@ -38,11 +33,6 @@ function parseLRC(lrc: string): SyncedLine[] {
 
   return lines.sort((a, b) => a.time - b.time);
 }
-
-/**
- * Fetch lyrics from lrclib.net — free, no API key needed.
- * Supports both synced (LRC) and plain lyrics.
- */
 export function useLyrics(trackName: string | undefined, artistName: string | undefined) {
   type State = { lyrics: LyricsData | null; loading: boolean; error: string | null };
   type Action =
@@ -67,9 +57,7 @@ export function useLyrics(trackName: string | undefined, artistName: string | un
     if (!trackName || !artistName) {
       dispatch({ type: "reset" });
       return;
-    }
-
-    // Abort previous request
+    }
     abortRef.current?.abort();
     const controller = new AbortController();
     abortRef.current = controller;
@@ -77,8 +65,7 @@ export function useLyrics(trackName: string | undefined, artistName: string | un
     dispatch({ type: "loading" });
 
     (async () => {
-      try {
-        // Use search API — we don't have album_name/duration required by /api/get
+      try {
         const searchParams = new URLSearchParams({
           track_name: trackName,
           artist_name: artistName,
@@ -91,8 +78,7 @@ export function useLyrics(trackName: string | undefined, artistName: string | un
 
         if (res.ok) {
           const results = await res.json();
-          if (results.length > 0) {
-            // Prefer results with synced lyrics
+          if (results.length > 0) {
             const withSynced = results.find((r: Record<string, unknown>) => r.syncedLyrics);
             const best = withSynced || results[0];
             dispatch({
@@ -120,10 +106,6 @@ export function useLyrics(trackName: string | undefined, artistName: string | un
 
   return { lyrics: state.lyrics, loading: state.loading, error: state.error };
 }
-
-/**
- * Find the currently active lyric line based on playback time.
- */
 export function getActiveLyricIndex(
   syncedLyrics: SyncedLine[],
   currentTime: number

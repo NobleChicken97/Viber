@@ -5,7 +5,7 @@ import { Camera, X } from "lucide-react";
 import { createTimeline } from "animejs";
 import { cn } from "@/lib/utils";
 import type { Mood } from "@/lib/moodTheme";
-import { useMoodDetection } from "@/hooks/useMoodDetection";
+import { useFaceApi } from "@/hooks/useFaceApi";
 
 interface CameraModalProps {
   isOpen: boolean;
@@ -21,7 +21,9 @@ export function CameraModal({ isOpen, onClose, onMoodDetected }: CameraModalProp
   const [progress, setProgress] = React.useState(0);
   const [feedback, setFeedback] = React.useState("Initializing...");
   
-  const { detectMood } = useMoodDetection();
+  const detectedMoodsRef = React.useRef<Mood[]>([]);
+  
+  const { mlState, detectMood } = useFaceApi();
 
   const stopCamera = React.useCallback(() => {
     if (videoRef.current?.srcObject) {
@@ -42,40 +44,30 @@ export function CameraModal({ isOpen, onClose, onMoodDetected }: CameraModalProp
   const startScanning = React.useCallback(() => {
     setScanning(true);
     setFeedback("ALIGNING FACE");
+    detectedMoodsRef.current = []; // Clear previous polls
 
-    const captureAndDetect = async () => {
+    const captureAndDetect = () => {
       try {
-        if (!videoRef.current || !canvasRef.current) {
-          const moodList: Mood[] = ["sad", "calm", "romantic", "happy", "energetic"];
-          finish(moodList[Math.floor(Math.random() * moodList.length)]);
-          return;
-        }
-        
-        const video = videoRef.current;
-        const canvas = canvasRef.current;
-        const ctx = canvas.getContext('2d');
-        
-        if (!ctx || video.videoWidth === 0) {
-          const moodList: Mood[] = ["sad", "calm", "romantic", "happy", "energetic"];
-          finish(moodList[Math.floor(Math.random() * moodList.length)]);
-          return;
-        }
-        
-        canvas.width = video.videoWidth;
-        canvas.height = video.videoHeight;
-        ctx.drawImage(video, 0, 0);
-        const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-        
         setFeedback("ANALYZING...");
-        const result = await detectMood(imageData);
+        const moods = detectedMoodsRef.current;
+        console.log("All polled moods:", moods);
         
-        if (result) {
-          setFeedback(`DETECTED: ${result.mood.toUpperCase()}`);
-          setTimeout(() => finish(result.mood), 500);
-        } else {
+        let finalMood: Mood;
+        if (moods.length > 0) {
+          const counts = moods.reduce((acc, curr) => {
+            acc[curr] = (acc[curr] || 0) + 1;
+            return acc;
+          }, {} as Record<string, number>);
+          
+          finalMood = Object.keys(counts).reduce((a, b) => counts[a] > counts[b] ? a : b) as Mood;
+        } else {
+          console.warn("No faces detected during scanning, falling back to random.");
           const moodList: Mood[] = ["sad", "calm", "romantic", "happy", "energetic"];
-          finish(moodList[Math.floor(Math.random() * moodList.length)]);
+          finalMood = moodList[Math.floor(Math.random() * moodList.length)];
         }
+
+        setFeedback(`DETECTED: ${finalMood.toUpperCase()}`);
+        setTimeout(() => finish(finalMood), 500);
       } catch (error) {
         console.error(error);
         const moodList: Mood[] = ["sad", "calm", "romantic", "happy", "energetic"];
@@ -101,12 +93,12 @@ export function CameraModal({ isOpen, onClose, onMoodDetected }: CameraModalProp
           captureAndDetect();
         },
       });
-  }, [finish, detectMood]);
+  }, [finish]);
 
   const requestCamera = React.useCallback(async () => {
     try {
       if (!navigator.mediaDevices?.getUserMedia) {
-        throw new Error("Camera not supported");
+        throw new Error("Camera API not available. Make sure you are using localhost or HTTPS.");
       }
       const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "user" } });
       if (videoRef.current) {
@@ -116,8 +108,9 @@ export function CameraModal({ isOpen, onClose, onMoodDetected }: CameraModalProp
           startScanning();
         }, 500);
       }
-    } catch (err) {
+    } catch (err: unknown) {
       console.error(err);
+      alert("Camera Error: " + (err instanceof Error ? err.message : String(err)));
       setPermission("denied");
     }
   }, [startScanning]);
@@ -131,6 +124,21 @@ export function CameraModal({ isOpen, onClose, onMoodDetected }: CameraModalProp
       stopCamera();
     }
   }, [isOpen, stopCamera]);
+
+  React.useEffect(() => {
+    let intervalId: NodeJS.Timeout;
+    if (scanning && permission === "granted") {
+      intervalId = setInterval(async () => {
+        if (videoRef.current) {
+          const result = await detectMood(videoRef.current);
+          if (result) {
+            detectedMoodsRef.current.push(result);
+          }
+        }
+      }, 200); // Poll 5 times per second
+    }
+    return () => clearInterval(intervalId);
+  }, [scanning, permission, detectMood]);
 
   const handleClose = () => {
     stopCamera();
@@ -169,9 +177,13 @@ export function CameraModal({ isOpen, onClose, onMoodDetected }: CameraModalProp
               <div className="flex flex-col gap-4 w-full">
                 <button 
                   onClick={requestCamera} 
-                  className="w-full bg-white text-black font-black uppercase py-4 hover:bg-gray-200 transition-transform hover:scale-[1.02]"
+                  disabled={mlState === 'loading' || mlState === 'idle'}
+                  className={cn(
+                    "w-full bg-white text-black font-black uppercase py-4 transition-all",
+                    (mlState === 'loading' || mlState === 'idle') ? "opacity-50 cursor-not-allowed" : "hover:bg-gray-200 hover:scale-[1.02]"
+                  )}
                 >
-                  Allow Camera
+                  {mlState === 'loading' ? `Loading ML Model...` : 'Allow Camera'}
                 </button>
                 <button 
                   onClick={handleClose}
@@ -196,7 +208,7 @@ export function CameraModal({ isOpen, onClose, onMoodDetected }: CameraModalProp
             </div>
           )}
 
-          <div className={cn("absolute inset-0", permission === "granted" ? "opacity-100" : "opacity-0")}>
+          <div className={cn("absolute inset-0 transition-opacity duration-300", permission === "granted" ? "opacity-100" : "opacity-0 pointer-events-none")}>
              <video 
                ref={videoRef}
                autoPlay 

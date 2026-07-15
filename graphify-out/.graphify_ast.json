@@ -1,0 +1,2992 @@
+{
+  "nodes": [
+    {
+      "id": "src_app_error_tsx",
+      "label": "error.tsx",
+      "file_type": "code",
+      "source_file": "src\\app\\error.tsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_app_layout_tsx",
+      "label": "layout.tsx",
+      "file_type": "code",
+      "source_file": "src\\app\\layout.tsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "layout_rootlayout",
+      "label": "RootLayout()",
+      "file_type": "code",
+      "source_file": "src\\app\\layout.tsx",
+      "source_location": "L60"
+    },
+    {
+      "id": "src_app_loading_tsx",
+      "label": "loading.tsx",
+      "file_type": "code",
+      "source_file": "src\\app\\loading.tsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "loading_loading",
+      "label": "Loading()",
+      "file_type": "code",
+      "source_file": "src\\app\\loading.tsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_app_not_found_tsx",
+      "label": "not-found.tsx",
+      "file_type": "code",
+      "source_file": "src\\app\\not-found.tsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "not_found_notfound",
+      "label": "NotFound()",
+      "file_type": "code",
+      "source_file": "src\\app\\not-found.tsx",
+      "source_location": "L6"
+    },
+    {
+      "id": "src_app_page_tsx",
+      "label": "page.tsx",
+      "file_type": "code",
+      "source_file": "src\\app\\page.tsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "page_distributesongs",
+      "label": "distributeSongs()",
+      "file_type": "code",
+      "source_file": "src\\app\\page.tsx",
+      "source_location": "L23"
+    },
+    {
+      "id": "page_buildplaylist",
+      "label": "buildPlaylist()",
+      "file_type": "code",
+      "source_file": "src\\app\\page.tsx",
+      "source_location": "L43"
+    },
+    {
+      "id": "page_home",
+      "label": "Home()",
+      "file_type": "code",
+      "source_file": "src\\app\\page.tsx",
+      "source_location": "L67"
+    },
+    {
+      "id": "src_app_camera_loading_tsx",
+      "label": "loading.tsx",
+      "file_type": "code",
+      "source_file": "src\\app\\camera\\loading.tsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "loading_cameraloading",
+      "label": "CameraLoading()",
+      "file_type": "code",
+      "source_file": "src\\app\\camera\\loading.tsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_app_camera_page_tsx",
+      "label": "page.tsx",
+      "file_type": "code",
+      "source_file": "src\\app\\camera\\page.tsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "page_camerapage",
+      "label": "CameraPage()",
+      "file_type": "code",
+      "source_file": "src\\app\\camera\\page.tsx",
+      "source_location": "L8"
+    },
+    {
+      "id": "src_app_history_loading_tsx",
+      "label": "loading.tsx",
+      "file_type": "code",
+      "source_file": "src\\app\\history\\loading.tsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_app_history_page_tsx",
+      "label": "page.tsx",
+      "file_type": "code",
+      "source_file": "src\\app\\history\\page.tsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "page_formatduration",
+      "label": "formatDuration()",
+      "file_type": "code",
+      "source_file": "src\\app\\history\\page.tsx",
+      "source_location": "L29"
+    },
+    {
+      "id": "page_formatdate",
+      "label": "formatDate()",
+      "file_type": "code",
+      "source_file": "src\\app\\history\\page.tsx",
+      "source_location": "L39"
+    },
+    {
+      "id": "page_handleclearhistory",
+      "label": "handleClearHistory()",
+      "file_type": "code",
+      "source_file": "src\\app\\history\\page.tsx",
+      "source_location": "L63"
+    },
+    {
+      "id": "src_app_how_page_tsx",
+      "label": "page.tsx",
+      "file_type": "code",
+      "source_file": "src\\app\\how\\page.tsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "page_howpage",
+      "label": "HowPage()",
+      "file_type": "code",
+      "source_file": "src\\app\\how\\page.tsx",
+      "source_location": "L8"
+    },
+    {
+      "id": "src_app_player_loading_tsx",
+      "label": "loading.tsx",
+      "file_type": "code",
+      "source_file": "src\\app\\player\\loading.tsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "loading_playerloading",
+      "label": "PlayerLoading()",
+      "file_type": "code",
+      "source_file": "src\\app\\player\\loading.tsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_app_player_page_tsx",
+      "label": "page.tsx",
+      "file_type": "code",
+      "source_file": "src\\app\\player\\page.tsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "page_formattime",
+      "label": "formatTime()",
+      "file_type": "code",
+      "source_file": "src\\app\\player\\page.tsx",
+      "source_location": "L43"
+    },
+    {
+      "id": "page_handleplaypause",
+      "label": "handlePlayPause()",
+      "file_type": "code",
+      "source_file": "src\\app\\player\\page.tsx",
+      "source_location": "L140"
+    },
+    {
+      "id": "page_handlesongselect",
+      "label": "handleSongSelect()",
+      "file_type": "code",
+      "source_file": "src\\app\\player\\page.tsx",
+      "source_location": "L148"
+    },
+    {
+      "id": "src_app_privacy_page_tsx",
+      "label": "page.tsx",
+      "file_type": "code",
+      "source_file": "src\\app\\privacy\\page.tsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "page_privacypage",
+      "label": "PrivacyPage()",
+      "file_type": "code",
+      "source_file": "src\\app\\privacy\\page.tsx",
+      "source_location": "L7"
+    },
+    {
+      "id": "src_app_settings_page_tsx",
+      "label": "page.tsx",
+      "file_type": "code",
+      "source_file": "src\\app\\settings\\page.tsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "page_settingspage",
+      "label": "SettingsPage()",
+      "file_type": "code",
+      "source_file": "src\\app\\settings\\page.tsx",
+      "source_location": "L11"
+    },
+    {
+      "id": "src_components_cameramodal_tsx",
+      "label": "CameraModal.tsx",
+      "file_type": "code",
+      "source_file": "src\\components\\CameraModal.tsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "cameramodal_handleclose",
+      "label": "handleClose()",
+      "file_type": "code",
+      "source_file": "src\\components\\CameraModal.tsx",
+      "source_location": "L135"
+    },
+    {
+      "id": "src_components_errorboundary_tsx",
+      "label": "ErrorBoundary.tsx",
+      "file_type": "code",
+      "source_file": "src\\components\\ErrorBoundary.tsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "errorboundary_constructor",
+      "label": "constructor()",
+      "file_type": "code",
+      "source_file": "src\\components\\ErrorBoundary.tsx",
+      "source_location": "L24"
+    },
+    {
+      "id": "errorboundary_getderivedstatefromerror",
+      "label": "getDerivedStateFromError()",
+      "file_type": "code",
+      "source_file": "src\\components\\ErrorBoundary.tsx",
+      "source_location": "L33"
+    },
+    {
+      "id": "errorboundary_componentdidcatch",
+      "label": "componentDidCatch()",
+      "file_type": "code",
+      "source_file": "src\\components\\ErrorBoundary.tsx",
+      "source_location": "L42"
+    },
+    {
+      "id": "src_components_lyricspanel_tsx",
+      "label": "LyricsPanel.tsx",
+      "file_type": "code",
+      "source_file": "src\\components\\LyricsPanel.tsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_components_moodthemeprovider_tsx",
+      "label": "MoodThemeProvider.tsx",
+      "file_type": "code",
+      "source_file": "src\\components\\MoodThemeProvider.tsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "moodthemeprovider_lerp",
+      "label": "lerp()",
+      "file_type": "code",
+      "source_file": "src\\components\\MoodThemeProvider.tsx",
+      "source_location": "L34"
+    },
+    {
+      "id": "moodthemeprovider_setcssvars",
+      "label": "setCssVars()",
+      "file_type": "code",
+      "source_file": "src\\components\\MoodThemeProvider.tsx",
+      "source_location": "L36"
+    },
+    {
+      "id": "moodthemeprovider_moodthemeprovider",
+      "label": "MoodThemeProvider()",
+      "file_type": "code",
+      "source_file": "src\\components\\MoodThemeProvider.tsx",
+      "source_location": "L64"
+    },
+    {
+      "id": "src_components_sessionplayer_tsx",
+      "label": "SessionPlayer.tsx",
+      "file_type": "code",
+      "source_file": "src\\components\\SessionPlayer.tsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "sessionplayer_sessionplayer",
+      "label": "SessionPlayer()",
+      "file_type": "code",
+      "source_file": "src\\components\\SessionPlayer.tsx",
+      "source_location": "L10"
+    },
+    {
+      "id": "sessionplayer_usesessionplayercontrols",
+      "label": "useSessionPlayerControls()",
+      "file_type": "code",
+      "source_file": "src\\components\\SessionPlayer.tsx",
+      "source_location": "L48"
+    },
+    {
+      "id": "src_components_sessionstats_tsx",
+      "label": "SessionStats.tsx",
+      "file_type": "code",
+      "source_file": "src\\components\\SessionStats.tsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_components_stagewisetoolbar_tsx",
+      "label": "StagewiseToolbar.tsx",
+      "file_type": "code",
+      "source_file": "src\\components\\StagewiseToolbar.tsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "stagewisetoolbar_stagewisetoolbar",
+      "label": "StagewiseToolbar()",
+      "file_type": "code",
+      "source_file": "src\\components\\StagewiseToolbar.tsx",
+      "source_location": "L5"
+    },
+    {
+      "id": "src_components_youtubeplayer_tsx",
+      "label": "YouTubePlayer.tsx",
+      "file_type": "code",
+      "source_file": "src\\components\\YouTubePlayer.tsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "youtubeplayer_useyoutubeplayer",
+      "label": "useYouTubePlayer()",
+      "file_type": "code",
+      "source_file": "src\\components\\YouTubePlayer.tsx",
+      "source_location": "L92"
+    },
+    {
+      "id": "youtubeplayer_youtubeplayer",
+      "label": "YouTubePlayer()",
+      "file_type": "code",
+      "source_file": "src\\components\\YouTubePlayer.tsx",
+      "source_location": "L372"
+    },
+    {
+      "id": "src_components_player_ui_bottombar_tsx",
+      "label": "BottomBar.tsx",
+      "file_type": "code",
+      "source_file": "src\\components\\player_ui\\BottomBar.tsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "bottombar_formattime",
+      "label": "formatTime()",
+      "file_type": "code",
+      "source_file": "src\\components\\player_ui\\BottomBar.tsx",
+      "source_location": "L23"
+    },
+    {
+      "id": "bottombar_handleprogressclick",
+      "label": "handleProgressClick()",
+      "file_type": "code",
+      "source_file": "src\\components\\player_ui\\BottomBar.tsx",
+      "source_location": "L53"
+    },
+    {
+      "id": "src_components_player_ui_mainarea_tsx",
+      "label": "MainArea.tsx",
+      "file_type": "code",
+      "source_file": "src\\components\\player_ui\\MainArea.tsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_components_player_ui_moodpacks_ts",
+      "label": "MoodPacks.ts",
+      "file_type": "code",
+      "source_file": "src\\components\\player_ui\\MoodPacks.ts",
+      "source_location": "L1"
+    },
+    {
+      "id": "moodpacks_samplesongs",
+      "label": "sampleSongs()",
+      "file_type": "code",
+      "source_file": "src\\components\\player_ui\\MoodPacks.ts",
+      "source_location": "L35"
+    },
+    {
+      "id": "moodpacks_getmoodpackwithrandomsongs",
+      "label": "getMoodPackWithRandomSongs()",
+      "file_type": "code",
+      "source_file": "src\\components\\player_ui\\MoodPacks.ts",
+      "source_location": "L47"
+    },
+    {
+      "id": "src_components_player_ui_moodselector_tsx",
+      "label": "MoodSelector.tsx",
+      "file_type": "code",
+      "source_file": "src\\components\\player_ui\\MoodSelector.tsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_components_player_ui_nowplayingcard_tsx",
+      "label": "NowPlayingCard.tsx",
+      "file_type": "code",
+      "source_file": "src\\components\\player_ui\\NowPlayingCard.tsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "nowplayingcard_nowplayingcard",
+      "label": "NowPlayingCard()",
+      "file_type": "code",
+      "source_file": "src\\components\\player_ui\\NowPlayingCard.tsx",
+      "source_location": "L14"
+    },
+    {
+      "id": "src_components_player_ui_sidebar_tsx",
+      "label": "Sidebar.tsx",
+      "file_type": "code",
+      "source_file": "src\\components\\player_ui\\Sidebar.tsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_components_ui_moodbutton_tsx",
+      "label": "MoodButton.tsx",
+      "file_type": "code",
+      "source_file": "src\\components\\ui\\MoodButton.tsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_components_ui_moodcard_tsx",
+      "label": "MoodCard.tsx",
+      "file_type": "code",
+      "source_file": "src\\components\\ui\\MoodCard.tsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_components_ui_moodslider_tsx",
+      "label": "MoodSlider.tsx",
+      "file_type": "code",
+      "source_file": "src\\components\\ui\\MoodSlider.tsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "moodslider_moodslider",
+      "label": "MoodSlider()",
+      "file_type": "code",
+      "source_file": "src\\components\\ui\\MoodSlider.tsx",
+      "source_location": "L15"
+    },
+    {
+      "id": "src_components_ui_moodswitch_tsx",
+      "label": "MoodSwitch.tsx",
+      "file_type": "code",
+      "source_file": "src\\components\\ui\\MoodSwitch.tsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "moodswitch_cn",
+      "label": "cn()",
+      "file_type": "code",
+      "source_file": "src\\components\\ui\\MoodSwitch.tsx",
+      "source_location": "L19"
+    },
+    {
+      "id": "src_contexts_sessioncontext_tsx",
+      "label": "SessionContext.tsx",
+      "file_type": "code",
+      "source_file": "src\\contexts\\SessionContext.tsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "sessioncontext_sessionreducer",
+      "label": "sessionReducer()",
+      "file_type": "code",
+      "source_file": "src\\contexts\\SessionContext.tsx",
+      "source_location": "L60"
+    },
+    {
+      "id": "sessioncontext_sessionprovider",
+      "label": "SessionProvider()",
+      "file_type": "code",
+      "source_file": "src\\contexts\\SessionContext.tsx",
+      "source_location": "L177"
+    },
+    {
+      "id": "sessioncontext_usesession",
+      "label": "useSession()",
+      "file_type": "code",
+      "source_file": "src\\contexts\\SessionContext.tsx",
+      "source_location": "L258"
+    },
+    {
+      "id": "src_hooks_useenhancedplaylist_ts",
+      "label": "useEnhancedPlaylist.ts",
+      "file_type": "code",
+      "source_file": "src\\hooks\\useEnhancedPlaylist.ts",
+      "source_location": "L1"
+    },
+    {
+      "id": "useenhancedplaylist_useenhancedplaylist",
+      "label": "useEnhancedPlaylist()",
+      "file_type": "code",
+      "source_file": "src\\hooks\\useEnhancedPlaylist.ts",
+      "source_location": "L25"
+    },
+    {
+      "id": "src_hooks_usekeyboardcontrols_ts",
+      "label": "useKeyboardControls.ts",
+      "file_type": "code",
+      "source_file": "src\\hooks\\useKeyboardControls.ts",
+      "source_location": "L1"
+    },
+    {
+      "id": "usekeyboardcontrols_usekeyboardcontrols",
+      "label": "useKeyboardControls()",
+      "file_type": "code",
+      "source_file": "src\\hooks\\useKeyboardControls.ts",
+      "source_location": "L24"
+    },
+    {
+      "id": "src_hooks_uselyrics_ts",
+      "label": "useLyrics.ts",
+      "file_type": "code",
+      "source_file": "src\\hooks\\useLyrics.ts",
+      "source_location": "L1"
+    },
+    {
+      "id": "uselyrics_parselrc",
+      "label": "parseLRC()",
+      "file_type": "code",
+      "source_file": "src\\hooks\\useLyrics.ts",
+      "source_location": "L21"
+    },
+    {
+      "id": "uselyrics_uselyrics",
+      "label": "useLyrics()",
+      "file_type": "code",
+      "source_file": "src\\hooks\\useLyrics.ts",
+      "source_location": "L46"
+    },
+    {
+      "id": "uselyrics_getactivelyricindex",
+      "label": "getActiveLyricIndex()",
+      "file_type": "code",
+      "source_file": "src\\hooks\\useLyrics.ts",
+      "source_location": "L127"
+    },
+    {
+      "id": "src_hooks_usemooddetection_ts",
+      "label": "useMoodDetection.ts",
+      "file_type": "code",
+      "source_file": "src\\hooks\\useMoodDetection.ts",
+      "source_location": "L1"
+    },
+    {
+      "id": "usemooddetection_usemooddetection",
+      "label": "useMoodDetection()",
+      "file_type": "code",
+      "source_file": "src\\hooks\\useMoodDetection.ts",
+      "source_location": "L28"
+    },
+    {
+      "id": "src_lib_moodpath_ts",
+      "label": "moodPath.ts",
+      "file_type": "code",
+      "source_file": "src\\lib\\moodPath.ts",
+      "source_location": "L1"
+    },
+    {
+      "id": "moodpath_mulberry32",
+      "label": "mulberry32()",
+      "file_type": "code",
+      "source_file": "src\\lib\\moodPath.ts",
+      "source_location": "L18"
+    },
+    {
+      "id": "moodpath_clamp01",
+      "label": "clamp01()",
+      "file_type": "code",
+      "source_file": "src\\lib\\moodPath.ts",
+      "source_location": "L28"
+    },
+    {
+      "id": "moodpath_islistenedsong",
+      "label": "isListenedSong()",
+      "file_type": "code",
+      "source_file": "src\\lib\\moodPath.ts",
+      "source_location": "L32"
+    },
+    {
+      "id": "moodpath_generatemoodpath",
+      "label": "generateMoodPath()",
+      "file_type": "code",
+      "source_file": "src\\lib\\moodPath.ts",
+      "source_location": "L42"
+    },
+    {
+      "id": "moodpath_distributemoodpath",
+      "label": "distributeMoodPath()",
+      "file_type": "code",
+      "source_file": "src\\lib\\moodPath.ts",
+      "source_location": "L98"
+    },
+    {
+      "id": "moodpath_distributemoodpathbysongs",
+      "label": "distributeMoodPathBySongs()",
+      "file_type": "code",
+      "source_file": "src\\lib\\moodPath.ts",
+      "source_location": "L129"
+    },
+    {
+      "id": "moodpath_moodatcountedsongindex",
+      "label": "moodAtCountedSongIndex()",
+      "file_type": "code",
+      "source_file": "src\\lib\\moodPath.ts",
+      "source_location": "L155"
+    },
+    {
+      "id": "moodpath_moodatprogress",
+      "label": "moodAtProgress()",
+      "file_type": "code",
+      "source_file": "src\\lib\\moodPath.ts",
+      "source_location": "L164"
+    },
+    {
+      "id": "moodpath_sessionprogress01",
+      "label": "sessionProgress01()",
+      "file_type": "code",
+      "source_file": "src\\lib\\moodPath.ts",
+      "source_location": "L172"
+    },
+    {
+      "id": "src_lib_moodtheme_ts",
+      "label": "moodTheme.ts",
+      "file_type": "code",
+      "source_file": "src\\lib\\moodTheme.ts",
+      "source_location": "L1"
+    },
+    {
+      "id": "moodtheme_clamp01",
+      "label": "clamp01()",
+      "file_type": "code",
+      "source_file": "src\\lib\\moodTheme.ts",
+      "source_location": "L26"
+    },
+    {
+      "id": "moodtheme_lerp",
+      "label": "lerp()",
+      "file_type": "code",
+      "source_file": "src\\lib\\moodTheme.ts",
+      "source_location": "L28"
+    },
+    {
+      "id": "moodtheme_lerphue",
+      "label": "lerpHue()",
+      "file_type": "code",
+      "source_file": "src\\lib\\moodTheme.ts",
+      "source_location": "L31"
+    },
+    {
+      "id": "moodtheme_computemoodthemetarget",
+      "label": "computeMoodThemeTarget()",
+      "file_type": "code",
+      "source_file": "src\\lib\\moodTheme.ts",
+      "source_location": "L100"
+    },
+    {
+      "id": "src_lib_playlists_ts",
+      "label": "playlists.ts",
+      "file_type": "code",
+      "source_file": "src\\lib\\playlists.ts",
+      "source_location": "L1"
+    },
+    {
+      "id": "playlists_getrandomtracks",
+      "label": "getRandomTracks()",
+      "file_type": "code",
+      "source_file": "src\\lib\\playlists.ts",
+      "source_location": "L240"
+    },
+    {
+      "id": "playlists_buildsessionqueue",
+      "label": "buildSessionQueue()",
+      "file_type": "code",
+      "source_file": "src\\lib\\playlists.ts",
+      "source_location": "L271"
+    },
+    {
+      "id": "src_lib_sessionpersistence_ts",
+      "label": "sessionPersistence.ts",
+      "file_type": "code",
+      "source_file": "src\\lib\\sessionPersistence.ts",
+      "source_location": "L1"
+    },
+    {
+      "id": "sessionpersistence_savesession",
+      "label": "saveSession()",
+      "file_type": "code",
+      "source_file": "src\\lib\\sessionPersistence.ts",
+      "source_location": "L44"
+    },
+    {
+      "id": "sessionpersistence_loadsession",
+      "label": "loadSession()",
+      "file_type": "code",
+      "source_file": "src\\lib\\sessionPersistence.ts",
+      "source_location": "L63"
+    },
+    {
+      "id": "sessionpersistence_clearsession",
+      "label": "clearSession()",
+      "file_type": "code",
+      "source_file": "src\\lib\\sessionPersistence.ts",
+      "source_location": "L87"
+    },
+    {
+      "id": "sessionpersistence_completesession",
+      "label": "completeSession()",
+      "file_type": "code",
+      "source_file": "src\\lib\\sessionPersistence.ts",
+      "source_location": "L98"
+    },
+    {
+      "id": "sessionpersistence_getsessionhistory",
+      "label": "getSessionHistory()",
+      "file_type": "code",
+      "source_file": "src\\lib\\sessionPersistence.ts",
+      "source_location": "L129"
+    },
+    {
+      "id": "sessionpersistence_addtohistory",
+      "label": "addToHistory()",
+      "file_type": "code",
+      "source_file": "src\\lib\\sessionPersistence.ts",
+      "source_location": "L144"
+    },
+    {
+      "id": "sessionpersistence_clearhistory",
+      "label": "clearHistory()",
+      "file_type": "code",
+      "source_file": "src\\lib\\sessionPersistence.ts",
+      "source_location": "L161"
+    },
+    {
+      "id": "sessionpersistence_getsessionstats",
+      "label": "getSessionStats()",
+      "file_type": "code",
+      "source_file": "src\\lib\\sessionPersistence.ts",
+      "source_location": "L172"
+    },
+    {
+      "id": "sessionpersistence_generatesessionid",
+      "label": "generateSessionId()",
+      "file_type": "code",
+      "source_file": "src\\lib\\sessionPersistence.ts",
+      "source_location": "L227"
+    },
+    {
+      "id": "sessionpersistence_isstorageavailable",
+      "label": "isStorageAvailable()",
+      "file_type": "code",
+      "source_file": "src\\lib\\sessionPersistence.ts",
+      "source_location": "L234"
+    },
+    {
+      "id": "src_lib_utils_ts",
+      "label": "utils.ts",
+      "file_type": "code",
+      "source_file": "src\\lib\\utils.ts",
+      "source_location": "L1"
+    },
+    {
+      "id": "utils_cn",
+      "label": "cn()",
+      "file_type": "code",
+      "source_file": "src\\lib\\utils.ts",
+      "source_location": "L4"
+    },
+    {
+      "id": "src_lib_youtubeapi_ts",
+      "label": "youtubeApi.ts",
+      "file_type": "code",
+      "source_file": "src\\lib\\youtubeApi.ts",
+      "source_location": "L1"
+    },
+    {
+      "id": "youtubeapi_parseduration",
+      "label": "parseDuration()",
+      "file_type": "code",
+      "source_file": "src\\lib\\youtubeApi.ts",
+      "source_location": "L30"
+    },
+    {
+      "id": "youtubeapi_extractartist",
+      "label": "extractArtist()",
+      "file_type": "code",
+      "source_file": "src\\lib\\youtubeApi.ts",
+      "source_location": "L45"
+    },
+    {
+      "id": "youtubeapi_fetchvideodetails",
+      "label": "fetchVideoDetails()",
+      "file_type": "code",
+      "source_file": "src\\lib\\youtubeApi.ts",
+      "source_location": "L74"
+    },
+    {
+      "id": "youtubeapi_searchmusic",
+      "label": "searchMusic()",
+      "file_type": "code",
+      "source_file": "src\\lib\\youtubeApi.ts",
+      "source_location": "L141"
+    },
+    {
+      "id": "youtubeapi_validatevideoid",
+      "label": "validateVideoId()",
+      "file_type": "code",
+      "source_file": "src\\lib\\youtubeApi.ts",
+      "source_location": "L173"
+    },
+    {
+      "id": "youtubeapi_isyoutubeapiconfigured",
+      "label": "isYouTubeAPIConfigured()",
+      "file_type": "code",
+      "source_file": "src\\lib\\youtubeApi.ts",
+      "source_location": "L202"
+    }
+  ],
+  "edges": [
+    {
+      "source": "src_app_error_tsx",
+      "target": "react",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\app\\error.tsx",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "src_app_error_tsx",
+      "target": "link",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\app\\error.tsx",
+      "source_location": "L4",
+      "weight": 1.0
+    },
+    {
+      "source": "src_app_error_tsx",
+      "target": "lucide_react",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\app\\error.tsx",
+      "source_location": "L5",
+      "weight": 1.0
+    },
+    {
+      "source": "src_app_layout_tsx",
+      "target": "next",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\app\\layout.tsx",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "src_app_layout_tsx",
+      "target": "google",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\app\\layout.tsx",
+      "source_location": "L2",
+      "weight": 1.0
+    },
+    {
+      "source": "src_app_layout_tsx",
+      "target": "src_app_globals_css",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\app\\layout.tsx",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "src_app_layout_tsx",
+      "target": "stagewisetoolbar",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\app\\layout.tsx",
+      "source_location": "L4",
+      "weight": 1.0
+    },
+    {
+      "source": "src_app_layout_tsx",
+      "target": "layout_rootlayout",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\app\\layout.tsx",
+      "source_location": "L60",
+      "weight": 1.0
+    },
+    {
+      "source": "src_app_loading_tsx",
+      "target": "loading_loading",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\app\\loading.tsx",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "src_app_not_found_tsx",
+      "target": "link",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\app\\not-found.tsx",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "src_app_not_found_tsx",
+      "target": "lucide_react",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\app\\not-found.tsx",
+      "source_location": "L4",
+      "weight": 1.0
+    },
+    {
+      "source": "src_app_not_found_tsx",
+      "target": "not_found_notfound",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\app\\not-found.tsx",
+      "source_location": "L6",
+      "weight": 1.0
+    },
+    {
+      "source": "src_app_page_tsx",
+      "target": "react",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\app\\page.tsx",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "src_app_page_tsx",
+      "target": "moodselector",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\app\\page.tsx",
+      "source_location": "L4",
+      "weight": 1.0
+    },
+    {
+      "source": "src_app_page_tsx",
+      "target": "mainarea",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\app\\page.tsx",
+      "source_location": "L5",
+      "weight": 1.0
+    },
+    {
+      "source": "src_app_page_tsx",
+      "target": "sidebar",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\app\\page.tsx",
+      "source_location": "L6",
+      "weight": 1.0
+    },
+    {
+      "source": "src_app_page_tsx",
+      "target": "bottombar",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\app\\page.tsx",
+      "source_location": "L7",
+      "weight": 1.0
+    },
+    {
+      "source": "src_app_page_tsx",
+      "target": "moodpacks",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\app\\page.tsx",
+      "source_location": "L8",
+      "weight": 1.0
+    },
+    {
+      "source": "src_app_page_tsx",
+      "target": "youtubeplayer",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\app\\page.tsx",
+      "source_location": "L9",
+      "weight": 1.0
+    },
+    {
+      "source": "src_app_page_tsx",
+      "target": "uselyrics",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\app\\page.tsx",
+      "source_location": "L10",
+      "weight": 1.0
+    },
+    {
+      "source": "src_app_page_tsx",
+      "target": "usekeyboardcontrols",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\app\\page.tsx",
+      "source_location": "L11",
+      "weight": 1.0
+    },
+    {
+      "source": "src_app_page_tsx",
+      "target": "page_distributesongs",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\app\\page.tsx",
+      "source_location": "L23",
+      "weight": 1.0
+    },
+    {
+      "source": "src_app_page_tsx",
+      "target": "page_buildplaylist",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\app\\page.tsx",
+      "source_location": "L43",
+      "weight": 1.0
+    },
+    {
+      "source": "src_app_page_tsx",
+      "target": "page_home",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\app\\page.tsx",
+      "source_location": "L67",
+      "weight": 1.0
+    },
+    {
+      "source": "page_buildplaylist",
+      "target": "page_distributesongs",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\app\\page.tsx",
+      "source_location": "L45",
+      "weight": 1.0
+    },
+    {
+      "source": "src_app_camera_loading_tsx",
+      "target": "loading_cameraloading",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\app\\camera\\loading.tsx",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "src_app_camera_page_tsx",
+      "target": "navigation",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\app\\camera\\page.tsx",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "src_app_camera_page_tsx",
+      "target": "cameramodal",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\app\\camera\\page.tsx",
+      "source_location": "L4",
+      "weight": 1.0
+    },
+    {
+      "source": "src_app_camera_page_tsx",
+      "target": "moodthemeprovider",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\app\\camera\\page.tsx",
+      "source_location": "L5",
+      "weight": 1.0
+    },
+    {
+      "source": "src_app_camera_page_tsx",
+      "target": "moodtheme",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\app\\camera\\page.tsx",
+      "source_location": "L6",
+      "weight": 1.0
+    },
+    {
+      "source": "src_app_camera_page_tsx",
+      "target": "page_camerapage",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\app\\camera\\page.tsx",
+      "source_location": "L8",
+      "weight": 1.0
+    },
+    {
+      "source": "src_app_history_page_tsx",
+      "target": "react",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\app\\history\\page.tsx",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "src_app_history_page_tsx",
+      "target": "navigation",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\app\\history\\page.tsx",
+      "source_location": "L4",
+      "weight": 1.0
+    },
+    {
+      "source": "src_app_history_page_tsx",
+      "target": "lucide_react",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\app\\history\\page.tsx",
+      "source_location": "L5",
+      "weight": 1.0
+    },
+    {
+      "source": "src_app_history_page_tsx",
+      "target": "moodthemeprovider",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\app\\history\\page.tsx",
+      "source_location": "L6",
+      "weight": 1.0
+    },
+    {
+      "source": "src_app_history_page_tsx",
+      "target": "moodbutton",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\app\\history\\page.tsx",
+      "source_location": "L7",
+      "weight": 1.0
+    },
+    {
+      "source": "src_app_history_page_tsx",
+      "target": "moodcard",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\app\\history\\page.tsx",
+      "source_location": "L8",
+      "weight": 1.0
+    },
+    {
+      "source": "src_app_history_page_tsx",
+      "target": "errorboundary",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\app\\history\\page.tsx",
+      "source_location": "L9",
+      "weight": 1.0
+    },
+    {
+      "source": "src_app_history_page_tsx",
+      "target": "sessionpersistence",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\app\\history\\page.tsx",
+      "source_location": "L10",
+      "weight": 1.0
+    },
+    {
+      "source": "src_app_history_page_tsx",
+      "target": "moodtheme",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\app\\history\\page.tsx",
+      "source_location": "L11",
+      "weight": 1.0
+    },
+    {
+      "source": "src_app_history_page_tsx",
+      "target": "page_formatduration",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\app\\history\\page.tsx",
+      "source_location": "L29",
+      "weight": 1.0
+    },
+    {
+      "source": "src_app_history_page_tsx",
+      "target": "page_formatdate",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\app\\history\\page.tsx",
+      "source_location": "L39",
+      "weight": 1.0
+    },
+    {
+      "source": "src_app_history_page_tsx",
+      "target": "page_handleclearhistory",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\app\\history\\page.tsx",
+      "source_location": "L63",
+      "weight": 1.0
+    },
+    {
+      "source": "src_app_how_page_tsx",
+      "target": "navigation",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\app\\how\\page.tsx",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "src_app_how_page_tsx",
+      "target": "moodthemeprovider",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\app\\how\\page.tsx",
+      "source_location": "L4",
+      "weight": 1.0
+    },
+    {
+      "source": "src_app_how_page_tsx",
+      "target": "moodbutton",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\app\\how\\page.tsx",
+      "source_location": "L5",
+      "weight": 1.0
+    },
+    {
+      "source": "src_app_how_page_tsx",
+      "target": "moodcard",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\app\\how\\page.tsx",
+      "source_location": "L6",
+      "weight": 1.0
+    },
+    {
+      "source": "src_app_how_page_tsx",
+      "target": "page_howpage",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\app\\how\\page.tsx",
+      "source_location": "L8",
+      "weight": 1.0
+    },
+    {
+      "source": "src_app_player_loading_tsx",
+      "target": "loading_playerloading",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\app\\player\\loading.tsx",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "src_app_player_page_tsx",
+      "target": "react",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\app\\player\\page.tsx",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "src_app_player_page_tsx",
+      "target": "navigation",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\app\\player\\page.tsx",
+      "source_location": "L4",
+      "weight": 1.0
+    },
+    {
+      "source": "src_app_player_page_tsx",
+      "target": "lucide_react",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\app\\player\\page.tsx",
+      "source_location": "L5",
+      "weight": 1.0
+    },
+    {
+      "source": "src_app_player_page_tsx",
+      "target": "youtubeplayer",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\app\\player\\page.tsx",
+      "source_location": "L9",
+      "weight": 1.0
+    },
+    {
+      "source": "src_app_player_page_tsx",
+      "target": "moodpath",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\app\\player\\page.tsx",
+      "source_location": "L10",
+      "weight": 1.0
+    },
+    {
+      "source": "src_app_player_page_tsx",
+      "target": "playlists",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\app\\player\\page.tsx",
+      "source_location": "L11",
+      "weight": 1.0
+    },
+    {
+      "source": "src_app_player_page_tsx",
+      "target": "uselyrics",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\app\\player\\page.tsx",
+      "source_location": "L12",
+      "weight": 1.0
+    },
+    {
+      "source": "src_app_player_page_tsx",
+      "target": "usekeyboardcontrols",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\app\\player\\page.tsx",
+      "source_location": "L13",
+      "weight": 1.0
+    },
+    {
+      "source": "src_app_player_page_tsx",
+      "target": "lyricspanel",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\app\\player\\page.tsx",
+      "source_location": "L14",
+      "weight": 1.0
+    },
+    {
+      "source": "src_app_player_page_tsx",
+      "target": "nowplayingcard",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\app\\player\\page.tsx",
+      "source_location": "L15",
+      "weight": 1.0
+    },
+    {
+      "source": "src_app_player_page_tsx",
+      "target": "moodtheme",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\app\\player\\page.tsx",
+      "source_location": "L16",
+      "weight": 1.0
+    },
+    {
+      "source": "src_app_player_page_tsx",
+      "target": "moodpacks",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\app\\player\\page.tsx",
+      "source_location": "L17",
+      "weight": 1.0
+    },
+    {
+      "source": "src_app_player_page_tsx",
+      "target": "page_formattime",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\app\\player\\page.tsx",
+      "source_location": "L43",
+      "weight": 1.0
+    },
+    {
+      "source": "src_app_player_page_tsx",
+      "target": "page_handleplaypause",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\app\\player\\page.tsx",
+      "source_location": "L140",
+      "weight": 1.0
+    },
+    {
+      "source": "src_app_player_page_tsx",
+      "target": "page_handlesongselect",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\app\\player\\page.tsx",
+      "source_location": "L148",
+      "weight": 1.0
+    },
+    {
+      "source": "src_app_privacy_page_tsx",
+      "target": "navigation",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\app\\privacy\\page.tsx",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "src_app_privacy_page_tsx",
+      "target": "moodthemeprovider",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\app\\privacy\\page.tsx",
+      "source_location": "L4",
+      "weight": 1.0
+    },
+    {
+      "source": "src_app_privacy_page_tsx",
+      "target": "moodcard",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\app\\privacy\\page.tsx",
+      "source_location": "L5",
+      "weight": 1.0
+    },
+    {
+      "source": "src_app_privacy_page_tsx",
+      "target": "page_privacypage",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\app\\privacy\\page.tsx",
+      "source_location": "L7",
+      "weight": 1.0
+    },
+    {
+      "source": "src_app_settings_page_tsx",
+      "target": "react",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\app\\settings\\page.tsx",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "src_app_settings_page_tsx",
+      "target": "navigation",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\app\\settings\\page.tsx",
+      "source_location": "L4",
+      "weight": 1.0
+    },
+    {
+      "source": "src_app_settings_page_tsx",
+      "target": "lucide_react",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\app\\settings\\page.tsx",
+      "source_location": "L5",
+      "weight": 1.0
+    },
+    {
+      "source": "src_app_settings_page_tsx",
+      "target": "moodthemeprovider",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\app\\settings\\page.tsx",
+      "source_location": "L6",
+      "weight": 1.0
+    },
+    {
+      "source": "src_app_settings_page_tsx",
+      "target": "moodswitch",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\app\\settings\\page.tsx",
+      "source_location": "L7",
+      "weight": 1.0
+    },
+    {
+      "source": "src_app_settings_page_tsx",
+      "target": "moodcard",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\app\\settings\\page.tsx",
+      "source_location": "L8",
+      "weight": 1.0
+    },
+    {
+      "source": "src_app_settings_page_tsx",
+      "target": "moodtheme",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\app\\settings\\page.tsx",
+      "source_location": "L9",
+      "weight": 1.0
+    },
+    {
+      "source": "src_app_settings_page_tsx",
+      "target": "page_settingspage",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\app\\settings\\page.tsx",
+      "source_location": "L11",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_cameramodal_tsx",
+      "target": "react",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\components\\CameraModal.tsx",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_cameramodal_tsx",
+      "target": "lucide_react",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\components\\CameraModal.tsx",
+      "source_location": "L4",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_cameramodal_tsx",
+      "target": "animejs",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\components\\CameraModal.tsx",
+      "source_location": "L5",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_cameramodal_tsx",
+      "target": "utils",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\components\\CameraModal.tsx",
+      "source_location": "L6",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_cameramodal_tsx",
+      "target": "moodtheme",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\components\\CameraModal.tsx",
+      "source_location": "L7",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_cameramodal_tsx",
+      "target": "usemooddetection",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\components\\CameraModal.tsx",
+      "source_location": "L8",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_cameramodal_tsx",
+      "target": "cameramodal_handleclose",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\components\\CameraModal.tsx",
+      "source_location": "L135",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_errorboundary_tsx",
+      "target": "react",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\components\\ErrorBoundary.tsx",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_errorboundary_tsx",
+      "target": "lucide_react",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\components\\ErrorBoundary.tsx",
+      "source_location": "L4",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_errorboundary_tsx",
+      "target": "errorboundary_constructor",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\components\\ErrorBoundary.tsx",
+      "source_location": "L24",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_errorboundary_tsx",
+      "target": "errorboundary_getderivedstatefromerror",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\components\\ErrorBoundary.tsx",
+      "source_location": "L33",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_errorboundary_tsx",
+      "target": "errorboundary_componentdidcatch",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\components\\ErrorBoundary.tsx",
+      "source_location": "L42",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_lyricspanel_tsx",
+      "target": "react",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\components\\LyricsPanel.tsx",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_lyricspanel_tsx",
+      "target": "lucide_react",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\components\\LyricsPanel.tsx",
+      "source_location": "L4",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_lyricspanel_tsx",
+      "target": "uselyrics",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\components\\LyricsPanel.tsx",
+      "source_location": "L5",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_moodthemeprovider_tsx",
+      "target": "react",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\components\\MoodThemeProvider.tsx",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_moodthemeprovider_tsx",
+      "target": "moodtheme",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\components\\MoodThemeProvider.tsx",
+      "source_location": "L4",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_moodthemeprovider_tsx",
+      "target": "moodpath",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\components\\MoodThemeProvider.tsx",
+      "source_location": "L10",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_moodthemeprovider_tsx",
+      "target": "moodthemeprovider_lerp",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\components\\MoodThemeProvider.tsx",
+      "source_location": "L34",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_moodthemeprovider_tsx",
+      "target": "moodthemeprovider_setcssvars",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\components\\MoodThemeProvider.tsx",
+      "source_location": "L36",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_moodthemeprovider_tsx",
+      "target": "moodthemeprovider_moodthemeprovider",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\components\\MoodThemeProvider.tsx",
+      "source_location": "L64",
+      "weight": 1.0
+    },
+    {
+      "source": "moodthemeprovider_setcssvars",
+      "target": "moodthemeprovider_lerp",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\components\\MoodThemeProvider.tsx",
+      "source_location": "L57",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_sessionplayer_tsx",
+      "target": "sessioncontext",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\components\\SessionPlayer.tsx",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_sessionplayer_tsx",
+      "target": "src_components_youtubeplayer",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\components\\SessionPlayer.tsx",
+      "source_location": "L4",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_sessionplayer_tsx",
+      "target": "sessionplayer_sessionplayer",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\components\\SessionPlayer.tsx",
+      "source_location": "L10",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_sessionplayer_tsx",
+      "target": "sessionplayer_usesessionplayercontrols",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\components\\SessionPlayer.tsx",
+      "source_location": "L48",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_sessionstats_tsx",
+      "target": "react",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\components\\SessionStats.tsx",
+      "source_location": "L9",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_sessionstats_tsx",
+      "target": "lucide_react",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\components\\SessionStats.tsx",
+      "source_location": "L10",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_sessionstats_tsx",
+      "target": "utils",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\components\\SessionStats.tsx",
+      "source_location": "L11",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_sessionstats_tsx",
+      "target": "moodtheme",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\components\\SessionStats.tsx",
+      "source_location": "L12",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_stagewisetoolbar_tsx",
+      "target": "react",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\components\\StagewiseToolbar.tsx",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_stagewisetoolbar_tsx",
+      "target": "stagewisetoolbar_stagewisetoolbar",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\components\\StagewiseToolbar.tsx",
+      "source_location": "L5",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_youtubeplayer_tsx",
+      "target": "react",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\components\\YouTubePlayer.tsx",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_youtubeplayer_tsx",
+      "target": "youtubeplayer_useyoutubeplayer",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\components\\YouTubePlayer.tsx",
+      "source_location": "L92",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_youtubeplayer_tsx",
+      "target": "youtubeplayer_youtubeplayer",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\components\\YouTubePlayer.tsx",
+      "source_location": "L372",
+      "weight": 1.0
+    },
+    {
+      "source": "youtubeplayer_youtubeplayer",
+      "target": "youtubeplayer_useyoutubeplayer",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\components\\YouTubePlayer.tsx",
+      "source_location": "L384",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_player_ui_bottombar_tsx",
+      "target": "react",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\components\\player_ui\\BottomBar.tsx",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_player_ui_bottombar_tsx",
+      "target": "lucide_react",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\components\\player_ui\\BottomBar.tsx",
+      "source_location": "L2",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_player_ui_bottombar_tsx",
+      "target": "src_components_player_ui_moodpacks",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\components\\player_ui\\BottomBar.tsx",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_player_ui_bottombar_tsx",
+      "target": "bottombar_formattime",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\components\\player_ui\\BottomBar.tsx",
+      "source_location": "L23",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_player_ui_bottombar_tsx",
+      "target": "bottombar_handleprogressclick",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\components\\player_ui\\BottomBar.tsx",
+      "source_location": "L53",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_player_ui_mainarea_tsx",
+      "target": "react",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\components\\player_ui\\MainArea.tsx",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_player_ui_mainarea_tsx",
+      "target": "framer_motion",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\components\\player_ui\\MainArea.tsx",
+      "source_location": "L2",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_player_ui_mainarea_tsx",
+      "target": "lucide_react",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\components\\player_ui\\MainArea.tsx",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_player_ui_mainarea_tsx",
+      "target": "src_components_player_ui_moodpacks",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\components\\player_ui\\MainArea.tsx",
+      "source_location": "L4",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_player_ui_mainarea_tsx",
+      "target": "lyricspanel",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\components\\player_ui\\MainArea.tsx",
+      "source_location": "L5",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_player_ui_mainarea_tsx",
+      "target": "uselyrics",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\components\\player_ui\\MainArea.tsx",
+      "source_location": "L6",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_player_ui_moodpacks_ts",
+      "target": "moodpacks_samplesongs",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\components\\player_ui\\MoodPacks.ts",
+      "source_location": "L35",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_player_ui_moodpacks_ts",
+      "target": "moodpacks_getmoodpackwithrandomsongs",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\components\\player_ui\\MoodPacks.ts",
+      "source_location": "L47",
+      "weight": 1.0
+    },
+    {
+      "source": "moodpacks_getmoodpackwithrandomsongs",
+      "target": "moodpacks_samplesongs",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\components\\player_ui\\MoodPacks.ts",
+      "source_location": "L49",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_player_ui_moodselector_tsx",
+      "target": "react",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\components\\player_ui\\MoodSelector.tsx",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_player_ui_moodselector_tsx",
+      "target": "framer_motion",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\components\\player_ui\\MoodSelector.tsx",
+      "source_location": "L2",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_player_ui_moodselector_tsx",
+      "target": "src_components_player_ui_moodpacks",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\components\\player_ui\\MoodSelector.tsx",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_player_ui_nowplayingcard_tsx",
+      "target": "react",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\components\\player_ui\\NowPlayingCard.tsx",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_player_ui_nowplayingcard_tsx",
+      "target": "framer_motion",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\components\\player_ui\\NowPlayingCard.tsx",
+      "source_location": "L4",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_player_ui_nowplayingcard_tsx",
+      "target": "src_components_player_ui_moodpacks",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\components\\player_ui\\NowPlayingCard.tsx",
+      "source_location": "L5",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_player_ui_nowplayingcard_tsx",
+      "target": "nowplayingcard_nowplayingcard",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\components\\player_ui\\NowPlayingCard.tsx",
+      "source_location": "L14",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_player_ui_sidebar_tsx",
+      "target": "react",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\components\\player_ui\\Sidebar.tsx",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_player_ui_sidebar_tsx",
+      "target": "framer_motion",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\components\\player_ui\\Sidebar.tsx",
+      "source_location": "L2",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_player_ui_sidebar_tsx",
+      "target": "lucide_react",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\components\\player_ui\\Sidebar.tsx",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_player_ui_sidebar_tsx",
+      "target": "src_components_player_ui_moodpacks",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\components\\player_ui\\Sidebar.tsx",
+      "source_location": "L4",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_ui_moodbutton_tsx",
+      "target": "react",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\components\\ui\\MoodButton.tsx",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_ui_moodbutton_tsx",
+      "target": "utils",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\components\\ui\\MoodButton.tsx",
+      "source_location": "L2",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_ui_moodcard_tsx",
+      "target": "react",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\components\\ui\\MoodCard.tsx",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_ui_moodcard_tsx",
+      "target": "utils",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\components\\ui\\MoodCard.tsx",
+      "source_location": "L2",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_ui_moodslider_tsx",
+      "target": "react",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\components\\ui\\MoodSlider.tsx",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_ui_moodslider_tsx",
+      "target": "utils",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\components\\ui\\MoodSlider.tsx",
+      "source_location": "L4",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_ui_moodslider_tsx",
+      "target": "moodslider_moodslider",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\components\\ui\\MoodSlider.tsx",
+      "source_location": "L15",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_ui_moodswitch_tsx",
+      "target": "react",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\components\\ui\\MoodSwitch.tsx",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_ui_moodswitch_tsx",
+      "target": "utils",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\components\\ui\\MoodSwitch.tsx",
+      "source_location": "L4",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_ui_moodswitch_tsx",
+      "target": "moodswitch_cn",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\components\\ui\\MoodSwitch.tsx",
+      "source_location": "L19",
+      "weight": 1.0
+    },
+    {
+      "source": "src_contexts_sessioncontext_tsx",
+      "target": "react",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\contexts\\SessionContext.tsx",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "src_contexts_sessioncontext_tsx",
+      "target": "moodtheme",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\contexts\\SessionContext.tsx",
+      "source_location": "L4",
+      "weight": 1.0
+    },
+    {
+      "source": "src_contexts_sessioncontext_tsx",
+      "target": "playlists",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\contexts\\SessionContext.tsx",
+      "source_location": "L5",
+      "weight": 1.0
+    },
+    {
+      "source": "src_contexts_sessioncontext_tsx",
+      "target": "moodpath",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\contexts\\SessionContext.tsx",
+      "source_location": "L6",
+      "weight": 1.0
+    },
+    {
+      "source": "src_contexts_sessioncontext_tsx",
+      "target": "playlists",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\contexts\\SessionContext.tsx",
+      "source_location": "L7",
+      "weight": 1.0
+    },
+    {
+      "source": "src_contexts_sessioncontext_tsx",
+      "target": "sessionpersistence",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\contexts\\SessionContext.tsx",
+      "source_location": "L8",
+      "weight": 1.0
+    },
+    {
+      "source": "src_contexts_sessioncontext_tsx",
+      "target": "sessioncontext_sessionreducer",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\contexts\\SessionContext.tsx",
+      "source_location": "L60",
+      "weight": 1.0
+    },
+    {
+      "source": "src_contexts_sessioncontext_tsx",
+      "target": "sessioncontext_sessionprovider",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\contexts\\SessionContext.tsx",
+      "source_location": "L177",
+      "weight": 1.0
+    },
+    {
+      "source": "src_contexts_sessioncontext_tsx",
+      "target": "sessioncontext_usesession",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\contexts\\SessionContext.tsx",
+      "source_location": "L258",
+      "weight": 1.0
+    },
+    {
+      "source": "src_hooks_useenhancedplaylist_ts",
+      "target": "react",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\hooks\\useEnhancedPlaylist.ts",
+      "source_location": "L8",
+      "weight": 1.0
+    },
+    {
+      "source": "src_hooks_useenhancedplaylist_ts",
+      "target": "youtubeapi",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\hooks\\useEnhancedPlaylist.ts",
+      "source_location": "L9",
+      "weight": 1.0
+    },
+    {
+      "source": "src_hooks_useenhancedplaylist_ts",
+      "target": "playlists",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\hooks\\useEnhancedPlaylist.ts",
+      "source_location": "L10",
+      "weight": 1.0
+    },
+    {
+      "source": "src_hooks_useenhancedplaylist_ts",
+      "target": "useenhancedplaylist_useenhancedplaylist",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\hooks\\useEnhancedPlaylist.ts",
+      "source_location": "L25",
+      "weight": 1.0
+    },
+    {
+      "source": "src_hooks_usekeyboardcontrols_ts",
+      "target": "react",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\hooks\\useKeyboardControls.ts",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "src_hooks_usekeyboardcontrols_ts",
+      "target": "usekeyboardcontrols_usekeyboardcontrols",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\hooks\\useKeyboardControls.ts",
+      "source_location": "L24",
+      "weight": 1.0
+    },
+    {
+      "source": "src_hooks_uselyrics_ts",
+      "target": "react",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\hooks\\useLyrics.ts",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "src_hooks_uselyrics_ts",
+      "target": "uselyrics_parselrc",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\hooks\\useLyrics.ts",
+      "source_location": "L21",
+      "weight": 1.0
+    },
+    {
+      "source": "src_hooks_uselyrics_ts",
+      "target": "uselyrics_uselyrics",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\hooks\\useLyrics.ts",
+      "source_location": "L46",
+      "weight": 1.0
+    },
+    {
+      "source": "src_hooks_uselyrics_ts",
+      "target": "uselyrics_getactivelyricindex",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\hooks\\useLyrics.ts",
+      "source_location": "L127",
+      "weight": 1.0
+    },
+    {
+      "source": "src_hooks_usemooddetection_ts",
+      "target": "react",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\hooks\\useMoodDetection.ts",
+      "source_location": "L8",
+      "weight": 1.0
+    },
+    {
+      "source": "src_hooks_usemooddetection_ts",
+      "target": "onnxruntime_web",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\hooks\\useMoodDetection.ts",
+      "source_location": "L9",
+      "weight": 1.0
+    },
+    {
+      "source": "src_hooks_usemooddetection_ts",
+      "target": "usemooddetection_usemooddetection",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\hooks\\useMoodDetection.ts",
+      "source_location": "L28",
+      "weight": 1.0
+    },
+    {
+      "source": "src_lib_moodpath_ts",
+      "target": "moodtheme",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\lib\\moodPath.ts",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "src_lib_moodpath_ts",
+      "target": "moodpath_mulberry32",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\lib\\moodPath.ts",
+      "source_location": "L18",
+      "weight": 1.0
+    },
+    {
+      "source": "src_lib_moodpath_ts",
+      "target": "moodpath_clamp01",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\lib\\moodPath.ts",
+      "source_location": "L28",
+      "weight": 1.0
+    },
+    {
+      "source": "src_lib_moodpath_ts",
+      "target": "moodpath_islistenedsong",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\lib\\moodPath.ts",
+      "source_location": "L32",
+      "weight": 1.0
+    },
+    {
+      "source": "src_lib_moodpath_ts",
+      "target": "moodpath_generatemoodpath",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\lib\\moodPath.ts",
+      "source_location": "L42",
+      "weight": 1.0
+    },
+    {
+      "source": "src_lib_moodpath_ts",
+      "target": "moodpath_distributemoodpath",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\lib\\moodPath.ts",
+      "source_location": "L98",
+      "weight": 1.0
+    },
+    {
+      "source": "src_lib_moodpath_ts",
+      "target": "moodpath_distributemoodpathbysongs",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\lib\\moodPath.ts",
+      "source_location": "L129",
+      "weight": 1.0
+    },
+    {
+      "source": "src_lib_moodpath_ts",
+      "target": "moodpath_moodatcountedsongindex",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\lib\\moodPath.ts",
+      "source_location": "L155",
+      "weight": 1.0
+    },
+    {
+      "source": "src_lib_moodpath_ts",
+      "target": "moodpath_moodatprogress",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\lib\\moodPath.ts",
+      "source_location": "L164",
+      "weight": 1.0
+    },
+    {
+      "source": "src_lib_moodpath_ts",
+      "target": "moodpath_sessionprogress01",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\lib\\moodPath.ts",
+      "source_location": "L172",
+      "weight": 1.0
+    },
+    {
+      "source": "moodpath_generatemoodpath",
+      "target": "moodpath_mulberry32",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\lib\\moodPath.ts",
+      "source_location": "L48",
+      "weight": 1.0
+    },
+    {
+      "source": "moodpath_distributemoodpath",
+      "target": "moodpath_clamp01",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\lib\\moodPath.ts",
+      "source_location": "L117",
+      "weight": 1.0
+    },
+    {
+      "source": "moodpath_moodatprogress",
+      "target": "moodpath_clamp01",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\lib\\moodPath.ts",
+      "source_location": "L165",
+      "weight": 1.0
+    },
+    {
+      "source": "moodpath_sessionprogress01",
+      "target": "moodpath_clamp01",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\lib\\moodPath.ts",
+      "source_location": "L178",
+      "weight": 1.0
+    },
+    {
+      "source": "src_lib_moodtheme_ts",
+      "target": "moodtheme_clamp01",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\lib\\moodTheme.ts",
+      "source_location": "L26",
+      "weight": 1.0
+    },
+    {
+      "source": "src_lib_moodtheme_ts",
+      "target": "moodtheme_lerp",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\lib\\moodTheme.ts",
+      "source_location": "L28",
+      "weight": 1.0
+    },
+    {
+      "source": "src_lib_moodtheme_ts",
+      "target": "moodtheme_lerphue",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\lib\\moodTheme.ts",
+      "source_location": "L31",
+      "weight": 1.0
+    },
+    {
+      "source": "src_lib_moodtheme_ts",
+      "target": "moodtheme_computemoodthemetarget",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\lib\\moodTheme.ts",
+      "source_location": "L100",
+      "weight": 1.0
+    },
+    {
+      "source": "moodtheme_computemoodthemetarget",
+      "target": "moodtheme_clamp01",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\lib\\moodTheme.ts",
+      "source_location": "L101",
+      "weight": 1.0
+    },
+    {
+      "source": "moodtheme_computemoodthemetarget",
+      "target": "moodtheme_lerp",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\lib\\moodTheme.ts",
+      "source_location": "L110",
+      "weight": 1.0
+    },
+    {
+      "source": "moodtheme_computemoodthemetarget",
+      "target": "moodtheme_lerphue",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\lib\\moodTheme.ts",
+      "source_location": "L117",
+      "weight": 1.0
+    },
+    {
+      "source": "src_lib_playlists_ts",
+      "target": "playlists_getrandomtracks",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\lib\\playlists.ts",
+      "source_location": "L240",
+      "weight": 1.0
+    },
+    {
+      "source": "src_lib_playlists_ts",
+      "target": "playlists_buildsessionqueue",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\lib\\playlists.ts",
+      "source_location": "L271",
+      "weight": 1.0
+    },
+    {
+      "source": "playlists_buildsessionqueue",
+      "target": "playlists_getrandomtracks",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\lib\\playlists.ts",
+      "source_location": "L281",
+      "weight": 1.0
+    },
+    {
+      "source": "src_lib_sessionpersistence_ts",
+      "target": "moodtheme",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\lib\\sessionPersistence.ts",
+      "source_location": "L8",
+      "weight": 1.0
+    },
+    {
+      "source": "src_lib_sessionpersistence_ts",
+      "target": "playlists",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\lib\\sessionPersistence.ts",
+      "source_location": "L9",
+      "weight": 1.0
+    },
+    {
+      "source": "src_lib_sessionpersistence_ts",
+      "target": "sessionpersistence_savesession",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\lib\\sessionPersistence.ts",
+      "source_location": "L44",
+      "weight": 1.0
+    },
+    {
+      "source": "src_lib_sessionpersistence_ts",
+      "target": "sessionpersistence_loadsession",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\lib\\sessionPersistence.ts",
+      "source_location": "L63",
+      "weight": 1.0
+    },
+    {
+      "source": "src_lib_sessionpersistence_ts",
+      "target": "sessionpersistence_clearsession",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\lib\\sessionPersistence.ts",
+      "source_location": "L87",
+      "weight": 1.0
+    },
+    {
+      "source": "src_lib_sessionpersistence_ts",
+      "target": "sessionpersistence_completesession",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\lib\\sessionPersistence.ts",
+      "source_location": "L98",
+      "weight": 1.0
+    },
+    {
+      "source": "src_lib_sessionpersistence_ts",
+      "target": "sessionpersistence_getsessionhistory",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\lib\\sessionPersistence.ts",
+      "source_location": "L129",
+      "weight": 1.0
+    },
+    {
+      "source": "src_lib_sessionpersistence_ts",
+      "target": "sessionpersistence_addtohistory",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\lib\\sessionPersistence.ts",
+      "source_location": "L144",
+      "weight": 1.0
+    },
+    {
+      "source": "src_lib_sessionpersistence_ts",
+      "target": "sessionpersistence_clearhistory",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\lib\\sessionPersistence.ts",
+      "source_location": "L161",
+      "weight": 1.0
+    },
+    {
+      "source": "src_lib_sessionpersistence_ts",
+      "target": "sessionpersistence_getsessionstats",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\lib\\sessionPersistence.ts",
+      "source_location": "L172",
+      "weight": 1.0
+    },
+    {
+      "source": "src_lib_sessionpersistence_ts",
+      "target": "sessionpersistence_generatesessionid",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\lib\\sessionPersistence.ts",
+      "source_location": "L227",
+      "weight": 1.0
+    },
+    {
+      "source": "src_lib_sessionpersistence_ts",
+      "target": "sessionpersistence_isstorageavailable",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\lib\\sessionPersistence.ts",
+      "source_location": "L234",
+      "weight": 1.0
+    },
+    {
+      "source": "sessionpersistence_savesession",
+      "target": "sessionpersistence_loadsession",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\lib\\sessionPersistence.ts",
+      "source_location": "L46",
+      "weight": 1.0
+    },
+    {
+      "source": "sessionpersistence_savesession",
+      "target": "sessionpersistence_generatesessionid",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\lib\\sessionPersistence.ts",
+      "source_location": "L48",
+      "weight": 1.0
+    },
+    {
+      "source": "sessionpersistence_loadsession",
+      "target": "sessionpersistence_clearsession",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\lib\\sessionPersistence.ts",
+      "source_location": "L73",
+      "weight": 1.0
+    },
+    {
+      "source": "sessionpersistence_completesession",
+      "target": "sessionpersistence_loadsession",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\lib\\sessionPersistence.ts",
+      "source_location": "L105",
+      "weight": 1.0
+    },
+    {
+      "source": "sessionpersistence_completesession",
+      "target": "sessionpersistence_addtohistory",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\lib\\sessionPersistence.ts",
+      "source_location": "L119",
+      "weight": 1.0
+    },
+    {
+      "source": "sessionpersistence_completesession",
+      "target": "sessionpersistence_clearsession",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\lib\\sessionPersistence.ts",
+      "source_location": "L120",
+      "weight": 1.0
+    },
+    {
+      "source": "sessionpersistence_addtohistory",
+      "target": "sessionpersistence_getsessionhistory",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\lib\\sessionPersistence.ts",
+      "source_location": "L146",
+      "weight": 1.0
+    },
+    {
+      "source": "sessionpersistence_getsessionstats",
+      "target": "sessionpersistence_getsessionhistory",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\lib\\sessionPersistence.ts",
+      "source_location": "L179",
+      "weight": 1.0
+    },
+    {
+      "source": "src_lib_utils_ts",
+      "target": "clsx",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\lib\\utils.ts",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "src_lib_utils_ts",
+      "target": "tailwind_merge",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\lib\\utils.ts",
+      "source_location": "L2",
+      "weight": 1.0
+    },
+    {
+      "source": "src_lib_utils_ts",
+      "target": "utils_cn",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\lib\\utils.ts",
+      "source_location": "L4",
+      "weight": 1.0
+    },
+    {
+      "source": "src_lib_youtubeapi_ts",
+      "target": "youtubeapi_parseduration",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\lib\\youtubeApi.ts",
+      "source_location": "L30",
+      "weight": 1.0
+    },
+    {
+      "source": "src_lib_youtubeapi_ts",
+      "target": "youtubeapi_extractartist",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\lib\\youtubeApi.ts",
+      "source_location": "L45",
+      "weight": 1.0
+    },
+    {
+      "source": "src_lib_youtubeapi_ts",
+      "target": "youtubeapi_fetchvideodetails",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\lib\\youtubeApi.ts",
+      "source_location": "L74",
+      "weight": 1.0
+    },
+    {
+      "source": "src_lib_youtubeapi_ts",
+      "target": "youtubeapi_searchmusic",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\lib\\youtubeApi.ts",
+      "source_location": "L141",
+      "weight": 1.0
+    },
+    {
+      "source": "src_lib_youtubeapi_ts",
+      "target": "youtubeapi_validatevideoid",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\lib\\youtubeApi.ts",
+      "source_location": "L173",
+      "weight": 1.0
+    },
+    {
+      "source": "src_lib_youtubeapi_ts",
+      "target": "youtubeapi_isyoutubeapiconfigured",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\lib\\youtubeApi.ts",
+      "source_location": "L202",
+      "weight": 1.0
+    },
+    {
+      "source": "youtubeapi_searchmusic",
+      "target": "youtubeapi_fetchvideodetails",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "src\\lib\\youtubeApi.ts",
+      "source_location": "L163",
+      "weight": 1.0
+    },
+    {
+      "source": "page_buildplaylist",
+      "target": "moodpacks_samplesongs",
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "src\\app\\page.tsx",
+      "source_location": "L56",
+      "weight": 1.0
+    },
+    {
+      "source": "page_home",
+      "target": "uselyrics_uselyrics",
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "src\\app\\page.tsx",
+      "source_location": "L95",
+      "weight": 1.0
+    },
+    {
+      "source": "page_home",
+      "target": "youtubeplayer_useyoutubeplayer",
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "src\\app\\page.tsx",
+      "source_location": "L117",
+      "weight": 1.0
+    },
+    {
+      "source": "page_home",
+      "target": "usekeyboardcontrols_usekeyboardcontrols",
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "src\\app\\page.tsx",
+      "source_location": "L175",
+      "weight": 1.0
+    },
+    {
+      "source": "page_handleclearhistory",
+      "target": "sessionpersistence_clearhistory",
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "src\\app\\history\\page.tsx",
+      "source_location": "L64",
+      "weight": 1.0
+    },
+    {
+      "source": "page_handleclearhistory",
+      "target": "sessionpersistence_getsessionstats",
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "src\\app\\history\\page.tsx",
+      "source_location": "L66",
+      "weight": 1.0
+    },
+    {
+      "source": "sessionplayer_sessionplayer",
+      "target": "sessioncontext_usesession",
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "src\\components\\SessionPlayer.tsx",
+      "source_location": "L11",
+      "weight": 1.0
+    },
+    {
+      "source": "sessionplayer_usesessionplayercontrols",
+      "target": "sessioncontext_usesession",
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "src\\components\\SessionPlayer.tsx",
+      "source_location": "L49",
+      "weight": 1.0
+    },
+    {
+      "source": "sessioncontext_sessionreducer",
+      "target": "moodpath_generatemoodpath",
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "src\\contexts\\SessionContext.tsx",
+      "source_location": "L64",
+      "weight": 1.0
+    },
+    {
+      "source": "sessioncontext_sessionreducer",
+      "target": "moodpath_distributemoodpathbysongs",
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "src\\contexts\\SessionContext.tsx",
+      "source_location": "L65",
+      "weight": 1.0
+    },
+    {
+      "source": "sessioncontext_sessionreducer",
+      "target": "playlists_buildsessionqueue",
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "src\\contexts\\SessionContext.tsx",
+      "source_location": "L67",
+      "weight": 1.0
+    },
+    {
+      "source": "sessioncontext_sessionreducer",
+      "target": "playlists_getrandomtracks",
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "src\\contexts\\SessionContext.tsx",
+      "source_location": "L149",
+      "weight": 1.0
+    },
+    {
+      "source": "useenhancedplaylist_useenhancedplaylist",
+      "target": "youtubeapi_isyoutubeapiconfigured",
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "src\\hooks\\useEnhancedPlaylist.ts",
+      "source_location": "L29",
+      "weight": 1.0
+    }
+  ],
+  "input_tokens": 0,
+  "output_tokens": 0
+}

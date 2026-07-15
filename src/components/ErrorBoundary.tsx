@@ -14,12 +14,6 @@ interface State {
   error: Error | null;
   errorInfo: React.ErrorInfo | null;
 }
-
-/**
- * Error Boundary Component
- * Catches JavaScript errors anywhere in the child component tree,
- * logs errors, and displays a fallback UI instead of crashing.
- */
 export class ErrorBoundary extends Component<Props, State> {
   constructor(props: Props) {
     super(props);
@@ -30,8 +24,7 @@ export class ErrorBoundary extends Component<Props, State> {
     };
   }
 
-  static getDerivedStateFromError(error: Error): State {
-    // Update state so the next render will show the fallback UI
+  static getDerivedStateFromError(error: Error): State {
     return {
       hasError: true,
       error,
@@ -39,17 +32,13 @@ export class ErrorBoundary extends Component<Props, State> {
     };
   }
 
-  componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
-    // Log error details for debugging
+  componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
     console.error('ErrorBoundary caught an error:', error, errorInfo);
     
     this.setState({
       error,
       errorInfo,
-    });
-
-    // Optional: Send error to logging service (Sentry, LogRocket, etc.)
-    // logErrorToService(error, errorInfo);
+    });
   }
 
   handleReset = () => {
@@ -57,9 +46,7 @@ export class ErrorBoundary extends Component<Props, State> {
       hasError: false,
       error: null,
       errorInfo: null,
-    });
-
-    // Call custom reset handler if provided
+    });
     if (this.props.onReset) {
       this.props.onReset();
     }
@@ -143,20 +130,4 @@ export class ErrorBoundary extends Component<Props, State> {
     return this.props.children;
   }
 }
-
-/**
- * Functional Error Boundary Hook (for function components)
- * Usage:
- * 
- * function MyComponent() {
- *   const ErrorFallback = useErrorBoundary();
- *   
- *   return (
- *     <ErrorFallback>
- *       <YourComponent />
- *     </ErrorFallback>
- *   );
- * }
- */
-
 export default ErrorBoundary;

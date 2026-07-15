@@ -54,8 +54,7 @@ function HistoryPageContent() {
   const [stats, setStats] = useState<ReturnType<typeof getSessionStats> | null>(null);
   const [showClearConfirm, setShowClearConfirm] = useState(false);
 
-  useEffect(() => {
-    // eslint-disable-next-line
+  useEffect(() => {
     setHistory(getSessionHistory());
     setStats(getSessionStats());
   }, []);

@@ -1,58 +1,37 @@
-# Viber 🎵
+# Viber - Music That Feels What You Feel
 
-**Mood-based music player that curates playlists and gradually lifts your mood.**
-
-## How It Works
-
-1. **Pick your mood** → Select from 5 moods (Sad, Calm, Romantic, Happy, Energetic)
-2. **Curated transition** → Algorithm builds a 12-song playlist that transitions toward happier vibes
-3. **Play** → YouTube-powered audio with full playback controls
-
-**Example:** Starting mood **Sad** → Playlist: 4 sad → 3 calm → 3 happy → 2 energetic songs
+Viber is a Next.js web application that uses client-side facial emotion recognition to curate and play YouTube music playlists that match (or transition) your current mood. 
 
 ## Features
+- **Facial Emotion Recognition:** Uses `face-api.js` directly in the browser to detect your mood without sending any video data to a server.
+- **Dynamic Mood Curation:** Starts from your current mood (e.g., Sad, Calm, Energetic) and builds a seamless playlist that gently transitions you toward a target mood (Uplift path).
+- **Custom Player UI:** A beautiful, responsive, typography-heavy player interface with dynamic color gradients and a collapsible sidebar.
+- **YouTube IFrame Integration:** Plays music directly from YouTube without heavy audio hosting.
+- **Lyrics Support:** Automatically fetches synced lyrics when available and displays them beautifully on screen.
+- **Session History:** Tracks your past listening sessions and mood journeys locally in the browser.
 
-- **🎵 Mood Uplift**: Sessions gradually transition from your starting mood to happier vibes
-- **🎧 Full Player Controls**: Play/pause, next/prev, seekable progress bar, volume control
-- **⚡ Fast & Responsive**: Built with Next.js 16 and React 19
-- **🔄 Auto-Skip**: Handles unplayable videos automatically
-- **📱 Mobile-Friendly**: Works on all devices
-- **🎨 Dynamic Theming**: Colors shift based on current song's mood
+## Getting Started
 
-## Moods
-
-| Mood | Transition Path |
-|------|-----------------|
-| Sad | Sad → Calm → Happy → Energetic |
-| Calm | Calm → Happy → Energetic |
-| Romantic | Romantic → Happy |
-| Happy | Happy → Energetic |
-| Energetic | Energetic (stays) |
-
-## Quick Start
+First, install dependencies:
 
 ```bash
-git clone https://github.com/NobleChicken97/Viber.git
-cd viber
 npm install
+```
+
+Run the development server:
+
+```bash
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000)
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-## Tech Stack
+## Architecture & Technologies
+- **Next.js (App Router):** The core React framework for routing and component structure.
+- **Tailwind CSS:** For all styling, typography, and responsive layouts.
+- **Framer Motion:** For smooth UI transitions, layout animations, and the collapsible sidebar.
+- **Lucide React:** For clean, consistent iconography.
+- **Face-API.js:** For client-side, real-time emotion detection using the device webcam.
 
-- Next.js 16 + React 19 + TypeScript
-- Tailwind CSS 4
-- YouTube IFrame API
-
-## Deploy
-
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/NobleChicken97/Viber)
-
----
-
-**Made by Arpan Goyal**
-
-- GitHub: https://github.com/NobleChicken97
-- LinkedIn: https://www.linkedin.com/in/arpangoyal97/
+## Privacy
+All facial recognition and emotion detection happens **100% locally** in the browser. No video streams, images, or biometric data are ever sent to a server. 

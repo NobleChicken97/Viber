@@ -28,10 +28,6 @@ export interface MoodPack {
   songs: Song[]; // Will be populated at runtime (12 random songs)
   albumGradient: string;
 }
-
-/**
- * Fisher-Yates shuffle and sample n items from an array
- */
 export function sampleSongs(pool: Song[], count: number = 12): Song[] {
   const shuffled = [...pool];
   for (let i = shuffled.length - 1; i > 0; i--) {
@@ -40,10 +36,6 @@ export function sampleSongs(pool: Song[], count: number = 12): Song[] {
   }
   return shuffled.slice(0, Math.min(count, shuffled.length));
 }
-
-/**
- * Get a MoodPack with randomly sampled songs
- */
 export function getMoodPackWithRandomSongs(mood: MoodType, count: number = 12): MoodPack {
   const pack = { ...moodPacks[mood] };
   pack.songs = sampleSongs(pack.songPool, count);
