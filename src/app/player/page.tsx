@@ -4,7 +4,7 @@ import { Suspense, useEffect, useState, useMemo, useCallback } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { 
   Camera, Play, Pause, SkipForward, SkipBack, Volume2, Home, 
-  Music, ListMusic, ChevronRight
+  ListMusic, ChevronRight
 } from "lucide-react";
 import { useYouTubePlayer } from "@/components/YouTubePlayer";
 import { generateMoodPath, distributeMoodPathBySongs } from "@/lib/moodPath";
@@ -13,6 +13,9 @@ import { useLyrics } from "@/hooks/useLyrics";
 import { useKeyboardControls } from "@/hooks/useKeyboardControls";
 import { LyricsPanel, LyricsToggle } from "@/components/LyricsPanel";
 import type { Mood } from "@/lib/moodTheme";
+import { MoodThemeProvider } from "@/components/MoodThemeProvider";
+import { completeSession } from "@/lib/sessionPersistence";
+import { useRef } from "react";
 
 const MOOD_COLORS: Record<Mood, { bg: string; accent: string; emoji: string }> = {
   sad: { bg: "from-blue-950 via-slate-900 to-gray-950", accent: "text-blue-400", emoji: "💙" },
@@ -48,10 +51,12 @@ function PlayerContent() {
   const params = useSearchParams();
   const router = useRouter();
   const startMood = (params.get("mood") as Mood) || "calm";
+  const [sessionStartTime] = useState(() => Date.now());
+  const [seed] = useState(() => Date.now());
   
   // Build the session queue with mood transitions
   const { queue, moodPath, distribution } = useMemo(() => {
-    const path = generateMoodPath({ startMood, upliftEnabled: true, seed: 12345 });
+    const path = generateMoodPath({ startMood, upliftEnabled: true, seed });
     const buckets = distributeMoodPathBySongs(path, 12);
     const dist = buckets.map(b => b.targetSongs);
     const q = buildSessionQueue(path, dist);
@@ -85,10 +90,17 @@ function PlayerContent() {
     if (currentIndex < queue.length - 1) {
       setCurrentIndex(prev => prev + 1);
     } else {
-      // Session complete - could loop or end
-      setCurrentIndex(0);
+      // Session complete
+      completeSession({
+        startMood,
+        finalMood: currentMood,
+        songsCompleted: queue.length,
+        totalDuration: Math.floor((Date.now() - sessionStartTime) / 1000),
+        moodPath,
+      });
+      router.push('/history');
     }
-  }, [currentIndex, queue.length]);
+  }, [currentIndex, queue.length, currentMood, startMood, moodPath, router]);
 
   const handlePrev = useCallback(() => {
     if (currentIndex > 0) {
@@ -101,7 +113,6 @@ function PlayerContent() {
     play, 
     pause, 
     loadVideo,
-    seekTo,
     setVolume: setPlayerVolume,
     isReady: playerReady
   } = useYouTubePlayer({
@@ -112,7 +123,9 @@ function PlayerContent() {
     onPause: () => setIsPlaying(false),
     onEnd: handleNext,
     onError: (errorCode) => {
-      console.warn(`Video failed (Error ${errorCode}). Skipping...`);
+      if (process.env.NODE_ENV === 'development') {
+        console.warn(`Video failed (Error ${errorCode}). Skipping...`);
+      }
       setTimeout(handleNext, 500);
     },
     onProgress: (p, d) => {
@@ -203,7 +216,8 @@ function PlayerContent() {
   }
 
   return (
-    <div className={`min-h-screen bg-linear-to-br ${colors.bg} text-white`}>
+    <div className="relative min-h-screen bg-background text-foreground transition-colors duration-1000">
+      <MoodThemeProvider startMood={startMood} upliftEnabled={true} countedSongIndex={currentIndex} songLimit={12} />
       
       {/* Hidden YouTube Player */}
       <div className="fixed top-0 left-0 w-0 h-0 overflow-hidden pointer-events-none">
@@ -225,7 +239,7 @@ function PlayerContent() {
               <span className="text-sm">Exit</span>
             </button>
             
-            <div className={`flex items-center gap-2 ${colors.accent}`}>
+            <div className={`flex items-center gap-2 text-accent`}>
               <span className="text-xl">{colors.emoji}</span>
               <span className="text-sm font-medium">{MOOD_LABELS[currentMood]}</span>
             </div>
@@ -239,10 +253,10 @@ function PlayerContent() {
             </button>
           </div>
 
-          {/* Album Art / Lyrics */}
-          <div className="flex-1 flex items-center justify-center">
+          {/* Main Player Content */}
+          <div className="flex-1 flex flex-col items-center justify-center w-full">
             {showLyrics ? (
-              <div className="relative w-full max-w-lg h-full max-h-100 rounded-2xl border border-white/5 backdrop-blur-sm"
+              <div className="relative w-full max-w-lg h-full max-h-120 rounded-2xl border border-white/5 backdrop-blur-sm"
                 style={{ background: `linear-gradient(135deg, rgba(0,0,0,0.7) 0%, rgba(20,20,20,0.8) 100%)` }}>
                 <LyricsPanel
                   plainLyrics={lyrics?.plainLyrics || null}
@@ -257,61 +271,28 @@ function PlayerContent() {
                 />
               </div>
             ) : (
-              <div className="relative w-full max-w-sm aspect-square">
-                {/* Glow effect */}
-                <div 
-                  className={`absolute inset-0 rounded-3xl blur-3xl opacity-30 ${
-                    currentMood === 'sad' ? 'bg-blue-500' :
-                    currentMood === 'calm' ? 'bg-emerald-500' :
-                    currentMood === 'romantic' ? 'bg-pink-500' :
-                    currentMood === 'happy' ? 'bg-amber-500' : 'bg-orange-500'
-                  }`}
-                />
-                
-                {/* Album container */}
-                <div className="relative w-full h-full rounded-3xl bg-linear-to-br from-white/10 to-white/5 border border-white/10 flex items-center justify-center overflow-hidden">
-                  <div className={`absolute inset-0 bg-linear-to-br ${colors.bg} opacity-50`} />
-                  
-                  {/* YouTube Thumbnail */}
-                  {currentSong?.id ? (
-                    <img
-                      src={`https://img.youtube.com/vi/${currentSong.id}/hqdefault.jpg`}
-                      alt={currentSong.title}
-                      className="absolute inset-0 w-full h-full object-cover opacity-80"
-                      onError={(e) => {
-                        (e.target as HTMLImageElement).style.display = 'none';
-                      }}
-                    />
-                  ) : (
-                    <Music size={120} className="text-white/20 relative z-10" />
-                  )}
-                  
-                    <div className="absolute bottom-6 left-6 flex items-center gap-1.5 z-20">
-                      {[16, 24, 18, 22].map((h, i) => (
-                        <div
-                          key={i}
-                          className={`w-1 bg-white/60 rounded-full animate-pulse`}
-                          style={{
-                            height: `${h}px`,
-                            animationDelay: `${i * 150}ms`,
-                            animationDuration: '0.5s'
-                          }}
-                        />
-                      ))}
-                    </div>
+              <div className="flex flex-col items-center text-center max-w-sm w-full mx-auto animate-fade-in relative z-10">
+                <div className="w-full aspect-square md:aspect-video md:w-[28rem] lg:w-[32rem] max-w-full rounded-3xl overflow-hidden shadow-2xl mb-8 relative transition-transform duration-700 hover:scale-[1.02] border border-white/10">
+                  <img 
+                    src={`https://img.youtube.com/vi/${currentSong.id}/maxresdefault.jpg`}
+                    alt={currentSong.title}
+                    className="w-full h-full object-cover"
+                    onError={(e) => {
+                      (e.target as HTMLImageElement).src = `https://img.youtube.com/vi/${currentSong.id}/hqdefault.jpg`;
+                    }}
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-background/20 to-transparent pointer-events-none" />
                 </div>
+
+                <h2 className="text-3xl md:text-4xl font-bold mb-3 tracking-tight line-clamp-1 w-full px-4 drop-shadow-md text-foreground">
+                  {currentSong.title}
+                </h2>
+                
+                <p className="text-lg text-foreground/70 font-medium mb-2 px-4 line-clamp-1">
+                  {currentSong.artist}
+                </p>
               </div>
             )}
-          </div>
-
-          {/* Song Info */}
-          <div className="mt-8 text-center">
-            <h2 className="text-2xl lg:text-3xl font-bold truncate px-4">
-              {currentSong.title}
-            </h2>
-            <p className="text-gray-400 text-lg mt-2 truncate">
-              {currentSong.artist}
-            </p>
           </div>
 
           {/* Progress Bar */}

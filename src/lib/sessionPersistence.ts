@@ -99,25 +99,25 @@ export function completeSession(finalState: {
   startMood: Mood;
   finalMood: Mood;
   songsCompleted: number;
+  totalDuration: number;
   moodPath: Mood[];
 }): void {
   try {
     const currentSession = loadSession();
-    if (!currentSession) return;
     
     const historyEntry: SessionHistory = {
-      id: currentSession.id,
-      startTime: currentSession.startTime,
+      id: currentSession?.id || generateSessionId(),
+      startTime: currentSession?.startTime || (Date.now() - finalState.totalDuration * 1000),
       endTime: Date.now(),
       startMood: finalState.startMood,
       finalMood: finalState.finalMood,
       songsCompleted: finalState.songsCompleted,
-      totalDuration: Math.floor((Date.now() - currentSession.startTime) / 1000),
+      totalDuration: finalState.totalDuration,
       moodPath: finalState.moodPath
     };
     
     addToHistory(historyEntry);
-    clearSession();
+    if (currentSession) clearSession();
   } catch (error) {
     console.error('Failed to complete session:', error);
   }

@@ -90,14 +90,12 @@ export interface YouTubePlayerControls {
 }
 
 export function useYouTubePlayer({
-  videoId,
   onReady,
   onPlay,
   onPause,
   onEnd,
   onError,
   onProgress,
-  autoplay = false,
   volume = 80,
 }: Omit<YouTubePlayerProps, "className">): YouTubePlayerControls {
   const playerRef = useRef<YTPlayer | null>(null);
@@ -370,26 +368,23 @@ export function useYouTubePlayer({
 }
 
 export function YouTubePlayer({
-  videoId,
   onReady,
   onPlay,
   onPause,
   onEnd,
   onError,
   onProgress,
-  autoplay = false,
   volume = 80,
   className = "",
 }: YouTubePlayerProps) {
   const { containerRef } = useYouTubePlayer({
-    videoId,
+    videoId: "", // Unused in hook but required by type
     onReady,
     onPlay,
     onPause,
     onEnd,
     onError,
     onProgress,
-    autoplay,
     volume,
   });
 
