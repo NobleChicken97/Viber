@@ -1,5 +1,7 @@
 "use client";
 
+import { useTheme } from "next-themes";
+
 import { useEffect, useRef } from "react";
 import {
   computeMoodThemeTarget,
@@ -59,11 +61,19 @@ export function MoodThemeProvider({
   countedSongIndex,
   seed = 1337,
 }: Props) {
+  const { resolvedTheme } = useTheme();
+  const isLightMode = resolvedTheme === 'light';
+
   const rafId = useRef<number | null>(null);
   const start = useRef<number | null>(null);
   const current = useRef<MoodThemeTarget | null>(null);
   const moodSegmentsRef = useRef<ReturnType<typeof distributeMoodPath> | null>(null);
   const moodBucketsRef = useRef<ReturnType<typeof distributeMoodPathBySongs> | null>(null);
+  const isLightModeRef = useRef(isLightMode);
+
+  useEffect(() => {
+    isLightModeRef.current = isLightMode;
+  }, [isLightMode]);
 
   useEffect(() => {
     const path = generateMoodPath({ startMood, upliftEnabled, seed });
@@ -75,7 +85,7 @@ export function MoodThemeProvider({
       const elapsed = now - start.current;
 
       const progress01 = sessionProgress01({ countedSongIndex, countedSongLimit: songLimit });
-      const drift01 = (Math.sin(elapsed / 60000) + 1) / 2; // ~1 min cycle
+      const drift01 = (Math.sin(elapsed / 60000) + 1) / 2; // ~1 min cycle
       let mood: typeof startMood;
       if (countedSongIndex != null) {
         const buckets =
@@ -92,22 +102,24 @@ export function MoodThemeProvider({
         progress01,
         uplift01: upliftEnabled ? 1 : 0,
         drift01,
-      });
+        isLightMode: isLightModeRef.current,
+      });
       const dt = 16; // approx; good enough for smoothing
       const tau = 8000; // ms
       const alpha = 1 - Math.exp(-dt / tau);
+      const alphaLightness = 1 - Math.exp(-dt / 300); // 300ms for theme toggles
 
       if (current.current == null) {
         current.current = target;
       } else {
         current.current = {
-          ...current.current,
+          ...current.current,
           bgH: lerp(current.current.bgH, target.bgH, alpha),
           bgS: lerp(current.current.bgS, target.bgS, alpha),
-          bgL: lerp(current.current.bgL, target.bgL, alpha),
+          bgL: lerp(current.current.bgL, target.bgL, alphaLightness),
           fgH: lerp(current.current.fgH, target.fgH, alpha),
           fgS: lerp(current.current.fgS, target.fgS, alpha),
-          fgL: lerp(current.current.fgL, target.fgL, alpha),
+          fgL: lerp(current.current.fgL, target.fgL, alphaLightness),
           accentH: lerp(current.current.accentH, target.accentH, alpha),
           accentS: lerp(current.current.accentS, target.accentS, alpha),
           accentL: lerp(current.current.accentL, target.accentL, alpha),

@@ -2,20 +2,15 @@
 
 import { Suspense, useEffect, useState, useMemo, useCallback } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
-import { 
-  Camera, Play, Pause, SkipForward, SkipBack, Volume2, Home, 
-  ListMusic, ChevronRight, Menu
-} from "lucide-react";
+import { Menu } from "lucide-react";
 import { useYouTubePlayer } from "@/components/YouTubePlayer";
 import { generateMoodPath, distributeMoodPathBySongs } from "@/lib/moodPath";
-import { buildSessionQueue, Track } from "@/lib/playlists";
+import { buildSessionQueue } from "@/lib/playlists";
 import { useLyrics } from "@/hooks/useLyrics";
 import { useKeyboardControls } from "@/hooks/useKeyboardControls";
-import { LyricsPanel, LyricsToggle } from "@/components/LyricsPanel";
 import type { Mood } from "@/lib/moodTheme";
 import { MoodThemeProvider } from "@/components/MoodThemeProvider";
-import { completeSession } from "@/lib/sessionPersistence";
-import { useRef } from "react";
+import { useSettings } from "@/lib/settings";
 import { Sidebar } from "@/components/player_ui/Sidebar";
 import { MainArea } from "@/components/player_ui/MainArea";
 import { BottomBar } from "@/components/player_ui/BottomBar";
@@ -30,42 +25,38 @@ const MOOD_COLORS: Record<Mood, { bg: string; accent: string; emoji: string }> =
   energetic: { bg: "from-orange-950 via-slate-900 to-gray-950", accent: "text-orange-400", emoji: "⚡" },
 };
 
-const MOOD_THEME: Record<Mood, { accentHex: string; headingFont: string; textColor: string; textMuted: string }> = {
-  sad: { accentHex: "#58a6ff", headingFont: '"Playfair Display", serif', textColor: "#c9d1d9", textMuted: "#6e7681" },
-  calm: { accentHex: "#7c9a6e", headingFont: '"DM Sans", sans-serif', textColor: "#d4e6d4", textMuted: "#8aaa8a" },
-  romantic: { accentHex: "#c4547a", headingFont: '"Cormorant Garamond", serif', textColor: "#e8c8d4", textMuted: "#9a7a8a" },
-  happy: { accentHex: "#ffb300", headingFont: '"Bebas Neue", sans-serif', textColor: "#fff3d0", textMuted: "#b8a060" },
-  energetic: { accentHex: "#ccff00", headingFont: '"Syne", sans-serif', textColor: "#e0e0e0", textMuted: "#666666" },
-};
 
-const MOOD_LABELS: Record<Mood, string> = {
-  sad: "Melancholic",
-  calm: "Peaceful",
-  romantic: "Romantic",
-  happy: "Happy",
-  energetic: "Energetic",
-};
-
-function formatTime(seconds: number): string {
-  const mins = Math.floor(seconds / 60);
-  const secs = Math.floor(seconds % 60);
-  return `${mins}:${secs.toString().padStart(2, "0")}`;
-}
 
 function PlayerContent() {
   const params = useSearchParams();
   const router = useRouter();
-  const startMood = (params.get("mood") as Mood) || "calm";
+  const { settings, setSettings, mounted } = useSettings();
+  const startMood = (params.get("mood") as Mood) || settings.lastMood || "calm";
+  
+  useEffect(() => {
+    if (mounted) {
+      const urlMood = params.get("mood") as Mood | null;
+      if (urlMood) {
+        const currentHistory = settings.moodHistory || [];
+        if (currentHistory[0] !== urlMood) {
+          const newHistory = [urlMood, ...currentHistory.filter(m => m !== urlMood)].slice(0, 10);
+          setSettings({ lastMood: urlMood, moodHistory: newHistory });
+        } else if (settings.lastMood !== urlMood) {
+          setSettings({ lastMood: urlMood });
+        }
+      }
+    }
+  }, [params, mounted]);
   const [sessionStartTime] = useState(() => Date.now());
   const [seed] = useState(() => Date.now());
-  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const { queue, moodPath, distribution } = useMemo(() => {
-    const path = generateMoodPath({ startMood, upliftEnabled: true, seed });
+    const path = generateMoodPath({ startMood, upliftEnabled: settings.upliftEnabled, seed });
     const buckets = distributeMoodPathBySongs(path, 12);
     const dist = buckets.map(b => b.targetSongs);
     const q = buildSessionQueue(path, dist);
     return { queue: q, moodPath: path, distribution: dist };
-  }, [startMood, seed]);
+  }, [startMood, seed, settings.upliftEnabled]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
   const [progress, setProgress] = useState(0);
@@ -73,7 +64,7 @@ function PlayerContent() {
   const [volume, setVolume] = useState(80);
   const [prevVolume, setPrevVolume] = useState(80);
 
-  const currentSong = queue[currentIndex];
+  const currentSong = queue[currentIndex];
   const getCurrentMood = useCallback((): Mood => {
     let songCount = 0;
     for (let i = 0; i < moodPath.length; i++) {
@@ -84,22 +75,14 @@ function PlayerContent() {
   }, [currentIndex, moodPath, distribution]);
 
   const currentMood = getCurrentMood();
-  const colors = MOOD_COLORS[currentMood];
 
   const handleNext = useCallback(() => {
     if (currentIndex < queue.length - 1) {
       setCurrentIndex(prev => prev + 1);
-    } else {
-      completeSession({
-        startMood,
-        finalMood: currentMood,
-        songsCompleted: queue.length,
-        totalDuration: Math.floor((Date.now() - sessionStartTime) / 1000),
-        moodPath,
-      });
-      router.push('/history');
+    } else {
+      router.push('/');
     }
-  }, [currentIndex, queue.length, currentMood, startMood, moodPath, router, sessionStartTime]);
+  }, [currentIndex, queue.length, router]);
 
   const handlePrev = useCallback(() => {
     if (currentIndex > 0) {
@@ -117,7 +100,7 @@ function PlayerContent() {
     seekTo
   } = useYouTubePlayer({
     videoId: currentSong?.id || "",
-    autoplay: false,
+    autoplay: true,
     volume,
     onPlay: () => setIsPlaying(true),
     onPause: () => setIsPlaying(false),
@@ -174,34 +157,17 @@ function PlayerContent() {
     }, [prevVolume]),
   });
 
-  const progressPercent = duration > 0 ? (progress / duration) * 100 : 0;
   const [showLyrics, setShowLyrics] = useState(false);
   const { lyrics, loading: lyricsLoading, error: lyricsError } = useLyrics(
     currentSong?.title,
     currentSong?.artist
-  );
-  const songsByMood = useMemo(() => {
-    const groups: Array<{ mood: Mood; songs: Array<Track & { globalIndex: number }> }> = [];
-    let globalIdx = 0;
-    
-    for (let i = 0; i < moodPath.length; i++) {
-      const count = distribution[i];
-      const songs = queue.slice(globalIdx, globalIdx + count).map((s, j) => ({
-        ...s,
-        globalIndex: globalIdx + j
-      }));
-      groups.push({ mood: moodPath[i], songs });
-      globalIdx += count;
-    }
-    
-    return groups;
-  }, [queue, moodPath, distribution]);
+  );
 
   if (!currentSong) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-950 text-white">
-        <p className="text-gray-400">Loading your vibe session...</p>
-      </div>
+      <main className="min-h-screen flex items-center justify-center bg-background text-foreground">
+        <p className="text-foreground/60">Loading your vibe session...</p>
+      </main>
     );
   }
 
@@ -216,8 +182,8 @@ function PlayerContent() {
   };
 
   return (
-    <div className="flex flex-col h-screen overflow-hidden bg-black text-white selection:bg-white/30 transition-colors duration-1000 w-full relative">
-      <MoodThemeProvider startMood={startMood} upliftEnabled={true} countedSongIndex={currentIndex} songLimit={12} />
+    <main className="flex flex-col h-screen overflow-hidden bg-background text-foreground selection:bg-foreground/30 transition-colors duration-1000 w-full relative">
+      <MoodThemeProvider startMood={startMood} upliftEnabled={settings.upliftEnabled} countedSongIndex={currentIndex} songLimit={12} />
       
       {/* Hidden YouTube Player */}
       <div className="fixed top-0 left-0 w-0 h-0 overflow-hidden pointer-events-none">
@@ -227,7 +193,12 @@ function PlayerContent() {
       <div className="flex flex-1 overflow-hidden relative w-full h-full">
         <MoodSelector
           currentMood={currentMood}
-          onMoodChange={(mood) => router.push(`/player?mood=${mood}`)}
+          onMoodChange={(mood) => {
+            const currentHistory = settings.moodHistory || [];
+            const newHistory = [mood, ...currentHistory.filter(m => m !== mood)].slice(0, 10);
+            setSettings({ lastMood: mood, moodHistory: newHistory });
+            router.push(`/player?mood=${mood}`);
+          }}
         />
         
         <MainArea 
@@ -260,7 +231,7 @@ function PlayerContent() {
         {/* Floating Menu Toggle */}
         <button
           onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-          className={`absolute top-8 right-8 z-40 hover:scale-110 transition-colors transition-transform duration-500 ${isSidebarOpen ? 'text-black' : 'text-white'}`}
+          className={`absolute top-8 right-8 z-40 hover:scale-110 transition-transform duration-500 text-white mix-blend-difference`}
           aria-label="Toggle Playlist Sidebar"
         >
           <Menu size={32} strokeWidth={2.5} />
@@ -283,7 +254,7 @@ function PlayerContent() {
         onLyricsToggle={() => setShowLyrics(!showLyrics)}
         lyricsLoading={lyricsLoading}
       />
-    </div>
+    </main>
   );
 }
 
@@ -291,14 +262,15 @@ export default function PlayerPage() {
   const [mounted, setMounted] = useState(false);
   
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setMounted(true);
   }, []);
 
   const fallback = (
-    <div className="min-h-screen flex items-center justify-center bg-gray-950 text-white">
+    <div className="min-h-screen flex items-center justify-center bg-background text-foreground">
       <div className="flex flex-col items-center gap-4">
-        <div className="w-10 h-10 border-2 border-white/20 border-t-white rounded-full animate-spin" />
-        <p className="text-gray-400">Building your vibe session...</p>
+        <div className="w-10 h-10 border-2 border-foreground/20 border-t-foreground rounded-full animate-spin" />
+        <p className="text-foreground/60">Building your vibe session...</p>
       </div>
     </div>
   );

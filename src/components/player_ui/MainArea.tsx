@@ -1,5 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import Image from 'next/image';
 import { MoodPack, Song } from './MoodPacks';
 import { LyricsPanel } from '@/components/LyricsPanel';
 import type { SyncedLine } from '@/hooks/useLyrics';
@@ -99,13 +100,12 @@ export function MainArea({ mood, currentSong, showLyrics, lyricsPlain, lyricsSyn
 
             {/* Song Thumbnail */}
             {currentSong?.id ? (
-              <img
+              <Image
                 src={`https://img.youtube.com/vi/${currentSong.id}/hqdefault.jpg`}
                 alt={currentSong.title || 'Album art'}
-                className="absolute inset-0 w-full h-full object-cover"
-                onError={(e) => {
-                  (e.target as HTMLImageElement).style.display = 'none';
-                }}
+                fill
+                sizes="(max-width: 768px) 100vw, 50vw"
+                className="absolute inset-0 object-cover"
               />
             ) : (
               <div className="absolute inset-0 flex items-center justify-center">
@@ -116,7 +116,7 @@ export function MainArea({ mood, currentSong, showLyrics, lyricsPlain, lyricsSyn
             )}
 
             {/* Texture Overlay */}
-            <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-30 mix-blend-overlay"></div>
+            <div className="absolute inset-0 bg-noise opacity-30 mix-blend-overlay"></div>
           </motion.div>
           )}
 

@@ -22,7 +22,10 @@ export const metadata: Metadata = {
   publisher: "Viber",
   applicationName: "Viber",
   generator: "Next.js",
-  metadataBase: new URL(process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'),
+  metadataBase: new URL(
+    process.env.NEXT_PUBLIC_BASE_URL ||
+    (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 'http://localhost:3000')
+  ),
   alternates: {
     canonical: '/',
   },
@@ -57,13 +60,16 @@ export const metadata: Metadata = {
   category: 'entertainment',
 };
 
+import { ThemeProvider } from "@/components/ThemeProvider";
+import { ThemeToggle } from "@/components/ThemeToggle";
+
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <head>
         <meta name="theme-color" content="#8b5cf6" />
         <meta name="color-scheme" content="dark light" />
@@ -72,10 +78,17 @@ export default function RootLayout({
       </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-        suppressHydrationWarning
       >
-        <StagewiseToolbar />
-        {children}
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          {process.env.NODE_ENV === 'development' && <StagewiseToolbar />}
+          <ThemeToggle />
+          {children}
+        </ThemeProvider>
       </body>
     </html>
   );

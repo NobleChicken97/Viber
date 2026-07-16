@@ -1,5 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import Image from 'next/image';
 import { Play, Pause, ChevronLeft, ChevronRight } from 'lucide-react';
 import { MoodPack, Song } from './MoodPacks';
 
@@ -42,13 +43,13 @@ export function Sidebar({ mood, songs, currentSongId, isPlaying, onSongSelect, o
           {(songs || mood.songs).map((song, index) => {
             const isActive = song.id === currentSongId;
             return (
-              <motion.div
+              <motion.button
                 key={song.id}
                 onClick={() => onSongSelect(song)}
                 initial={{ opacity: 0, x: 20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: index * 0.03 }}
-                className={`group py-3 border-b border-black/10 flex items-center justify-between cursor-pointer hover:bg-black/5 -mx-4 px-4 transition-colors ${isActive ? 'bg-white/30' : ''}`}>
+                className={`group py-3 border-b border-black/10 flex items-center justify-between cursor-pointer hover:bg-black/5 -mx-4 px-4 transition-colors w-[calc(100%+2rem)] text-left ${isActive ? 'bg-white/30' : ''}`}>
                 <div className="flex flex-col flex-1 min-w-0">
                   <span className="font-bold uppercase text-sm tracking-wide truncate">
                     {song.title}
@@ -66,7 +67,7 @@ export function Sidebar({ mood, songs, currentSongId, isPlaying, onSongSelect, o
                     song.duration
                   )}
                 </div>
-              </motion.div>
+              </motion.button>
             );
           })}
         </div>
@@ -75,19 +76,13 @@ export function Sidebar({ mood, songs, currentSongId, isPlaying, onSongSelect, o
       {/* Bottom Navigation Area */}
       <div className="p-8 mt-auto flex justify-between items-end">
         <div className="flex gap-8">
-          <ChevronLeft
-            size={40}
-            strokeWidth={1.5}
-            onClick={onPrev}
-            className="cursor-pointer hover:scale-110 transition-transform"
-            aria-label="Previous song" />
+          <button onClick={onPrev} aria-label="Previous song" className="hover:scale-110 transition-transform">
+            <ChevronLeft size={40} strokeWidth={1.5} />
+          </button>
 
-          <ChevronRight
-            size={40}
-            strokeWidth={1.5}
-            onClick={onNext}
-            className="cursor-pointer hover:scale-110 transition-transform"
-            aria-label="Next song" />
+          <button onClick={onNext} aria-label="Next song" className="hover:scale-110 transition-transform">
+            <ChevronRight size={40} strokeWidth={1.5} />
+          </button>
 
         </div>
 
@@ -97,15 +92,14 @@ export function Sidebar({ mood, songs, currentSongId, isPlaying, onSongSelect, o
             {/* Show artist of currently playing song if possible, or just the mood default */}
             {mood.songs.find(s => s.id === currentSongId)?.artist || mood.songs[0].artist}
           </div>
-          <div className="w-16 h-20 bg-black grayscale overflow-hidden">
+          <div className="w-16 h-20 bg-black grayscale overflow-hidden relative">
             {currentSongId ? (
-              <img
+              <Image
                 src={`https://img.youtube.com/vi/${currentSongId}/hqdefault.jpg`}
                 alt="Now playing"
-                className="w-full h-full object-cover opacity-80"
-                onError={(e) => {
-                  (e.target as HTMLImageElement).style.display = 'none';
-                }}
+                fill
+                sizes="(max-width: 768px) 100px, 100px"
+                className="object-cover opacity-80"
               />
             ) : (
               <div

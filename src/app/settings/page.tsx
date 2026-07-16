@@ -1,120 +1,102 @@
 "use client";
 
-import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { ArrowLeft, Camera, Wand2 } from "lucide-react";
+import { ArrowLeft, Wand2 } from "lucide-react";
 import { MoodThemeProvider } from "@/components/MoodThemeProvider";
 import { MoodSwitch } from "@/components/ui/MoodSwitch";
-import { MoodCard } from "@/components/ui/MoodCard";
+import { useSettings } from "@/lib/settings";
 import type { Mood } from "@/lib/moodTheme";
 
 export default function SettingsPage() {
   const router = useRouter();
-  
-  const [uplift, setUplift] = useState(true);
+  const { settings, setSettings, mounted } = useSettings();
 
-   const moods: Array<{ id: Mood; label: string; glyph: string }> = [
-      { id: "sad", label: "Sad", glyph: "499" },
-      { id: "calm", label: "Calm", glyph: "33f" },
-      { id: "romantic", label: "Romantic", glyph: "495" },
-      { id: "happy", label: "Happy", glyph: "31e" },
-      { id: "energetic", label: "Energetic", glyph: "4a1" },
-   ];
-  
+
+
+  if (!mounted) return null;
+
   return (
-      <div className="relative min-h-screen bg-background text-foreground">
-         <MoodThemeProvider startMood="calm" upliftEnabled={uplift} />
+    <div className="flex flex-col md:flex-row h-screen w-full bg-background text-foreground overflow-hidden relative">
+      <MoodThemeProvider startMood="calm" upliftEnabled={settings.upliftEnabled} />
 
-      <div className="min-h-screen p-6 sm:p-24 max-w-2xl mx-auto animate-in fade-in slide-in-from-bottom-4 duration-700">
-       <button 
-         onClick={() => router.back()} 
-         className="flex items-center gap-2 text-foreground/50 hover:text-foreground transition-colors mb-8 group"
-       >
-         <ArrowLeft size={18} className="group-hover:-translate-x-1 transition-transform" />
-         Back
-       </button>
+      {/* LEFT PANEL - Context & Typography */}
+      <div className="flex-1 flex flex-col justify-between p-8 md:p-16 border-b md:border-b-0 md:border-r border-foreground/10 z-10 bg-background/50 backdrop-blur-md">
+        
+        <div className="flex flex-col gap-2">
+          <div className="text-[10px] tracking-[0.3em] uppercase opacity-50 font-mono">
+            Viber OS // Settings
+          </div>
+        </div>
 
-       <h1 className="text-4xl font-bold mb-2">Settings</h1>
-       <p className="text-foreground/60 mb-12 text-lg">Customize your vibe journey.</p>
-
-       <div className="flex flex-col gap-6">
+        <div className="flex flex-col gap-4 my-auto">
+          <h1 className="text-6xl md:text-8xl font-black uppercase tracking-tighter leading-[0.8] mb-8" style={{ fontFamily: '"Syne", sans-serif' }}>
+            S Y S <br /> T E M
+          </h1>
           
-          <MoodCard className="flex items-center justify-between">
-             <div className="flex gap-4 items-center">
-                <div className="p-3 rounded-full bg-white/5 text-[hsl(var(--mood-accent-h),var(--mood-accent-s),var(--mood-accent-l))]">
-                   <Wand2 size={24} />
+          <div className="flex flex-col gap-6 max-w-sm">
+            <p className="text-sm tracking-[0.2em] uppercase font-bold text-foreground/80 leading-relaxed">
+              Configure your vibe engine.
+            </p>
+            <div className="h-[1px] w-12 bg-foreground/30" />
+            <div className="text-xs font-mono tracking-widest text-foreground/50 flex flex-col gap-4">
+              <p>ADJUST THE CORE PARAMETERS OF YOUR MOOD JOURNEYS AND APPLICATION PREFERENCES.</p>
+            </div>
+          </div>
+        </div>
+
+        <button 
+          onClick={() => router.back()} 
+          className="flex items-center gap-2 text-xs font-mono tracking-[0.3em] uppercase font-bold text-foreground/50 hover:text-foreground transition-colors group w-fit"
+        >
+          <ArrowLeft size={16} className="group-hover:-translate-x-1 transition-transform" />
+          BACK TO HOME
+        </button>
+      </div>
+
+      {/* RIGHT PANEL - Options */}
+      <div className="flex-1 relative flex flex-col bg-background/20 backdrop-blur-sm z-0 p-8 md:p-16 overflow-y-auto">
+        
+        {/* Texture Overlay */}
+        <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-40 mix-blend-overlay pointer-events-none" />
+
+        <div className="relative z-10 flex flex-col w-full max-w-xl gap-16 mt-8 md:mt-0">
+          
+          <div className="flex flex-col gap-8">
+            <div className="text-[10px] tracking-[0.3em] uppercase text-foreground/40 border-b border-foreground/10 pb-4">
+              Configuration // Core
+            </div>
+
+            <div className="flex items-center justify-between p-8 border border-foreground/20 bg-foreground/5">
+              <div className="flex gap-4 items-center">
+                <div className="p-3 bg-foreground/10 text-foreground">
+                  <Wand2 size={24} />
                 </div>
                 <div>
-                   <h3 className="font-semibold text-lg">Mood Uplift</h3>
-                   <p className="text-sm text-foreground/50">Gradually shift to happier vibes during session</p>
+                  <h3 className="font-bold tracking-[0.2em] uppercase">Mood Uplift</h3>
+                  <p className="text-xs font-mono tracking-widest text-foreground/50 mt-1">
+                    Gradually shift to happier vibes
+                  </p>
                 </div>
-             </div>
-             <MoodSwitch checked={uplift} onCheckedChange={setUplift} />
-          </MoodCard>
+              </div>
+              <MoodSwitch 
+                checked={settings.upliftEnabled} 
+                onCheckedChange={(v) => setSettings({ upliftEnabled: v })} 
+              />
+            </div>
 
-               <MoodCard className="flex items-center justify-between">
-                  <div className="flex gap-4 items-center">
-                     <div className="p-3 rounded-full bg-white/5 text-foreground/70">
-                        <Camera size={24} />
-                     </div>
-                     <div>
-                        <h3 className="font-semibold text-lg">Re-detect vibe</h3>
-                        <p className="text-sm text-foreground/50">Run a quick 3–5 second scan again</p>
-                     </div>
-                  </div>
-                  <button
-                     onClick={() => router.push("/camera")}
-                     className="rounded-full bg-white/5 px-4 py-2 text-xs uppercase tracking-widest text-foreground/60 hover:bg-white/10 hover:text-foreground"
-                  >
-                     Scan
-                  </button>
-               </MoodCard>
+            <div className="text-[10px] tracking-[0.3em] uppercase text-foreground/40 border-b border-foreground/10 pb-4 mt-8">
+              Configuration // About
+            </div>
 
-               <MoodCard className="p-6">
-                  <div className="mb-4">
-                     <h3 className="font-semibold text-lg">Manual mood override</h3>
-                     <p className="text-sm text-foreground/50">Skip the scan and pick a vibe directly</p>
-                  </div>
-
-                  <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
-                     {moods.map((m) => (
-                        <button
-                           key={m.id}
-                           onClick={() => router.push(`/player?mood=${m.id}`)}
-                           className="group rounded-3xl border border-white/5 bg-white/5 p-5 text-left backdrop-blur-xl transition-all duration-500 hover:bg-white/10 active:scale-[0.99]"
-                        >
-                           <div className="flex items-center justify-between">
-                              <div className="text-2xl grayscale transition-all duration-500 group-hover:grayscale-0">
-                                 {m.glyph}
-                              </div>
-                              <div className="h-8 w-8 rounded-full bg-foreground/5" />
-                           </div>
-                           <div className="mt-4 text-sm font-medium text-foreground/80 group-hover:text-foreground">
-                              {m.label}
-                           </div>
-                        </button>
-                     ))}
-                  </div>
-               </MoodCard>
-          
-          <div className="mt-8 pt-8 border-t border-white/5">
-             <h3 className="text-sm font-medium text-foreground/40 uppercase tracking-widest mb-4">About</h3>
-             <div className="space-y-4 text-sm text-foreground/60">
-                <div className="flex justify-between">
-                   <span>Version</span>
-                   <span>1.0.0 (MVP)</span>
-                </div>
-                <div className="flex justify-between">
-                   <span>Privacy Policy</span>
-                            <button onClick={() => router.push("/privacy")} className="hover:text-foreground underline">
-                               Read
-                            </button>
-                </div>
-             </div>
+            <div className="flex flex-col gap-4 p-8 border border-foreground/20 bg-foreground/5 text-xs font-mono tracking-widest uppercase">
+              <div className="flex justify-between text-foreground/60">
+                <span>Version</span>
+                <span className="text-foreground">1.0.0 (MVP)</span>
+              </div>
+            </div>
           </div>
-
-       </div>
-         </div>
+        </div>
       </div>
+    </div>
   );
 }

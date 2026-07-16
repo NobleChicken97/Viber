@@ -8,7 +8,6 @@ Viber is a Next.js web application that uses client-side facial emotion recognit
 - **Custom Player UI:** A beautiful, responsive, typography-heavy player interface with dynamic color gradients and a collapsible sidebar.
 - **YouTube IFrame Integration:** Plays music directly from YouTube without heavy audio hosting.
 - **Lyrics Support:** Automatically fetches synced lyrics when available and displays them beautifully on screen.
-- **Session History:** Tracks your past listening sessions and mood journeys locally in the browser.
 
 ## Getting Started
 
@@ -35,3 +34,8 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 ## Privacy
 All facial recognition and emotion detection happens **100% locally** in the browser. No video streams, images, or biometric data are ever sent to a server. 
+
+## Developer
+**Arpan Goyal** - Developer
+* LinkedIn: [https://www.linkedin.com/in/arpangoyal97/](https://www.linkedin.com/in/arpangoyal97/)
+* GitHub: [https://github.com/NobleChicken97](https://github.com/NobleChicken97)

@@ -132,6 +132,7 @@ export function useYouTubePlayer({
   useEffect(() => {
     if (typeof window === "undefined") return;
     if (window.YT && window.YT.Player) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setApiLoaded(true);
       return;
     }
@@ -273,8 +274,8 @@ export function useYouTubePlayer({
         playerRef.current.destroy();
         playerRef.current = null;
       }
-    };
-  }, [apiLoaded, containerMounted]);
+    };
+  }, [apiLoaded, containerMounted, startProgressTracking, stopProgressTracking, volume]);
 
   const play = useCallback(() => {
     if (playerRef.current && typeof playerRef.current.playVideo === 'function') {
@@ -317,7 +318,8 @@ export function useYouTubePlayer({
 
   const seekTo = useCallback((seconds: number) => {
     if (playerRef.current && typeof playerRef.current.seekTo === 'function') {
-      playerRef.current.seekTo(seconds, true);
+      playerRef.current.seekTo(seconds, true);
+      playerRef.current.playVideo();
       const duration = playerRef.current.getDuration();
       onProgressRef.current?.(seconds, duration);
     }

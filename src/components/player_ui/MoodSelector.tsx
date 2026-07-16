@@ -1,5 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
+import { ArrowLeft } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 import { MoodType, moodPacks } from './MoodPacks';
 
 interface MoodSelectorProps {
@@ -9,6 +11,8 @@ interface MoodSelectorProps {
 
 export function MoodSelector({ currentMood, onMoodChange }: MoodSelectorProps) {
   const activePack = moodPacks[currentMood];
+  const router = useRouter();
+  const [hoveredMood, setHoveredMood] = useState<MoodType | null>(null);
   
   return (
     <div
@@ -18,8 +22,15 @@ export function MoodSelector({ currentMood, onMoodChange }: MoodSelectorProps) {
         borderColor: activePack.border
       }}>
 
-      <div className="mb-4">
-        <h3 className="text-xs font-bold uppercase tracking-widest opacity-50 mb-4" style={{ color: activePack.text }}>
+      <div className="mb-4 flex items-center gap-3">
+        <button 
+          onClick={() => router.push('/')}
+          className="hover:opacity-80 transition-opacity"
+          aria-label="Back to Home"
+        >
+          <ArrowLeft size={20} style={{ color: activePack.text }} />
+        </button>
+        <h3 className="text-xs font-bold uppercase tracking-widest opacity-50" style={{ color: activePack.text }}>
           Select Mood
         </h3>
       </div>
@@ -37,23 +48,23 @@ export function MoodSelector({ currentMood, onMoodChange }: MoodSelectorProps) {
             whileTap={{
               scale: 0.98
             }}
+            onHoverStart={() => setHoveredMood(pack.id)}
+            onHoverEnd={() => setHoveredMood(null)}
             className={`
               flex items-center gap-3 px-4 py-3 transition-all duration-300 w-full text-left
             `}
             style={{
               backgroundColor: isActive ? pack.accent : 'transparent',
               color: isActive ?
-              pack.id === 'happy' || pack.id === 'calm' ?
-              '#000' :
-              '#fff' :
-              pack.textMuted,
+              (pack.id === 'happy' || pack.id === 'calm' ? '#000' : '#fff') :
+              (hoveredMood === pack.id ? pack.text : pack.textMuted),
               borderRadius: activePack.borderRadius,
               border: `1px solid ${isActive ? 'transparent' : pack.border}`,
               fontFamily: activePack.bodyFont,
               fontWeight: isActive ? 700 : 500
             }}>
 
-            <span className="text-xl">{pack.emoji}</span>
+            <span className="text-xl" style={{ textShadow: '0 2px 4px rgba(0,0,0,0.15)' }}>{pack.emoji}</span>
             <span className="uppercase tracking-wide text-sm">{pack.name}</span>
           </motion.button>);
 

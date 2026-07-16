@@ -93,21 +93,23 @@ export function BottomBar({
       {/* Controls Grid */}
       <div className="flex-1 grid grid-cols-3 items-center pb-4">
         {/* PREV */}
-        <div 
+        <button 
           onClick={onPrev}
-          className="flex flex-col items-start pl-12 cursor-pointer group select-none">
+          aria-label="Previous Track"
+          className="flex flex-col items-start pl-12 cursor-pointer group select-none bg-transparent border-none text-left">
           <span className="text-4xl font-black uppercase tracking-tight group-hover:text-gray-300 transition-colors flex items-center gap-2">
              PREV
           </span>
-          <span className="text-xs font-mono text-gray-500 uppercase mt-1 group-hover:text-gray-400 w-32 truncate">
+          <span className="text-xs font-mono text-gray-400 uppercase mt-1 group-hover:text-gray-300 w-32 truncate">
             {prevSong?.title || "Previous"}
           </span>
-        </div>
+        </button>
 
         {/* PLAY/PAUSE */}
-        <div 
+        <button 
           onClick={onPlayPause}
-          className="flex flex-col items-center justify-center cursor-pointer group select-none">
+          aria-label={isPlaying ? "Pause" : "Play"}
+          className="flex flex-col items-center justify-center cursor-pointer group select-none bg-transparent border-none">
           <div className="mb-2 transition-transform group-hover:scale-110">
             {isPlaying ? (
                <Pause
@@ -131,7 +133,7 @@ export function BottomBar({
           <span className="text-sm font-bold tracking-[0.3em] uppercase">
             {isPlaying ? "PAUSE" : "PLAY"}
           </span>
-        </div>
+        </button>
 
         {/* NEXT + Volume */}
         <div className="flex items-center justify-end pr-12 gap-6">
@@ -143,6 +145,7 @@ export function BottomBar({
           >
             <button 
               onClick={() => onVolumeChange(volume > 0 ? 0 : 80)}
+              aria-label={volume > 0 ? "Mute Volume" : "Unmute Volume"}
               className="p-2 hover:bg-white/10 rounded-full transition-colors"
             >
               {volume > 0 ? (
@@ -174,6 +177,7 @@ export function BottomBar({
           {onLyricsToggle && (
             <button
               onClick={onLyricsToggle}
+              aria-label={showLyrics ? 'Hide lyrics' : 'Show lyrics'}
               className={`p-2 rounded-full transition-all ${lyricsLoading ? 'animate-pulse' : ''}`}
               style={{
                 backgroundColor: showLyrics ? `${mood.accent}30` : 'transparent',
@@ -186,16 +190,17 @@ export function BottomBar({
           )}
           
           {/* NEXT */}
-          <div 
+          <button 
             onClick={onNext}
-            className="flex flex-col items-end cursor-pointer group select-none">
+            aria-label="Next Track"
+            className="flex flex-col items-end cursor-pointer group select-none bg-transparent border-none text-right">
             <span className="text-4xl font-black uppercase tracking-tight group-hover:text-gray-300 transition-colors flex items-center gap-2">
               NEXT 
             </span>
-            <span className="text-xs font-mono text-gray-500 uppercase mt-1 group-hover:text-gray-400 w-32 truncate text-right">
+            <span className="text-xs font-mono text-gray-400 uppercase mt-1 group-hover:text-gray-300 w-32 truncate text-right">
               {nextSong?.title || "Next"}
             </span>
-          </div>
+          </button>
         </div>
       </div>
     </div>);
