@@ -1,9 +1,9 @@
 
 export interface Track {
-  id: string;        // YouTube video ID
-  title: string;     // Song title
-  artist: string;    // Artist name
-  duration?: number; // Duration in seconds (optional, can be fetched from API)
+  id: string;        
+  title: string;     
+  artist: string;    
+  duration?: number; 
 }
 
 export type MoodPlaylist = Track[];

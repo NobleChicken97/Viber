@@ -8,8 +8,8 @@ export type MoodPathSegment = {
 
 export type MoodSongBucket = {
   mood: Mood;
-  startSong: number; // 0-based, inclusive (counted songs)
-  endSong: number; // 0-based, exclusive (counted songs)
+  startSong: number; 
+  endSong: number; 
   targetSongs: number;
 };
 
@@ -45,29 +45,29 @@ export function generateMoodPath(options: {
   switch (startMood) {
     case "sad": {
       const roll = rng();
-      if (roll < 0.25) return ["sad", "calm", "romantic"]; // alt
-      if (roll < 0.55) return ["sad", "calm", "happy"]; // shorter
-      return ["sad", "calm", "happy", "energetic"]; // default
+      if (roll < 0.25) return ["sad", "calm", "romantic"]; 
+      if (roll < 0.55) return ["sad", "calm", "happy"]; 
+      return ["sad", "calm", "happy", "energetic"]; 
     }
     case "calm": {
       const roll = rng();
-      if (roll < 0.25) return ["calm", "romantic"]; // alt
-      if (roll < 0.55) return ["calm", "happy"]; // shorter
-      return ["calm", "happy", "energetic"]; // default
+      if (roll < 0.25) return ["calm", "romantic"]; 
+      if (roll < 0.55) return ["calm", "happy"]; 
+      return ["calm", "happy", "energetic"]; 
     }
     case "romantic": {
       const roll = rng();
-      if (roll < 0.3) return ["romantic", "calm"]; // alt
-      return ["romantic", "happy"]; // default
+      if (roll < 0.3) return ["romantic", "calm"]; 
+      return ["romantic", "happy"]; 
     }
     case "happy": {
       const roll = rng();
-      if (roll < 0.35) return ["happy"]; // stays
-      return ["happy", "energetic"]; // default
+      if (roll < 0.35) return ["happy"]; 
+      return ["happy", "energetic"]; 
     }
     case "energetic": {
       const roll = rng();
-      if (roll < 0.1) return ["energetic", "happy"]; // rare
+      if (roll < 0.1) return ["energetic", "happy"]; 
       return ["energetic"];
     }
     default:
@@ -141,7 +141,7 @@ export function moodAtProgress(segments: MoodPathSegment[], progress01: number):
 }
 
 export function sessionProgress01(input: {
-  countedSongIndex?: number; // 0-based (songs listened >= threshold)
+  countedSongIndex?: number; 
   countedSongLimit: number;
 }): number {
   if (input.countedSongLimit <= 0) return 0;

@@ -27,7 +27,7 @@ export function MainArea({ mood, currentSong, showLyrics, lyricsPlain, lyricsSyn
         color: '#ffffff'
       }}>
 
-      {/* Top Bar */}
+      {}
       <div className="flex justify-between items-center p-8 z-20">
 
         <span className="text-sm font-bold tracking-[0.2em] uppercase opacity-80">
@@ -36,9 +36,9 @@ export function MainArea({ mood, currentSong, showLyrics, lyricsPlain, lyricsSyn
 
       </div>
 
-      {/* Center Content */}
+      {}
       <div className="flex-1 flex items-center justify-center relative z-10 px-12">
-        {/* Left Vertical Text */}
+        {}
         <div className="absolute left-8 top-1/2 -translate-y-1/2 -rotate-90 origin-center whitespace-nowrap">
           <span className="text-xs font-bold tracking-[0.8em] uppercase opacity-60">
             {mood.name.split('').join(' ')}
@@ -115,12 +115,12 @@ export function MainArea({ mood, currentSong, showLyrics, lyricsPlain, lyricsSyn
               </div>
             )}
 
-            {/* Texture Overlay */}
+            {}
             <div className="absolute inset-0 bg-noise opacity-30 mix-blend-overlay"></div>
           </motion.div>
           )}
 
-          {/* Deconstructed Typography */}
+          {}
           <div className="w-1/2 h-full flex flex-col justify-center relative overflow-hidden">
             <motion.div
               key={displayTitle}
@@ -141,7 +141,7 @@ export function MainArea({ mood, currentSong, showLyrics, lyricsPlain, lyricsSyn
                 fontFamily: mood.headingFont
               }}>
 
-              {displayTitle.split(' ').slice(0, 4).map((word, i) => // Limit to 4 words to avoid overflow
+              {displayTitle.split(' ').slice(0, 4).map((word, i) => 
               <span
                 key={i}
                 className="text-7xl md:text-8xl lg:text-9xl font-bold uppercase opacity-40 tracking-tighter mix-blend-overlay break-all"

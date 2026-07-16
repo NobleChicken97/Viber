@@ -2,7 +2,7 @@
 
 import { Suspense, useEffect, useState, useMemo, useCallback } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
-import { Menu } from "lucide-react";
+import { Menu, ArrowLeft, Wand2 } from "lucide-react";
 import { useYouTubePlayer } from "@/components/YouTubePlayer";
 import { generateMoodPath, distributeMoodPathBySongs } from "@/lib/moodPath";
 import { buildSessionQueue } from "@/lib/playlists";
@@ -17,13 +17,7 @@ import { BottomBar } from "@/components/player_ui/BottomBar";
 import { moodPacks, Song } from "@/components/player_ui/MoodPacks";
 import { MoodSelector } from "@/components/player_ui/MoodSelector";
 
-const MOOD_COLORS: Record<Mood, { bg: string; accent: string; emoji: string }> = {
-  sad: { bg: "from-blue-950 via-slate-900 to-gray-950", accent: "text-blue-400", emoji: "💙" },
-  calm: { bg: "from-emerald-950 via-slate-900 to-gray-950", accent: "text-emerald-400", emoji: "🌿" },
-  romantic: { bg: "from-pink-950 via-slate-900 to-gray-950", accent: "text-pink-400", emoji: "💕" },
-  happy: { bg: "from-amber-950 via-slate-900 to-gray-950", accent: "text-amber-400", emoji: "☀️" },
-  energetic: { bg: "from-orange-950 via-slate-900 to-gray-950", accent: "text-orange-400", emoji: "⚡" },
-};
+
 
 
 
@@ -46,10 +40,11 @@ function PlayerContent() {
         }
       }
     }
+  
   }, [params, mounted]);
-  const [sessionStartTime] = useState(() => Date.now());
   const [seed] = useState(() => Date.now());
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  const [isMoodSelectorOpen, setIsMoodSelectorOpen] = useState(false);
   const { queue, moodPath, distribution } = useMemo(() => {
     const path = generateMoodPath({ startMood, upliftEnabled: settings.upliftEnabled, seed });
     const buckets = distributeMoodPathBySongs(path, 12);
@@ -185,21 +180,36 @@ function PlayerContent() {
     <main className="flex flex-col h-screen overflow-hidden bg-background text-foreground selection:bg-foreground/30 transition-colors duration-1000 w-full relative">
       <MoodThemeProvider startMood={startMood} upliftEnabled={settings.upliftEnabled} countedSongIndex={currentIndex} songLimit={12} />
       
-      {/* Hidden YouTube Player */}
+      {}
       <div className="fixed top-0 left-0 w-0 h-0 overflow-hidden pointer-events-none">
         <div ref={containerRef} />
       </div>
 
       <div className="flex flex-1 overflow-hidden relative w-full h-full">
-        <MoodSelector
-          currentMood={currentMood}
-          onMoodChange={(mood) => {
-            const currentHistory = settings.moodHistory || [];
-            const newHistory = [mood, ...currentHistory.filter(m => m !== mood)].slice(0, 10);
-            setSettings({ lastMood: mood, moodHistory: newHistory });
-            router.push(`/player?mood=${mood}`);
-          }}
-        />
+        <div className="absolute top-8 left-1/2 -translate-x-1/2 z-50 flex items-center gap-4 text-white mix-blend-difference">
+          <button onClick={() => router.push('/')} className="hover:scale-110 transition-transform duration-500" aria-label="Back to Home">
+            <ArrowLeft size={32} strokeWidth={2.5} />
+          </button>
+          <button onClick={() => setIsMoodSelectorOpen(!isMoodSelectorOpen)} className="hover:scale-110 transition-transform duration-500" aria-label="Toggle Mood Selector">
+            <Wand2 size={32} strokeWidth={2.5} />
+          </button>
+        </div>
+
+        <div className={`transition-all duration-700 ease-in-out h-full z-40 overflow-hidden shrink-0 ${isMoodSelectorOpen ? 'w-[100vw] lg:w-60 opacity-100' : 'w-0 opacity-0'}`}>
+          <MoodSelector
+            currentMood={currentMood}
+            onMoodChange={(mood) => {
+              const currentHistory = settings.moodHistory || [];
+              const newHistory = [mood, ...currentHistory.filter(m => m !== mood)].slice(0, 10);
+              setSettings({ lastMood: mood, moodHistory: newHistory });
+              router.push(`/player?mood=${mood}`);
+              
+              if (window.innerWidth < 1024) {
+                setIsMoodSelectorOpen(false);
+              }
+            }}
+          />
+        </div>
         
         <MainArea 
           mood={currentMoodPack}
@@ -228,7 +238,7 @@ function PlayerContent() {
           </div>
         </div>
 
-        {/* Floating Menu Toggle */}
+        {}
         <button
           onClick={() => setIsSidebarOpen(!isSidebarOpen)}
           className={`absolute top-8 right-8 z-40 hover:scale-110 transition-transform duration-500 text-white mix-blend-difference`}
@@ -262,7 +272,7 @@ export default function PlayerPage() {
   const [mounted, setMounted] = useState(false);
   
   useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect
+    
     setMounted(true);
   }, []);
 

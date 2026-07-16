@@ -115,7 +115,7 @@ export default function Home() {
     <div className="flex flex-col md:flex-row min-h-screen w-full bg-background text-foreground overflow-hidden relative selection:bg-[var(--accent)] selection:text-white">
       <MoodThemeProvider startMood="calm" upliftEnabled={false} />
       
-      {/* Decorative Music Sprites Layer */}
+      {}
       <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden">
         <div className="absolute top-1/4 left-1/4 opacity-[0.03] animate-[spin_40s_linear_infinite]">
           <Disc3 size={400} strokeWidth={0.5} />
@@ -133,19 +133,19 @@ export default function Home() {
           <Headphones size={250} strokeWidth={0.5} />
         </div>
         
-        {/* Subtle geometric pattern */}
+        {}
         <div className="absolute inset-0 bg-[radial-gradient(var(--foreground)_1px,transparent_1px)] [background-size:40px_40px] opacity-[0.03] mask-image:linear-gradient(to_bottom,white,transparent)" />
       </div>
       
-      {/* Noise Texture */}
+      {}
       <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 mix-blend-overlay pointer-events-none z-0" />
 
-      {/* LEFT PANEL - Context & Typography */}
+      {}
       <div className="flex-1 flex flex-col justify-between p-8 md:p-16 border-b md:border-b-0 md:border-r border-foreground/5 z-10 bg-background/60 backdrop-blur-3xl shadow-[inset_-1px_0_0_rgba(0,0,0,0.1)]">
         
         <div className="flex flex-col gap-2">
           <div className="text-[10px] tracking-[0.3em] uppercase opacity-50 font-mono flex items-center gap-4">
-            <span>Viber OS // Core</span>
+            <span>Viber OS 0.1.0</span> 
             <div className="h-[1px] w-8 bg-foreground/30" />
             <AudioWaveform size={14} className="text-[var(--accent)]" />
           </div>
@@ -167,16 +167,16 @@ export default function Home() {
           </div>
         </div>
 
-        {/* Minimal Footer Links */}
+        {}
         <div className="flex flex-wrap items-center gap-6 text-[10px] tracking-[0.3em] uppercase font-bold text-foreground/40">
           <button onClick={() => router.push('/settings')} className="hover:text-foreground transition-colors">SETTINGS</button>
         </div>
       </div>
 
-      {/* RIGHT PANEL - Action & Camera */}
+      {}
       <div className="flex-1 relative flex flex-col z-10 bg-background/40 backdrop-blur-xl">
         
-        {/* Camera Feed Background */}
+        {}
         <video 
           ref={videoRef}
           autoPlay 
@@ -193,7 +193,7 @@ export default function Home() {
               
               <div className="flex flex-col gap-4">
                 <div className="flex items-center gap-4 text-[10px] tracking-[0.3em] uppercase text-foreground/40 mb-2 border-b border-foreground/10 pb-4">
-                  <Camera size={12} /> Option 01 // Autopilot
+                  <Camera size={12} /> Option 01 
                 </div>
                 <button 
                   onClick={requestCamera}
@@ -209,7 +209,7 @@ export default function Home() {
 
               <div className="flex flex-col gap-4">
                 <div className="flex items-center gap-4 text-[10px] tracking-[0.3em] uppercase text-foreground/40 mb-2 border-b border-foreground/10 pb-4">
-                  <Music2 size={12} /> Option 02 // Manual Override
+                  <Music2 size={12} /> Option 02 
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
                   {MOODS.map((mood) => (

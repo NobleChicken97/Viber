@@ -5,18 +5,11 @@ import type { FaceLandmarker } from '@mediapipe/tasks-vision';
 
 type MLState = 'idle' | 'loading' | 'ready' | 'error';
 
-/**
- * Hook that initializes Google MediaPipe FaceLandmarker and provides
- * a `detectMood` function that returns a Mood from a video element.
- *
- * Replaces the old face-api.js implementation with a modern, GPU-accelerated,
- * actively maintained solution.
- */
 export function useFaceApi() {
   const [mlState, setMlState] = useState<MLState>('idle');
   const [error, setError] = useState<string | null>(null);
 
-  // We store the FaceLandmarker instance in a ref so it persists across renders.
+  
   const landmarkerRef = useRef<FaceLandmarker | null>(null);
 
   useEffect(() => {
@@ -26,17 +19,17 @@ export function useFaceApi() {
       try {
         setMlState('loading');
 
-        // Dynamically import MediaPipe to keep the bundle lean.
+        
         const { FaceLandmarker, FilesetResolver } = await import(
           '@mediapipe/tasks-vision'
         );
 
-        // Initialize the WASM runtime
+        
         const vision = await FilesetResolver.forVisionTasks(
           'https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision/wasm'
         );
 
-        // Create the FaceLandmarker with blendshape output enabled
+        
         const faceLandmarker = await FaceLandmarker.createFromOptions(vision, {
           baseOptions: {
             modelAssetPath:
@@ -83,12 +76,12 @@ export function useFaceApi() {
     async (videoElement: HTMLVideoElement): Promise<Mood | null> => {
       if (mlState !== 'ready' || !landmarkerRef.current) return null;
 
-      // Guard: video must have actual pixel data before MediaPipe can process it.
-      // Without this, detectForVideo throws "ROI width and height must be > 0".
+      
+      
       if (
         !videoElement.videoWidth ||
         !videoElement.videoHeight ||
-        videoElement.readyState < 2 // HAVE_CURRENT_DATA
+        videoElement.readyState < 2 
       ) {
         return null;
       }
@@ -96,16 +89,16 @@ export function useFaceApi() {
       try {
         const faceLandmarker = landmarkerRef.current;
 
-        // MediaPipe's detectForVideo requires a monotonically increasing timestamp.
+        
         const result = faceLandmarker.detectForVideo(
           videoElement,
           performance.now()
         );
 
-        // Validate: must have face landmarks AND blendshapes.
-        // A real face produces 468+ landmarks. Inanimate objects
-        // may occasionally trigger the detector but will have
-        // fewer/no landmarks.
+        
+        
+        
+        
         const hasLandmarks =
           result.faceLandmarks &&
           result.faceLandmarks.length > 0 &&
@@ -139,7 +132,7 @@ export function useFaceApi() {
           return mood;
         }
 
-        // No face detected
+        
         return null;
       } catch (err) {
         console.error('Error during MediaPipe detection:', err);

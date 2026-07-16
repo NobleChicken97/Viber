@@ -85,7 +85,7 @@ export function MoodThemeProvider({
       const elapsed = now - start.current;
 
       const progress01 = sessionProgress01({ countedSongIndex, countedSongLimit: songLimit });
-      const drift01 = (Math.sin(elapsed / 60000) + 1) / 2; // ~1 min cycle
+      const drift01 = (Math.sin(elapsed / 60000) + 1) / 2; 
       let mood: typeof startMood;
       if (countedSongIndex != null) {
         const buckets =
@@ -104,10 +104,10 @@ export function MoodThemeProvider({
         drift01,
         isLightMode: isLightModeRef.current,
       });
-      const dt = 16; // approx; good enough for smoothing
-      const tau = 8000; // ms
+      const dt = 16; 
+      const tau = 8000; 
       const alpha = 1 - Math.exp(-dt / tau);
-      const alphaLightness = 1 - Math.exp(-dt / 300); // 300ms for theme toggles
+      const alphaLightness = 1 - Math.exp(-dt / 300); 
 
       if (current.current == null) {
         current.current = target;

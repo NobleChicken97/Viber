@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { ArrowLeft } from 'lucide-react';
-import { useRouter } from 'next/navigation';
 import { MoodType, moodPacks } from './MoodPacks';
 
 interface MoodSelectorProps {
@@ -11,30 +9,21 @@ interface MoodSelectorProps {
 
 export function MoodSelector({ currentMood, onMoodChange }: MoodSelectorProps) {
   const activePack = moodPacks[currentMood];
-  const router = useRouter();
   const [hoveredMood, setHoveredMood] = useState<MoodType | null>(null);
   
   return (
     <div
-      className="hidden md:flex flex-col h-full w-60 py-8 px-6 gap-4 overflow-y-auto no-scrollbar border-r transition-colors duration-500 z-50 relative shrink-0"
+      className="flex flex-col h-full w-full pt-24 pb-8 px-6 gap-4 overflow-y-auto no-scrollbar border-r transition-colors duration-500 relative shrink-0"
       style={{
         backgroundColor: activePack.bg,
         borderColor: activePack.border
       }}>
 
       <div className="mb-4 flex items-center gap-3">
-        <button 
-          onClick={() => router.push('/')}
-          className="hover:opacity-80 transition-opacity"
-          aria-label="Back to Home"
-        >
-          <ArrowLeft size={20} style={{ color: activePack.text }} />
-        </button>
         <h3 className="text-xs font-bold uppercase tracking-widest opacity-50" style={{ color: activePack.text }}>
           Select Mood
         </h3>
       </div>
-      
       {Object.values(moodPacks).map((pack) => {
         const isActive = currentMood === pack.id;
         return (

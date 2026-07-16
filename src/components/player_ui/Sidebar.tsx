@@ -25,10 +25,10 @@ export function Sidebar({ mood, songs, currentSongId, isPlaying, onSongSelect, o
         color: textColor
       }}>
 
-      {/* Spacer for Floating Menu Button */}
+      {}
       <div className="h-8 mb-8"></div>
 
-      {/* Playlist Title */}
+      {}
       <div className="px-8 mb-6">
         <h2
           className="text-2xl font-black uppercase leading-none tracking-tight"
@@ -37,7 +37,7 @@ export function Sidebar({ mood, songs, currentSongId, isPlaying, onSongSelect, o
         </h2>
       </div>
 
-      {/* Track List */}
+      {}
       <div className="flex-1 overflow-y-auto px-8 pb-8 custom-scrollbar">
         <div className="space-y-0">
           {(songs || mood.songs).map((song, index) => {
@@ -73,7 +73,7 @@ export function Sidebar({ mood, songs, currentSongId, isPlaying, onSongSelect, o
         </div>
       </div>
 
-      {/* Bottom Navigation Area */}
+      {}
       <div className="p-8 mt-auto flex justify-between items-end">
         <div className="flex gap-8">
           <button onClick={onPrev} aria-label="Previous song" className="hover:scale-110 transition-transform">
@@ -86,10 +86,10 @@ export function Sidebar({ mood, songs, currentSongId, isPlaying, onSongSelect, o
 
         </div>
 
-        {/* Mini Artist Thumbnail */}
+        {}
         <div className="flex items-end gap-2">
           <div className="writing-vertical-rl text-[10px] font-bold tracking-widest uppercase rotate-180 h-16">
-            {/* Show artist of currently playing song if possible, or just the mood default */}
+            {}
             {mood.songs.find(s => s.id === currentSongId)?.artist || mood.songs[0].artist}
           </div>
           <div className="w-16 h-20 bg-black grayscale overflow-hidden relative">

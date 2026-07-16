@@ -24,6 +24,17 @@
 .DS_Store
 *.pem
 
+# AI and meta generated files/folders
+.agent/
+.agents/
+.augment/
+.gemini/
+.gsd/
+.serena/
+adapters/
+skills/
+graphify-out/
+
 # Documentation (except README.md)
 docs/
 *.md

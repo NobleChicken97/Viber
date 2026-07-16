@@ -5,8 +5,6 @@ import { ArrowLeft, Wand2 } from "lucide-react";
 import { MoodThemeProvider } from "@/components/MoodThemeProvider";
 import { MoodSwitch } from "@/components/ui/MoodSwitch";
 import { useSettings } from "@/lib/settings";
-import type { Mood } from "@/lib/moodTheme";
-
 export default function SettingsPage() {
   const router = useRouter();
   const { settings, setSettings, mounted } = useSettings();
@@ -19,12 +17,12 @@ export default function SettingsPage() {
     <div className="flex flex-col md:flex-row h-screen w-full bg-background text-foreground overflow-hidden relative">
       <MoodThemeProvider startMood="calm" upliftEnabled={settings.upliftEnabled} />
 
-      {/* LEFT PANEL - Context & Typography */}
+      {}
       <div className="flex-1 flex flex-col justify-between p-8 md:p-16 border-b md:border-b-0 md:border-r border-foreground/10 z-10 bg-background/50 backdrop-blur-md">
         
         <div className="flex flex-col gap-2">
           <div className="text-[10px] tracking-[0.3em] uppercase opacity-50 font-mono">
-            Viber OS // Settings
+            Viber OS 
           </div>
         </div>
 
@@ -53,17 +51,17 @@ export default function SettingsPage() {
         </button>
       </div>
 
-      {/* RIGHT PANEL - Options */}
+      {}
       <div className="flex-1 relative flex flex-col bg-background/20 backdrop-blur-sm z-0 p-8 md:p-16 overflow-y-auto">
         
-        {/* Texture Overlay */}
+        {}
         <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-40 mix-blend-overlay pointer-events-none" />
 
         <div className="relative z-10 flex flex-col w-full max-w-xl gap-16 mt-8 md:mt-0">
           
           <div className="flex flex-col gap-8">
             <div className="text-[10px] tracking-[0.3em] uppercase text-foreground/40 border-b border-foreground/10 pb-4">
-              Configuration // Core
+              Configuration 
             </div>
 
             <div className="flex items-center justify-between p-8 border border-foreground/20 bg-foreground/5">
@@ -85,7 +83,7 @@ export default function SettingsPage() {
             </div>
 
             <div className="text-[10px] tracking-[0.3em] uppercase text-foreground/40 border-b border-foreground/10 pb-4 mt-8">
-              Configuration // About
+              Configuration 
             </div>
 
             <div className="flex flex-col gap-4 p-8 border border-foreground/20 bg-foreground/5 text-xs font-mono tracking-widest uppercase">

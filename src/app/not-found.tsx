@@ -7,7 +7,7 @@ export default function NotFound() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-900 via-slate-900 to-black flex items-center justify-center px-4">
       <div className="text-center space-y-8 max-w-md">
-        {/* 404 Visual */}
+        {}
         <div className="relative">
           <div className="text-[120px] font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600 leading-none">
             404
@@ -15,7 +15,7 @@ export default function NotFound() {
           <Music className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-16 h-16 text-purple-500/20" />
         </div>
 
-        {/* Message */}
+        {}
         <div className="space-y-4">
           <h1 className="text-2xl font-bold text-white">
             This Vibe Doesn&apos;t Exist
@@ -26,7 +26,7 @@ export default function NotFound() {
           </p>
         </div>
 
-        {/* Action Buttons */}
+        {}
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
           <Link 
             href="/"
@@ -44,7 +44,7 @@ export default function NotFound() {
           </Link>
         </div>
 
-        {/* Subtle Animation */}
+        {}
         <div className="pt-8">
           <div className="inline-block animate-bounce text-purple-400">
             ♪ ♫ ♪

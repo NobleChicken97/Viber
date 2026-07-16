@@ -132,7 +132,7 @@ export function useYouTubePlayer({
   useEffect(() => {
     if (typeof window === "undefined") return;
     if (window.YT && window.YT.Player) {
-      // eslint-disable-next-line react-hooks/set-state-in-effect
+      
       setApiLoaded(true);
       return;
     }
@@ -350,7 +350,7 @@ export function YouTubePlayer({
   className = "",
 }: YouTubePlayerProps) {
   const { containerRef } = useYouTubePlayer({
-    videoId: "", // Unused in hook but required by type
+    videoId: "", 
     onReady,
     onPlay,
     onPause,

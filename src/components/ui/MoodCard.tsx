@@ -9,7 +9,7 @@ const MoodCard = React.forwardRef<
     ref={ref}
     className={cn(
       "rounded-3xl border border-white/5 bg-white/5 backdrop-blur-xl p-6 text-foreground shadow-sm",
-      "transition-colors duration-1000", // Smooth update when mood changes
+      "transition-colors duration-1000", 
       className
     )}
     {...props}

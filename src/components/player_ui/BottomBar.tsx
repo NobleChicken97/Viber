@@ -63,7 +63,7 @@ export function BottomBar({
         fontFamily: mood.headingFont
       }}>
 
-      {/* Progress Bar - Clickable */}
+      {}
       <div 
         ref={progressBarRef}
         onClick={handleProgressClick}
@@ -84,15 +84,15 @@ export function BottomBar({
         </div>
       </div>
 
-      {/* Time Labels */}
+      {}
       <div className="flex justify-between px-4 py-2 text-xs font-mono font-bold text-gray-400">
         <span>{formatTime(progress)}</span>
         <span>{formatTime(duration)}</span>
       </div>
 
-      {/* Controls Grid */}
+      {}
       <div className="flex-1 grid grid-cols-3 items-center pb-4">
-        {/* PREV */}
+        {}
         <button 
           onClick={onPrev}
           aria-label="Previous Track"
@@ -105,7 +105,7 @@ export function BottomBar({
           </span>
         </button>
 
-        {/* PLAY/PAUSE */}
+        {}
         <button 
           onClick={onPlayPause}
           aria-label={isPlaying ? "Pause" : "Play"}
@@ -135,9 +135,9 @@ export function BottomBar({
           </span>
         </button>
 
-        {/* NEXT + Volume */}
+        {}
         <div className="flex items-center justify-end pr-12 gap-6">
-          {/* Volume Control */}
+          {}
           <div 
             className="relative"
             onMouseEnter={() => setShowVolume(true)}
@@ -155,7 +155,7 @@ export function BottomBar({
               )}
             </button>
             
-            {/* Volume Slider - with padding to maintain hover area */}
+            {}
             {showVolume && (
               <div className="absolute bottom-full left-1/2 -translate-x-1/2 pb-2">
                 <div className="bg-[#1a1a1a] p-3 rounded-lg shadow-xl">
@@ -173,7 +173,7 @@ export function BottomBar({
             )}
           </div>
 
-          {/* Lyrics Toggle */}
+          {}
           {onLyricsToggle && (
             <button
               onClick={onLyricsToggle}
@@ -189,7 +189,7 @@ export function BottomBar({
             </button>
           )}
           
-          {/* NEXT */}
+          {}
           <button 
             onClick={onNext}
             aria-label="Next Track"

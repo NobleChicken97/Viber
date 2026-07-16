@@ -44,7 +44,7 @@ export function CameraModal({ isOpen, onClose, onMoodDetected }: CameraModalProp
   const startScanning = React.useCallback(() => {
     setScanning(true);
     setFeedback("ALIGNING FACE");
-    detectedMoodsRef.current = []; // Clear previous polls
+    detectedMoodsRef.current = []; 
 
     const captureAndDetect = () => {
       try {
@@ -135,7 +135,7 @@ export function CameraModal({ isOpen, onClose, onMoodDetected }: CameraModalProp
             detectedMoodsRef.current.push(result);
           }
         }
-      }, 200); // Poll 5 times per second
+      }, 200); 
     }
     return () => clearInterval(intervalId);
   }, [scanning, permission, detectMood]);

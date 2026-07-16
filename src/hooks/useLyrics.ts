@@ -3,7 +3,7 @@
 import { useEffect, useRef, useReducer } from "react";
 
 export interface SyncedLine {
-  time: number; // seconds
+  time: number; 
   text: string;
 }
 

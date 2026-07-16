@@ -20,14 +20,14 @@ export default function Error({
   return (
     <div className="min-h-screen bg-gradient-to-br from-red-900 via-slate-900 to-black flex items-center justify-center px-4">
       <div className="text-center space-y-8 max-w-md">
-        {/* Error Icon */}
+        {}
         <div className="relative">
           <div className="w-24 h-24 mx-auto bg-red-500/10 rounded-full flex items-center justify-center">
             <AlertCircle className="w-12 h-12 text-red-500" />
           </div>
         </div>
 
-        {/* Message */}
+        {}
         <div className="space-y-4">
           <h1 className="text-2xl font-bold text-white">
             Something Went Wrong
@@ -47,7 +47,7 @@ export default function Error({
           )}
         </div>
 
-        {/* Action Buttons */}
+        {}
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
           <button
             onClick={reset}

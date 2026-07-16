@@ -10,18 +10,18 @@ export type MoodThemeTarget = {
   accentH: number;
   accentS: number;
   accentL: number;
-  contrast: number; // 0..1
-  pulse: number; // 0..1
-  blob: number; // 0..1
-  motion: number; // 0..1 (snappiness)
+  contrast: number; 
+  pulse: number; 
+  blob: number; 
+  motion: number; 
 };
 
 type ComputeThemeInput = {
   mood: Mood;
-  progress01: number; // 0..1, e.g. elapsed/10min
-  uplift01: number; // 0..1
-  drift01: number; // 0..1 cyclic drift (e.g. sine mapped)
-  isLightMode?: boolean; // toggle for light mode
+  progress01: number; 
+  uplift01: number; 
+  drift01: number; 
+  isLightMode?: boolean; 
 };
 
 const clamp01 = (n: number) => Math.max(0, Math.min(1, n));
@@ -107,9 +107,9 @@ export function computeMoodThemeTarget(input: ComputeThemeInput): MoodThemeTarge
   let fgL = base.fgL;
 
   if (input.isLightMode) {
-    // Invert lightness for light mode
-    bgL = 100 - base.bgL + lerp(0, 5, progress01) - 5; // e.g. 90-95
-    fgL = 100 - base.fgL - 5; // e.g. 10-15
+    
+    bgL = 100 - base.bgL + lerp(0, 5, progress01) - 5; 
+    fgL = 100 - base.fgL - 5; 
   }
 
   const bgS = base.bgS + lerp(0, 6, progress01);

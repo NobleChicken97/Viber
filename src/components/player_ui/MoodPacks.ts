@@ -1,7 +1,7 @@
 export type MoodType = 'sad' | 'calm' | 'romantic' | 'happy' | 'energetic';
 
 export interface Song {
-  id: string; // YouTube Video ID
+  id: string; 
   title: string;
   artist: string;
   duration: string;
@@ -24,8 +24,8 @@ export interface MoodPack {
   spacing: 'tight' | 'normal' | 'generous';
   playlistName: string;
   description: string;
-  songPool: Song[]; // Full pool of songs to sample from
-  songs: Song[]; // Will be populated at runtime (12 random songs)
+  songPool: Song[]; 
+  songs: Song[]; 
   albumGradient: string;
 }
 export function sampleSongs(pool: Song[], count: number = 12): Song[] {
@@ -61,7 +61,7 @@ export const moodPacks: Record<MoodType, MoodPack> = {
     description:
       'Songs for the quiet moments when the rain hits the window and the world feels far away.',
     albumGradient: 'linear-gradient(135deg, #161b22 0%, #1a2332 100%)',
-    songs: [], // Populated at runtime
+    songs: [], 
     songPool: [
       { id: 'nOeJuoFs6sM', title: 'КАМИН', artist: 'EMIN feat. JONY', duration: '3:05' },
       { id: '-TXtyYZIiWc', title: 'Pastlives', artist: 'sapientdream', duration: '2:34' },
@@ -123,7 +123,7 @@ export const moodPacks: Record<MoodType, MoodPack> = {
     description:
       'A gentle collection of sounds to start your day with clarity and peace.',
     albumGradient: 'linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%)',
-    songs: [], // Populated at runtime
+    songs: [], 
     songPool: [
       { id: 'lbjZPFBD6JU', title: 'Come Away With Me', artist: 'Norah Jones', duration: '3:15' },
       { id: 'E3iq2GS0B80', title: 'Slave To Love (Piano Cover)', artist: 'Bryan Ferry', duration: '4:44' },
@@ -176,7 +176,7 @@ export const moodPacks: Record<MoodType, MoodPack> = {
     description:
       'Intimate melodies for hearts that beat in sync.',
     albumGradient: 'linear-gradient(135deg, #2a1520 0%, #3d2030 100%)',
-    songs: [], // Populated at runtime
+    songs: [], 
     songPool: [
       { id: 'kPa7bsKwL-c', title: 'Die With A Smile', artist: 'Lady Gaga & Bruno Mars', duration: '4:13' },
       { id: 'GxldQ9eX2wo', title: 'Until I Found You', artist: 'Stephen Sanchez', duration: '2:56' },
@@ -298,7 +298,7 @@ export const moodPacks: Record<MoodType, MoodPack> = {
     description:
       'Radiant vibes to keep your spirit high and your smile wide.',
     albumGradient: 'linear-gradient(135deg, #fff9e6 0%, #ffecb3 100%)',
-    songs: [], // Populated at runtime
+    songs: [], 
     songPool: [
       { id: 'LnHZ7_1_LVE', title: '10,000 Hours', artist: 'Dan + Shay & Justin Bieber', duration: '2:48' },
       { id: 'qxCCGcMC1Jk', title: '2002', artist: 'Anne-Marie', duration: '3:08' },
@@ -407,7 +407,7 @@ export const moodPacks: Record<MoodType, MoodPack> = {
     description:
       'High-octane tracks to fuel your drive and keep you moving.',
     albumGradient: 'linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%)',
-    songs: [], // Populated at runtime
+    songs: [], 
     songPool: [
       { id: 'Fplgu4VVb94', title: 'Stargazing', artist: 'Myles Smith', duration: '2:53' },
       { id: 'wd9_QCH8Eq4', title: "Don't Start Now", artist: 'Dua Lipa', duration: '3:04' },
