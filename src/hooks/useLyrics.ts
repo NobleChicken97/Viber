@@ -118,3 +118,5 @@ export function getActiveLyricIndex(
 
   return -1;
 }
+
+// made by arpan

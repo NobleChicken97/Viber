@@ -113,3 +113,5 @@ export function Sidebar({ mood, songs, currentSongId, isPlaying, onSongSelect, o
       </div>
     </div>);
 }
+
+// made by arpan

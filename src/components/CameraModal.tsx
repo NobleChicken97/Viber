@@ -255,3 +255,5 @@ export function CameraModal({ isOpen, onClose, onMoodDetected }: CameraModalProp
     </div>
   );
 }
+
+// made by arpan

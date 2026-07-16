@@ -159,3 +159,5 @@ export function MainArea({ mood, currentSong, showLyrics, lyricsPlain, lyricsSyn
       </div>
     </div>);
 }
+
+// made by arpan

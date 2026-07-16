@@ -78,3 +78,5 @@ export default function PrivacyPage() {
     </div>
   );
 }
+
+// made by arpan

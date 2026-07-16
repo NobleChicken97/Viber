@@ -41,3 +41,5 @@ export function useSettings() {
 
   return { settings, setSettings, mounted };
 }
+
+// made by arpan

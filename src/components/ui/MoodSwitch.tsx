@@ -33,3 +33,5 @@ export function MoodSwitch({ checked, onCheckedChange, className }: SwitchProps)
     </button>
   );
 }
+
+// made by arpan

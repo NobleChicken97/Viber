@@ -24,3 +24,5 @@ export default function CameraPage() {
     </div>
   );
 }
+
+// made by arpan

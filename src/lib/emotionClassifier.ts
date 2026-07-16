@@ -148,3 +148,5 @@ function baseToMood(base: BaseEmotion): Mood {
 export function resetEmotionBuffer(): void {
   emotionBuffer.length = 0;
 }
+
+// made by arpan

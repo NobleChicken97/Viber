@@ -24,18 +24,6 @@
 .DS_Store
 *.pem
 
-# AI and meta generated files/folders
-.agent/
-.agents/
-.augment/
-.gemini/
-.gsd/
-.serena/
-adapters/
-skills/
-graphify-out/
-model_capabilities.yaml
-
 # Documentation (except README.md)
 docs/
 *.md
@@ -162,29 +150,13 @@ train_logs/
 # Temporary development notes only
 *.draft.md
 *.temp.md
-.ai/
-.cursor/
 
 # Keep important docs
 # docs/ folder is tracked
 # README.md is tracked
 # LICENSE is tracked
 
-# ===================
-# AI Agents & Obfuscation
-# ===================
-.agent/
-.agents/
-.augment/
-.gemini/
-.gsd/
-graphify-out/
-ideas/
-skills/
-model_capabilities.yaml
-skills-lock.json
-lint-errors.txt
-
 # Scratch Scripts
-*.py
-*.ps1
+scratch/
+
+# made by arpan

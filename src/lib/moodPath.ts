@@ -148,3 +148,5 @@ export function sessionProgress01(input: {
   if (input.countedSongIndex == null) return 0;
   return clamp01((input.countedSongIndex + 1) / input.countedSongLimit);
 }
+
+// made by arpan

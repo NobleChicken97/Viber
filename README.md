@@ -39,3 +39,5 @@ All facial recognition and emotion detection happens **100% locally** in the bro
 **Arpan Goyal** - Developer
 * LinkedIn: [https://www.linkedin.com/in/arpangoyal97/](https://www.linkedin.com/in/arpangoyal97/)
 * GitHub: [https://github.com/NobleChicken97](https://github.com/NobleChicken97)
+
+<!-- made by arpan -->

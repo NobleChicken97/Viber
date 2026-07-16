@@ -26,7 +26,7 @@ function PlayerContent() {
   const router = useRouter();
   const { settings, setSettings, mounted } = useSettings();
   const startMood = (params.get("mood") as Mood) || settings.lastMood || "calm";
-  
+
   useEffect(() => {
     if (mounted) {
       const urlMood = params.get("mood") as Mood | null;
@@ -40,7 +40,7 @@ function PlayerContent() {
         }
       }
     }
-  
+
   }, [params, mounted]);
   const [seed] = useState(() => Date.now());
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
@@ -85,10 +85,10 @@ function PlayerContent() {
     }
   }, [currentIndex]);
 
-  const { 
-    containerRef, 
-    play, 
-    pause, 
+  const {
+    containerRef,
+    play,
+    pause,
     loadVideo,
     setVolume: setPlayerVolume,
     isReady: playerReady,
@@ -110,7 +110,8 @@ function PlayerContent() {
       setProgress(p);
       setDuration(d);
     }
-  });
+  });
+
   useEffect(() => {
     if (playerReady && currentSong?.id) {
       const timer = setTimeout(() => {
@@ -118,7 +119,8 @@ function PlayerContent() {
       }, 100);
       return () => clearTimeout(timer);
     }
-  }, [currentSong?.id, playerReady, loadVideo]);
+  }, [currentSong?.id, playerReady, loadVideo]);
+
   useEffect(() => {
     setPlayerVolume(volume);
   }, [volume, setPlayerVolume]);
@@ -133,7 +135,8 @@ function PlayerContent() {
 
   const handleSongSelect = (index: number) => {
     setCurrentIndex(index);
-  };
+  };
+
   useKeyboardControls({
     onPlayPause: handlePlayPause,
     onNextTrack: handleNext,
@@ -179,8 +182,8 @@ function PlayerContent() {
   return (
     <main className="flex flex-col h-screen overflow-hidden bg-background text-foreground selection:bg-foreground/30 transition-colors duration-1000 w-full relative">
       <MoodThemeProvider startMood={startMood} upliftEnabled={settings.upliftEnabled} countedSongIndex={currentIndex} songLimit={12} />
-      
-      {}
+
+      { }
       <div className="fixed top-0 left-0 w-0 h-0 overflow-hidden pointer-events-none">
         <div ref={containerRef} />
       </div>
@@ -203,15 +206,15 @@ function PlayerContent() {
               const newHistory = [mood, ...currentHistory.filter(m => m !== mood)].slice(0, 10);
               setSettings({ lastMood: mood, moodHistory: newHistory });
               router.push(`/player?mood=${mood}`);
-              
+
               if (window.innerWidth < 1024) {
                 setIsMoodSelectorOpen(false);
               }
             }}
           />
         </div>
-        
-        <MainArea 
+
+        <MainArea
           mood={currentMoodPack}
           currentSong={currentMoodPack.songs[currentIndex]}
           showLyrics={showLyrics}
@@ -224,8 +227,8 @@ function PlayerContent() {
 
         <div className={`transition-all duration-700 ease-in-out h-full z-30 overflow-hidden shrink-0 ${isSidebarOpen ? 'w-[100vw] lg:w-[320px] opacity-100' : 'w-0 opacity-0'}`}>
           <div className="w-[100vw] lg:w-[320px] h-full">
-            <Sidebar 
-              mood={currentMoodPack} 
+            <Sidebar
+              mood={currentMoodPack}
               currentSongId={currentSong.id}
               isPlaying={isPlaying}
               onSongSelect={(song) => {
@@ -238,7 +241,7 @@ function PlayerContent() {
           </div>
         </div>
 
-        {}
+        { }
         <button
           onClick={() => setIsSidebarOpen(!isSidebarOpen)}
           className={`absolute top-8 right-8 z-40 hover:scale-110 transition-transform duration-500 text-white mix-blend-difference`}
@@ -248,7 +251,7 @@ function PlayerContent() {
         </button>
       </div>
 
-      <BottomBar 
+      <BottomBar
         mood={currentMoodPack}
         currentSong={currentMoodPack.songs[currentIndex]}
         isPlaying={isPlaying}
@@ -270,9 +273,9 @@ function PlayerContent() {
 
 export default function PlayerPage() {
   const [mounted, setMounted] = useState(false);
-  
+
   useEffect(() => {
-    
+
     setMounted(true);
   }, []);
 
@@ -295,3 +298,5 @@ export default function PlayerPage() {
     </Suspense>
   );
 }
+
+// made by arpan

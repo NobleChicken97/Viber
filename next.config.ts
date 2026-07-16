@@ -65,3 +65,5 @@ const nextConfig: NextConfig = {
 
 export default nextConfig;
 
+
+// made by arpan
