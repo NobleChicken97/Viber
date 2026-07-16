@@ -112,7 +112,7 @@ export default function Home() {
   }, [stopCamera]);
 
   return (
-    <div className="flex flex-col md:flex-row min-h-screen w-full bg-background text-foreground overflow-hidden relative selection:bg-[var(--accent)] selection:text-white">
+    <div className="flex flex-col md:flex-row min-h-screen w-full bg-background text-foreground overflow-hidden relative selection:bg-accent selection:text-white">
       <MoodThemeProvider startMood="calm" upliftEnabled={false} />
       
       {}
@@ -134,7 +134,7 @@ export default function Home() {
         </div>
         
         {}
-        <div className="absolute inset-0 bg-[radial-gradient(var(--foreground)_1px,transparent_1px)] [background-size:40px_40px] opacity-[0.03] mask-image:linear-gradient(to_bottom,white,transparent)" />
+        <div className="absolute inset-0 bg-[radial-gradient(var(--foreground)_1px,transparent_1px)] bg-size-[40px_40px] opacity-[0.03] mask-image:linear-gradient(to_bottom,white,transparent)" />
       </div>
       
       {}
@@ -146,8 +146,8 @@ export default function Home() {
         <div className="flex flex-col gap-2">
           <div className="text-[10px] tracking-[0.3em] uppercase opacity-50 font-mono flex items-center gap-4">
             <span>Viber OS 0.1.0</span> 
-            <div className="h-[1px] w-8 bg-foreground/30" />
-            <AudioWaveform size={14} className="text-[var(--accent)]" />
+            <div className="h-px w-8 bg-foreground/30" />
+            <AudioWaveform size={14} className="text-accent" />
           </div>
         </div>
 
@@ -160,7 +160,7 @@ export default function Home() {
             <p className="text-sm tracking-[0.2em] uppercase font-bold text-foreground/80 leading-relaxed">
               Music that feels what you feel.
             </p>
-            <div className="h-[1px] w-12 bg-foreground/30" />
+            <div className="h-px w-12 bg-foreground/30" />
             <div className="text-xs font-mono tracking-widest text-foreground/50 flex flex-col gap-4">
               <p>VIBER OS IS AN EXPERIMENTAL AI INTERFACE THAT READS YOUR FACIAL EXPRESSIONS ENTIRELY ON-DEVICE TO CURATE A PERSONALIZED 12-SONG MOOD JOURNEY.</p>
             </div>
@@ -198,7 +198,7 @@ export default function Home() {
                 <button 
                   onClick={requestCamera}
                   disabled={mlState === 'loading' || mlState === 'idle'}
-                  className={`w-full group relative flex flex-col md:flex-row items-start md:items-center justify-between p-8 border border-foreground/10 bg-background/50 hover:bg-[var(--accent)] hover:border-[var(--accent)] hover:text-white transition-all duration-500 rounded-xl overflow-hidden ${(mlState === 'loading' || mlState === 'idle') ? 'opacity-50 cursor-not-allowed' : ''}`}
+                  className={`w-full group relative flex flex-col md:flex-row items-start md:items-center justify-between p-8 border border-foreground/10 bg-background/50 hover:bg-accent hover:border-accent hover:text-white transition-all duration-500 rounded-xl overflow-hidden ${(mlState === 'loading' || mlState === 'idle') ? 'opacity-50 cursor-not-allowed' : ''}`}
                 >
                   <span className="text-2xl font-bold tracking-widest uppercase relative z-10">
                     {mlState === 'loading' ? 'LOADING ML...' : 'SENSE VIBE'}
@@ -216,7 +216,7 @@ export default function Home() {
                     <button
                       key={mood.id}
                       onClick={() => router.push(`/player?mood=${mood.id}`)}
-                      className="w-full flex items-center justify-between py-4 px-6 border border-foreground/5 bg-foreground/[0.02] hover:bg-foreground/5 hover:border-foreground/20 text-foreground/70 hover:text-foreground transition-all duration-300 rounded-lg group"
+                      className="w-full flex items-center justify-between py-4 px-6 border border-foreground/5 bg-foreground/2 hover:bg-foreground/5 hover:border-foreground/20 text-foreground/70 hover:text-foreground transition-all duration-300 rounded-lg group"
                     >
                       <span className="text-xs tracking-[0.3em] uppercase font-bold">{mood.label}</span>
                       <span className="text-lg opacity-80 group-hover:opacity-100 group-hover:scale-110 transition-all drop-shadow-sm">
@@ -233,12 +233,12 @@ export default function Home() {
           {(cameraState === "granted" || cameraState === "scanning") && (
             <div className="flex flex-col w-full max-w-md gap-8 animate-in zoom-in-95 duration-1000">
               <div className="text-center font-mono text-xs tracking-[0.5em] text-foreground/80 bg-background/60 py-4 border border-foreground/10 backdrop-blur-sm rounded-lg flex items-center justify-center gap-4">
-                <div className="w-2 h-2 rounded-full bg-[var(--accent)] animate-ping" />
+                <div className="w-2 h-2 rounded-full bg-accent animate-ping" />
                 {feedback}
               </div>
               <div className="w-full h-1 bg-foreground/10 overflow-hidden rounded-full">
                 <div 
-                  className="h-full bg-[var(--accent)] transition-all duration-100 ease-linear shadow-[0_0_15px_var(--accent)]"
+                  className="h-full bg-accent transition-all duration-100 ease-linear shadow-[0_0_15px_var(--accent)]"
                   style={{ width: `${progress}%` }}
                 />
               </div>

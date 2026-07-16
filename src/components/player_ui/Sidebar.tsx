@@ -1,7 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
-import { Play, Pause, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Play, Pause, ChevronLeft, ChevronRight, Music } from 'lucide-react';
 import { MoodPack, Song } from './MoodPacks';
 
 interface SidebarProps {
@@ -63,8 +63,10 @@ export function Sidebar({ mood, songs, currentSongId, isPlaying, onSongSelect, o
                     <Play size={16} fill="currentColor" className="animate-pulse" />
                   ) : isActive ? (
                     <Pause size={16} fill="currentColor" />
-                  ) : (
+                  ) : song.duration ? (
                     song.duration
+                  ) : (
+                    <Music size={14} className="opacity-40" />
                   )}
                 </div>
               </motion.button>

@@ -53,6 +53,10 @@ function PlayerContent() {
     return { queue: q, moodPath: path, distribution: dist };
   }, [startMood, seed, settings.upliftEnabled]);
   const [currentIndex, setCurrentIndex] = useState(0);
+
+  useEffect(() => {
+    setCurrentIndex(0);
+  }, [startMood]);
   const [isPlaying, setIsPlaying] = useState(false);
   const [progress, setProgress] = useState(0);
   const [duration, setDuration] = useState(0);
@@ -175,7 +179,7 @@ function PlayerContent() {
       id: t.id,
       title: t.title,
       artist: t.artist,
-      duration: t.duration || "0:00"
+      duration: t.duration || ""
     })) as Song[]
   };
 
@@ -198,7 +202,7 @@ function PlayerContent() {
           </button>
         </div>
 
-        <div className={`transition-all duration-700 ease-in-out h-full z-40 overflow-hidden shrink-0 ${isMoodSelectorOpen ? 'w-[100vw] lg:w-60 opacity-100' : 'w-0 opacity-0'}`}>
+        <div className={`transition-all duration-700 ease-in-out h-full z-40 overflow-hidden shrink-0 ${isMoodSelectorOpen ? 'w-screen lg:w-60 opacity-100' : 'w-0 opacity-0'}`}>
           <MoodSelector
             currentMood={currentMood}
             onMoodChange={(mood) => {
@@ -225,8 +229,8 @@ function PlayerContent() {
           currentTime={progress}
         />
 
-        <div className={`transition-all duration-700 ease-in-out h-full z-30 overflow-hidden shrink-0 ${isSidebarOpen ? 'w-[100vw] lg:w-[320px] opacity-100' : 'w-0 opacity-0'}`}>
-          <div className="w-[100vw] lg:w-[320px] h-full">
+        <div className={`transition-all duration-700 ease-in-out h-full z-30 overflow-hidden shrink-0 ${isSidebarOpen ? 'w-screen lg:w-[320px] opacity-100' : 'w-0 opacity-0'}`}>
+          <div className="w-screen lg:w-[320px] h-full">
             <Sidebar
               mood={currentMoodPack}
               currentSongId={currentSong.id}
