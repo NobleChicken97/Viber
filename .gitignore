@@ -32,9 +32,6 @@ docs/
 # Songs data
 songs
 
-# GitHub folder
-.github/
-
 # debug
 npm-debug.log*
 yarn-debug.log*
