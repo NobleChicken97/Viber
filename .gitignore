@@ -160,3 +160,6 @@ train_logs/
 scratch/
 
 # made by arpan
+
+# Sentry Config File
+.env.sentry-build-plugin
