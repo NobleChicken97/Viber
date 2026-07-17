@@ -160,3 +160,16 @@ scratch/
 
 # Sentry Config File
 .env.sentry-build-plugin
+
+# ===================
+# AI & Agent Files
+# ===================
+.agent/
+.agents/
+.augment/
+.gemini/
+.gsd/
+.planning/
+.serena/
+graphify-out/
+skills/
